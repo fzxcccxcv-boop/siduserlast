@@ -4879,7 +4879,7 @@ else:
     # ════════════════════════════════════════════════════════════════
     import os
     import sys
-    BOT_TOKEN         = os.environ.get("BOT_TOKEN", "8874296819:AAH249JwMBWsIMiIFnNP7XcclbcGLmJpD60")
+    BOT_TOKEN         = os.environ.get("BOT_TOKEN", "8653377116:AAGOlJ5FP_3ki_kWAJJG1_t0OoeoYwk0kKY")
     OWNER_ID          = int(os.environ.get("OWNER_ID", "8659378243"))
     SUPPORT_USERNAME  = os.environ.get("SUPPORT_USERNAME", "@sidhuokey")
     MAX_USERBOTS      = int(os.environ.get("MAX_USERBOTS", "50") or "50")
