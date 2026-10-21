@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
 # ════════════════════════════════════════════════════════════════════
-#   SID PREMIUM HOSTER + USERBOT CORE V3 — MERGED SINGLE FILE
-#   By SIDxBOT — All rights reserved
+#   LEXI PREMIUM HOSTER + USERBOT CORE V3 — MERGED SINGLE FILE
+#   By LexixBOT — All rights reserved  🌸 Sakura Blossom Edition
 # ════════════════════════════════════════════════════════════════════
 #
 #  HOW TO RUN:
-#    Hoster bot  →  python sid_bot.py
-#    Userbot     →  python sid_bot.py --userbot   (called by hoster)
+#    Hoster bot  →  python lexi_bot.py
+#    Userbot     →  python lexi_bot.py --userbot   (called by hoster)
 #
 #  REQUIRED ENV VARS (hoster mode):
 #    BOT_TOKEN, OWNER_ID, TELEGRAM_API_ID, TELEGRAM_API_HASH
-#    SUPPORT_USERNAME  (e.g. @YourUsername)
+#    SUPPORT_USERNAME
 #    MAX_USERBOTS      (optional, default 50)
-#
-#  The hoster spawns userbot subprocesses of this same file automatically.
-#  No manual --userbot flag needed — just set env vars and run.
 # ════════════════════════════════════════════════════════════════════
 
 import sys as _sys
@@ -23,8 +20,8 @@ import os as _os
 _IS_USERBOT = "--userbot" in _sys.argv or _os.environ.get("USERBOT_MODE") == "1"
 
 if _IS_USERBOT:
-    #BY SIDxBOT — ADVANCED V3 (500+ COMMANDS)
-    # Modified for SID Premium Hoster — reads credentials from ENV
+    #BY LEXIxBOT — SAKURA BLOSSOM V3
+    # Modified for Lexi Premium Hoster — reads credentials from ENV
 
     # ────────────────────────────────────────────────
     #                 STANDARD LIB
@@ -78,26 +75,17 @@ if _IS_USERBOT:
     _session_str = os.environ.get("SESSION_STRING", "33491590")
 
     if not _api_id_raw or not _api_hash_raw or not _session_str:
-        raise RuntimeError(
-            "Missing required env vars: API_ID, API_HASH, SESSION_STRING"
-        )
+        raise RuntimeError("Missing required env vars: API_ID, API_HASH, SESSION_STRING")
 
     API_ID = int(_api_id_raw)
     API_HASH = _api_hash_raw
-    # OWNER_ID is set at startup to me.id (the actual logged-in account)
-    # so ONLY that Telegram account can use commands — no one else
     OWNER_ID: int = 0
 
-    # ── SELF PROTECTION ──────────────────────────────────────────────────
-    # PROTECTED_IDS = IDs that can NEVER be muted/raided/targeted by this
-    # userbot, even if another user running the same script tries to do so.
-    # Includes the hoster-bot owner's Telegram ID (USERBOT_OWNER_ID env var).
     _protected_raw = os.environ.get("USERBOT_OWNER_ID", "")
     PROTECTED_IDS: Set[int] = set()
     for _pid in _protected_raw.replace(",", " ").split():
         try: PROTECTED_IDS.add(int(_pid))
         except: pass
-    # Also add any extra IDs from EXTRA_PROTECTED env var (comma/space separated)
     for _pid in os.environ.get("EXTRA_PROTECTED", "").replace(",", " ").split():
         try: PROTECTED_IDS.add(int(_pid))
         except: pass
@@ -107,27 +95,16 @@ if _IS_USERBOT:
         auto_reconnect=True, connection_retries=10, retry_delay=3
     )
 
-    # ────────────────────────────────────────────────
-    #                 STORAGE FILES
-    # ────────────────────────────────────────────────
     ADMINS_FILE = "admins.json"
     NOTES_FILE = "notes.json"
     BANNER_FILE = "banner_msg_id.txt"
     SPAM_TEXTS_FILE = "spam_texts.json"
     WARNS_FILE = "warns.json"
 
-    # ────────────────────────────────────────────────
-    #                 CLONE ENGINE STATE
-    # ────────────────────────────────────────────────
     CLONE_ACTIVE: bool = False
     LAST_CLONE_ID: Optional[int] = None
-    CLONE_DATA: Dict[str, Optional[object]] = {
-        "name": None, "username": None, "bio": None, "photo_bytes": None,
-    }
+    CLONE_DATA: Dict[str, Optional[object]] = {"name": None, "username": None, "bio": None, "photo_bytes": None}
 
-    # ────────────────────────────────────────────────
-    #                 RUNTIME STATE
-    # ────────────────────────────────────────────────
     admins: Set[int] = set()
     notes: Dict[int, str] = {}
     warns: Dict[int, int] = {}
@@ -143,10 +120,9 @@ if _IS_USERBOT:
     flag_users: Set[int] = set()
     hrr_users: Set[int] = set()
     replygod_users: Set[int] = set()
-    replysid_users: Dict[int, Dict[str, object]] = {}
-    rspam_users: Dict[int, Dict[str, object]] = {}   # reply+spam mode
+    replylexi_users: Dict[int, Dict[str, object]] = {}
+    rspam_users: Dict[int, Dict[str, object]] = {}
 
-    # ─── NEW RAID STATE ───
     attack_users: Set[int] = set()
     roast_users: Set[int] = set()
     diss_users: Set[int] = set()
@@ -163,7 +139,6 @@ if _IS_USERBOT:
     ghost_users: Set[int] = set()
     legend_users: Set[int] = set()
     doom_users: Set[int] = set()
-    # ─── ADDED 4 MORE RAID TYPES ───
     nuke_users: Set[int] = set()
     storm_users: Set[int] = set()
     blizzard_users: Set[int] = set()
@@ -180,22 +155,11 @@ if _IS_USERBOT:
     START_TIME = time.time()
     SPRAY_DELAY = 0.1
 
-    # ────────────────────────────────────────────────
-    #                 BOT ADD ENGINE
-    # ────────────────────────────────────────────────
     ADD_BOTS_LIST = [ "",]
 
-    # ────────────────────────────────────────────────
-    #                 FASTGC ENGINE STATE
-    # ────────────────────────────────────────────────
-    FASTGC_STATE: Dict[str, Optional[object]] = {
-        "active": False, "template": None, "task": None, "chat_id": None,
-    }
+    FASTGC_STATE: Dict[str, Optional[object]] = {"active": False, "template": None, "task": None, "chat_id": None}
     GC_FAST_INTERVAL = 1
-    GC_FAST_EMOJIS = [
-        "❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","🩷","🩵","🩶",
-        "💖","💘","💝","💗","💓","💞","💕","💟","❣️","❤️‍🔥","❤️‍🩹"
-    ]
+    GC_FAST_EMOJIS = ["🌸","🌷","🌺","🎀","💕","💖","✨","💗","💓","💞","💝","💘","🩷","🩵","🤍","❤️‍🔥"]
 
     # ────────────────────────────────────────────────
     #                   HELPERS
@@ -351,7 +315,6 @@ if _IS_USERBOT:
             me = await bot.get_me()
             targets.discard(me.id)
         except: pass
-        # Remove all protected IDs — they can NEVER be targeted
         targets -= PROTECTED_IDS
         return targets
 
@@ -362,51 +325,51 @@ if _IS_USERBOT:
     load_warns()
 
     # ────────────────────────────────────────────────
-    #          ORIGINAL TEXT LISTS (Unchanged)
+    #          ORIGINAL TEXT LISTS (Unchanged content, name swapped)
     # ────────────────────────────────────────────────
     reply_list = [
-        "𝐊ʏᴀ 𝐑ᴇ 𝐑ᴀɴᴅɪᴋᴇ 𝐂ᴏᴏʟ 𝐁ᴀɴᴇɢᴀ 𝐓ᴜ 𝐂ʜᴀʟ 𝐀ʙ 𝐂ʜᴜᴅ 𝐀ᴘɴᴇ 𝐁ᴀᴀᴘ 𝗦𝗶𝗱 𝐒ᴇ - 🦢💘",
-        "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ 𝐘ᴀᴀʀ - 𝐉ᴀɪ 𝗦𝗶𝗱 ! 🌙",
+        "𝐊ʏᴀ 𝐑ᴇ 𝐑ᴀɴᴅɪᴋᴇ 𝐂ᴏᴏʟ 𝐁ᴀɴᴇɢᴀ 𝐓ᴜ 𝐂ʜᴀʟ 𝐀ʙ 𝐂ʜᴜᴅ 𝐀ᴘɴᴇ 𝐁ᴀᴀᴘ 𝗟𝗲𝘅𝗶 𝐒ᴇ - 🦢💘",
+        "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ 𝐘ᴀᴀʀ - 𝐉ᴀɪ 𝗟𝗲𝘅𝗶 ! 🌙",
         "acha beta 😂🔥👊🏻 ? coi na me toh HATER codunga 😹💔🔥😆👊🏻💥",
         "chudke bhaga kaise 😂💥🤣🤘🏻",
-        "ne toh 𝗦𝗶𝗱 ka lun muh me lelia 😂🙏🏻😂🙏🏻",
+        "ne toh 𝗟𝗲𝘅𝗶 ka lun muh me lelia 😂🙏🏻😂🙏🏻",
         "try maa सूर्य☀ nikalte hi pel du 😹🔥💔",
         "mkl lun te vaj 😂✊🏻💦",
-        "𝗧ᴍᴋ𝗕 pe 𝗦𝗶𝗱 ka hamla 😂⚔🔥💥",
+        "𝗧ᴍᴋ𝗕 pe 𝗟𝗲𝘅𝗶 ka hamla 😂⚔🔥💥",
         "𝐂ʜʟ 𝐇ᴀʀᴍᴢᴀᴅ𝐈 𝐊ᴇ लड़के 💛🤍🩵",
         "oi 𝐓ᴇʀɪ 𝐌‌ᴀᴀ गुलाम ₰🖤",
         "chl rndyce chud ke dikha 😂💥🤣🔥",
         "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ naacho 💃🏻💃🏻🕺🏻🎶😂😆💞🔥 !",
-        "tera baap bass 𝗦𝗶𝗱 hai 😂🎀",
+        "tera baap bass 𝗟𝗲𝘅𝗶 hai 😂🎀",
         "try maa hagte hue paad mari -#😹🔥🥀",
-        "𝐓ᴇʀɪ 𝐌ᴜᴍᴍʏ 𝐂ʜᴏᴅ 𝐃ɪ 𝗦𝗶𝗱 𝐍ᴇ 𝐁ᴡᴀʜᴀʜᴀʜᴀ ⚜",
+        "𝐓ᴇʀɪ 𝐌ᴜᴍᴍʏ 𝐂ʜᴏᴅ 𝐃ɪ 𝗟𝗲𝘅𝗶 𝐍ᴇ 𝐁ᴡᴀʜᴀʜᴀʜᴀ ⚜",
     ]
 
     reply_texts = [
-        "⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝗦𝗶𝗱 बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
-        "नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝗦𝗶𝗱 बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
+        "⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝗟𝗲𝘅𝗶 बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
+        "नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝗟𝗲𝘅𝗶 बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
         "तेरी मां का 𝐒ᴛʏʟɪsʜ भोसड़ा 😱",
         "𝑻𝒆𝒓𝒚 𝒎𝒂𝒂 𝒓𝒂𝒏𝒅𝒂𝒍 𝒉 𝒃𝒂𝒔 𝒃𝒂𝒂𝒕 𝒌𝒉𝒂𝒕𝒂𝒎 😡🔥",
-        "सोच तेरी बहन को 𝗦𝗶𝗱 बाप का गुलाम चोद रहा 😎🔥",
+        "सोच तेरी बहन को 𝗟𝗲𝘅𝗶 बाप का गुलाम चोद रहा 😎🔥",
         "Hello hello?? Oxygen aarahi है? रण्डी पुत्र 🧘🏻",
-        "Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝗦𝗶𝗱 /~👑 बाप से सही chudi 🥵🔥",
-        "ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝗦𝗶𝗱 बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
+        "Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝗟𝗲𝘅𝗶 /~👑 बाप से सही chudi 🥵🔥",
+        "ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝗟𝗲𝘅𝗶 बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
     ]
 
     fun_texts = [
         "तेरे मां के दूदू के बीच मेरा lund fas gaya oops 🤪（ ͜.🍆 ͜.）",
         "𝐓ᴇʀʏ 𝐁ʜᴇ𝐍 𝐊ᴇ ( ͜. ㅅ ͜. )🥛 ʏᴜᴍᴍʏ ",
-        "𓂃☁︎ 𓂃𝐒ɪᴅᴇ 𝐇ᴀᴛ 𝐆ᴜʟᴀᴍ 𝐓ᴇʀʏ 𝐌ᴀᴀ 𝐊ᴏ 𝐂ʜᴏᴅɴᴇ  मेरी रेलगाड़ी आ रही .-'🚂-'.ᯓᡣ𐭩______ 𓂃☁︎ 𓂃",
+        "𓂃☁︎ 𓂃𝐋ᴇ𝐗ɪᴇ 𝐇ᴀᴛ 𝐆ᴜʟᴀᴍ 𝐓ᴇʀʏ 𝐌ᴀᴀ 𝐊ᴏ 𝐂ʜᴏᴅɴᴇ  मेरी रेलगाड़ी आ रही .-'🚂-'.ᯓᡣ𐭩______ 𓂃☁︎ 𓂃",
         "⋆⭒˚.⋆🔭 𝐒ʜᴜᴛ 𝐔ᴘ 𝐑ᴀɴᴅɪᴋᴇ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ɪ 𝐂ʜᴜᴅᴀɪ 𝐄ɴᴊᴏʏ 𝐊ʀ 𝐑ᴀʜᴀ 𝐓ᴇʟᴇ𝐒ᴄᴏᴘᴇ 𝐒ᴇ⋆⭒˚.⋆🔭",
     ]
 
     flag_texts = [
-        " ོ༘₊⁺🇮🇳 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝗦𝗶𝗱 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐈ɴᴅɪᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇳 ₊⁺⋆.˚",
-        " ོ༘₊⁺🇯🇵 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝗦𝗶𝗱 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐉ᴀᴘᴀɴ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇯🇵 ₊⁺⋆.˚",
-        " ₊⁺🇺🇸 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝗦𝗶𝗱 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐒𝐀 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇺🇸 ₊⁺⋆.˚",
-        " ོ༘₊⁺🇬🇧 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝗦𝗶𝗱 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐊 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇬🇧 ₊⁺⋆.˚",
-        " ོ༘₊⁺🇰🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝗦𝗶𝗱 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐊ᴏʀᴇᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇰🇷 ₊⁺⋆.˚",
-        " ོ༘₊⁺🇩🇪 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝗦𝗶𝗱 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐆ᴇʀᴍᴀɴʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇩🇪 ₊⁺⋆.˚",
+        " ོ༘₊⁺🇮🇳 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝗟𝗲𝘅𝗶 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐈ɴᴅɪᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇳 ₊⁺⋆.˚",
+        " ོ༘₊⁺🇯🇵 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝗟𝗲𝘅𝗶 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐉ᴀᴘᴀɴ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇯🇵 ₊⁺⋆.˚",
+        " ₊⁺🇺🇸 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝗟𝗲𝘅𝗶 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐒𝐀 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇺🇸 ₊⁺⋆.˚",
+        " ོ༘₊⁺🇬🇧 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝗟𝗲𝘅𝗶 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐊 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇬🇧 ₊⁺⋆.˚",
+        " ོ༘₊⁺🇰🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝗟𝗲𝘅𝗶 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐊ᴏʀᴇᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇰🇷 ₊⁺⋆.˚",
+        " ོ༘₊⁺🇩🇪 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝗟𝗲𝘅𝗶 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐆ᴇʀᴍᴀɴʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇩🇪 ₊⁺⋆.˚",
     ]
 
     heart_replies = [
@@ -417,11 +380,7 @@ if _IS_USERBOT:
         "𓂃˖˳·˖ ִֶָ ⋆💙͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💙 ݁˖⭑.ᐟ",
     ]
 
-    # ────────────────────────────────────────────────
-    #          NEW FIGHTING TEXT LISTS — 400 TEXTS (existing) + 4 new (200 texts)
-    # ────────────────────────────────────────────────
-
-    # ─── ATTACK LIST (50 texts) ───
+    # ─── ATTACK LIST (50 texts) — no name changes ───
     attack_list = [
         "⚔️ Teri aukat nahi mujhse ladhne ki randike 😂🔥",
         "💥 Chal bhaag yahan se chutiye warna maar khayega 🤣⚔️",
@@ -475,7 +434,6 @@ if _IS_USERBOT:
         "💀 Ab samjha kya hua? No? Toh phir ek aur attack 🔥⚡",
     ]
 
-    # ─── ROAST LIST (50 texts) ───
     roast_list = [
         "🔥 Teri zindagi ek bakwas webseries ki tarah hai — 1 season mein flop 😂📺",
         "🤣 Bhai teri personality ek sada hua pyaz jaisi hai — khole toh aansu aaye 🧅💀",
@@ -529,7 +487,6 @@ if _IS_USERBOT:
         "🤣 Tu aisa chapter hai jise sab skip karte hain 📖😹",
     ]
 
-    # ─── DISS LIST (50 texts) ───
     diss_list = [
         "🎤 Tera naam sun ke log mute kar dete hain khud ko 🔇😂",
         "💀 Tu diss kar raha hai — khud ko diss kar pehle 🪞😹",
@@ -583,7 +540,6 @@ if _IS_USERBOT:
         "💀 Teri diss ka reply nahi deta — tujhe dignify karna time waste hai 😂🎙️",
     ]
 
-    # ─── WAR LIST (50 texts) ───
     war_list = [
         "⚔️ War shuru ho gayi — aur tu pehle hi haar gaya 😂🔥",
         "💣 Bhai main war mein nahi aata — main war khatam karne aata hoon 😈⚡",
@@ -637,7 +593,6 @@ if _IS_USERBOT:
         "🏴‍☠️ Beta war khatam — teri taraf se surrender accepted ⚔️😎",
     ]
 
-    # ─── SAVAGE LIST (50 texts) ───
     savage_list = [
         "😈 Main savage hoon — tujhe explanation nahi deta 🔥💀",
         "💀 Teri feelings mere liye statistics hain — irrelevant 😂😈",
@@ -691,7 +646,6 @@ if _IS_USERBOT:
         "💀 Tu savage hone ki koshish karta hai — mujhe dekh savage ka example 😈😹",
     ]
 
-    # ─── ULTRA RAID LIST (50 texts) ───
     ultra_list = [
         "🌪️ ULTRA MODE ACTIVATED — teri poori existence question mein hai 😈🔥",
         "⚡ Ultra attack — pehle gaali sunna phir rona — sequence yaad kar 😂💀",
@@ -745,7 +699,6 @@ if _IS_USERBOT:
         "⚡ Beta ultra mein aana tha — rona nahi tha — par dono kiye 😂💀",
     ]
 
-    # ─── GOD WAR LIST (50 texts) ───
     godwar_list = [
         "👑 GOD MODE — tu mortal hai mujhse ladhne ki aukat nahi 😈🔥",
         "🌟 Main GOD WAR mein hoon — teri poori bloodline haari 💀⚡",
@@ -799,7 +752,6 @@ if _IS_USERBOT:
         "🌟 Beta GOD war ka tutorial yaad rakho — yeh tha 😂👑",
     ]
 
-    # ─── COMBO RAID LIST (50 texts) ───
     combo_list = [
         "💥⚔️🔥 COMBO HIT — reply + roast + flag + react sab ek saath 😈💀",
         "🌪️💣👑 TRIPLE COMBO — teri sab kuch ek hi shot mein 😂⚡",
@@ -853,7 +805,6 @@ if _IS_USERBOT:
         "⚔️💀😂 MEGA COMBO DONE — shukriya tera — itna fun kabhi nahi tha 😈🔥",
     ]
 
-    # ─── TROLL LIST (50 texts) ───
     troll_list = [
         "🤡 Bhai tujhe dekh ke lagta hai troll ka mascot tu hai 😂🔥",
         "😹 Tu itna troll hai ke khud ko pata nahi 💀🤡",
@@ -907,7 +858,6 @@ if _IS_USERBOT:
         "😹 Beta ek advice — yeh mat kar — seriously apni life mein focus kar 🤡😎",
     ]
 
-    # ─── SHAME LIST (50 texts) ───
     shame_list = [
         "😤 Sharam kar — itna gira hua kaam karte kaise hain tum log 🔥💀",
         "🙅 Bhai teri harkat dekh ke pura group sharam se doob gaya 😂😤",
@@ -961,7 +911,6 @@ if _IS_USERBOT:
         "🙅 Bhai aaj ek kaam kar — sharminda ho aur badal — bas itna chahiye 😤😎",
     ]
 
-    # ─── FIRE LIST (50 texts) ───
     fire_list = [
         "🔥 FIRE MODE — teri sab cheez jal rahi hai 😈⚡",
         "🔥🔥 Double fire — tujhe bachaane ka option nahi 💀😂",
@@ -1015,7 +964,6 @@ if _IS_USERBOT:
         "🔥 🔥 FIRE OVER — teri side: lesson learned? Hope so 💀😂",
     ]
 
-    # ─── DEVIL LIST (50 texts) ───
     devil_list = [
         "😈 DEVIL MODE — yahan woh aaya hai jo tujhe deserve karta hai 🔥💀",
         "😈 Beta main devil nahi — main tera worst nightmare hoon 🔥⚡",
@@ -1069,7 +1017,6 @@ if _IS_USERBOT:
         "😈 Beta devil ne aaj tujhe yaadgaar bana diya — wrong reasons se 🔥⚡",
     ]
 
-    # ─── KARMA LIST (50 texts) ───
     karma_list = [
         "☯️ Karma aaya — teri sab harkat ka hisaab ho raha hai 🔥💀",
         "☯️ Beta karma kisi ki nahi sunta — teri bhi nahi 😂⚡",
@@ -1123,7 +1070,6 @@ if _IS_USERBOT:
         "☯️ Beta karma yaad rakhna — abhi bhi teri account open hai ☯️😂",
     ]
 
-    # ─── GHOST LIST (50 texts) ───
     ghost_list = [
         "👻 GHOST MODE — tujhe pata bhi nahi kab aaya 😂💀",
         "👻 Beta ghost ki tarah silently teri sab cheez note kar liya 🔥😈",
@@ -1177,7 +1123,6 @@ if _IS_USERBOT:
         "👻 Beta ghost ne sun liya — ab teri galti public domain mein hai 😈😂",
     ]
 
-    # ─── LEGEND LIST (50 texts) ───
     legend_list = [
         "👑 LEGEND MODE — tujhse baat karna mera time nahi — par exception 😎🔥",
         "👑 Beta legend ne tujhe notice kiya — galat kaam ke liye 😂💀",
@@ -1231,7 +1176,6 @@ if _IS_USERBOT:
         "👑 Beta LEGEND ki baat seedhi — tu meri league mein nahi — abhi 😂⚡",
     ]
 
-    # ─── DOOM LIST (50 texts) ───
     doom_list = [
         "💀 DOOM activated — teri poori existence on countdown 🔥😈",
         "💀 Beta doom aaya — tera timer start ho gaya 😂⚡",
@@ -1285,7 +1229,6 @@ if _IS_USERBOT:
         "💀 Beta DOOM complete — check teri condition — yahi tha 😂⚡",
     ]
 
-    # ─── 4 NEW RAID LISTS (NUKE, STORM, BLIZZARD, VENOM) ───────────────────────────
     nuke_list = [
         "☢️ NUKE LAUNCHED — teri poori existence vapas nahi aayegi 💀🔥",
         "💥 Nuke strike — teri sab cheez radiated hai 😈⚡",
@@ -1508,7 +1451,7 @@ if _IS_USERBOT:
         "Meri girlfriend ne kaha — tujhse better koi nahi. Phir chali gayi. Better koi mila hoga shayad 😂",
         "Doctor: Patient ko hawa ki zaroorat hai. Nurse: Kya karein? Doctor: Fan on karo. Nurse: Ceiling se pakad ke? 😹",
         "Ghar mein sabse zyada kaam mera — internet chalaana! 😂",
-        "Padhai karo beta future bright hoga. Maine padhi — future gaya andhera mein. Lying wasn't their first language 🤣",
+        "Padhai karo beta future bright hoga. Maine padhi — future gaya andhera mein. 🤣",
         "Wo bolti hai 'I need space' — main bola ठीक है, NASA se contact karo! 😂",
     ]
 
@@ -1523,7 +1466,7 @@ if _IS_USERBOT:
     fact_list = [
         "🧠 Insaan ka dimag 75% paani se bana hai!",
         "🐙 Octopus ke teen dil hote hain!",
-        "🌙 Chand par mobile signal nahi hai — par WiFi aata hai ek satellite se! (Future plan 😂)",
+        "🌙 Chand par mobile signal nahi hai — par WiFi aata hai ek satellite se!",
         "🍯 Sahi tarike se rakha hua honey kabhi kharab nahi hota!",
         "⚡ Bijli ka ek bolt 5 times zyada garam hota hai sun ki surface se!",
         "🦈 Shark insaan se zyada purana hai — dinasors se bhi pehle!",
@@ -1587,9 +1530,7 @@ if _IS_USERBOT:
                 raise ValueError("Command name cannot be empty")
             if key in commands:
                 raise ValueError(f"Duplicate command registered: {key}")
-            commands[key] = {
-                "func": func, "needs_reply": bool(needs_reply), "group_only": bool(group_only),
-            }
+            commands[key] = {"func": func, "needs_reply": bool(needs_reply), "group_only": bool(group_only)}
             return func
         return decorator
 
@@ -1617,7 +1558,7 @@ if _IS_USERBOT:
                 template = FASTGC_STATE.get("template")
                 if not template: break
                 try: emoji = random.choice(GC_FAST_EMOJIS)
-                except: emoji = "⚡"
+                except: emoji = "🌸"
                 try: new_title = template.replace("{emoji}", emoji)
                 except: await asyncio.sleep(2); continue
                 ok = await fast_title_edit(chat_id, new_title)
@@ -1628,23 +1569,25 @@ if _IS_USERBOT:
         except asyncio.CancelledError: return
         except Exception as e: print(f"[FastGC Loop Crash] → {str(e)[:80]}")
 
-    # ────────────────────────────────────────────────    #                   MENU COMMANDS
+    # ────────────────────────────────────────────────
+    #                   MENU COMMANDS (Sakura theme)
     # ────────────────────────────────────────────────
     @register_cmd("menu")
     async def cmd_menu(event, _):
         global menu_banner_msg
         menu = (
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-    "  ⚡️  𝗦𝗜𝗗𝘅𝗕𝗢𝗧  𝗨𝗦𝗘𝗥𝗕𝗢𝗧  𝗩𝟯  ⚡️\n"
+    "  🌸  𝗟𝗘𝗫𝗜 𝗨𝗦𝗘𝗥𝗕𝗢𝗧 𝗩𝟯  🌸\n"
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
     "\n"
-    "  👑  𝗢𝘄𝗻𝗲𝗿   ›  𝗦𝗜𝗗𝘅𝗕𝗢𝗧\n"
+    "  👑  𝗢𝘄𝗻𝗲𝗿   ›  𝗟𝗘𝗫𝗜\n"
     "  📦  𝗖𝗺𝗱𝘀    ›  𝟱𝟬𝟬+ 𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀\n"
-    "  🔥  𝗣𝗿𝗲𝗳𝗶𝗽  ›  .  (𝗗𝗼𝘁)\n"
+    "  🌸  𝗧𝗵𝗲𝗺𝗲   ›  𝗦𝗮𝗸𝘂𝗿𝗮 𝗕𝗹𝗼𝘀𝘀𝗼𝗺\n"
+    "  🎀  𝗣𝗿𝗲𝗳𝗶𝗽  ›  .  (𝗗𝗼𝘁)\n"
     "  ⚔️  𝗥𝗮𝗶𝗱𝘀   ›  𝟮𝟬 𝗧𝘆𝗽𝗲𝘀  (𝟰 𝗡𝗘𝗪)\n"
     "\n"
     "┌──────────────────────────────────┐\n"
-    "│         📋  𝗠𝗘𝗡𝗨  𝗣𝗔𝗚𝗘𝗦          │\n"
+    "│      🌸  𝗠𝗘𝗡𝗨  𝗣𝗔𝗚𝗘𝗦  🌸      │\n"
     "├──────────────────────────────────┤\n"
     "│  .𝗺𝗲𝗻𝘂𝟭  →  👑 𝗔𝗱𝗺𝗶𝗻 & 🔇 𝗠𝘂𝘁𝗲       │\n"
     "│  .𝗺𝗲𝗻𝘂𝟮  →  ⚔️ 𝗥𝗮𝗶𝗱 𝗘𝗻𝗴𝗶𝗻𝗲 (𝗢𝗿𝗶𝗴)   │\n"
@@ -1657,14 +1600,14 @@ if _IS_USERBOT:
     "│  .𝗰𝗺𝗱𝘀   →  📜 𝗔𝗹𝗹 𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀         │\n"
     "└──────────────────────────────────┘\n"
     "\n"
-    "🔥  𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗯𝘆 𝗦𝗜𝗗𝘅𝗕𝗢𝗧  🔥"
+    "🌸  𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗯𝘆 𝗟𝗘𝗫𝗜𝗕𝗢𝗧  🌸"
         )
         await safe_edit(event, menu)
         if menu_banner_msg:
             chat_id, msg_id = menu_banner_msg
             try:
                 msg = await bot.get_messages(chat_id, ids=msg_id)
-                await bot.send_file(event.chat_id, file=msg.media, caption="⚡ 𝗦𝗜𝗗𝘅𝗕𝗢𝗧 𝗘𝗻𝘁𝗲𝗿𝘀 ❤️‍🔥")
+                await bot.send_file(event.chat_id, file=msg.media, caption="🌸 𝗟𝗘𝗫𝗜 𝗘𝗻𝘁𝗲𝗿𝘀 ❤️‍🔥")
             except: pass
 
 
@@ -1672,7 +1615,7 @@ if _IS_USERBOT:
     async def cmd_menu1(event, _):
         menu = (
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-    "   👑  𝗔𝗗𝗠𝗜𝗡  •  🔇  𝗠𝗨𝗧𝗘  •  🧹  𝗚𝗥𝗢𝗨𝗣\n"
+    "   🌸 𝗔𝗗𝗠𝗜𝗡  •  🔇 𝗠𝗨𝗧𝗘  •  🧹 𝗚𝗥𝗢𝗨𝗣  🌸\n"
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
     "\n"
     "【 👑 𝗔𝗗𝗠𝗜𝗡 𝗖𝗢𝗡𝗧𝗥𝗢𝗟 】\n"
@@ -1705,7 +1648,7 @@ if _IS_USERBOT:
     "  ✦ .membercount       → Members count\n"
     "  ✦ .invitelink        → Invite link\n"
     "\n"
-    "📌  .menu → Main menu wapas"
+    "🌸  .menu → Main menu wapas"
         )
         await safe_edit(event, menu)
 
@@ -1714,7 +1657,7 @@ if _IS_USERBOT:
     async def cmd_menu2(event, _):
         menu = (
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-    "      ⚔️  𝗥𝗔𝗜𝗗  𝗘𝗡𝗚𝗜𝗡𝗘  (𝗢𝗥𝗜𝗚𝗜𝗡𝗔𝗟)\n"
+    "      🌸 ⚔️ 𝗥𝗔𝗜𝗗 𝗘𝗡𝗚𝗜𝗡𝗘 (𝗢𝗥𝗜𝗚𝗜𝗡𝗔𝗟) ⚔️ 🌸\n"
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
     "\n"
     "  💡 𝗨𝘀𝗲: .cmdname @username\n"
@@ -1731,10 +1674,10 @@ if _IS_USERBOT:
     "└────────────────────────────────┘\n"
     "\n"
     "【 🎯 𝗟𝗜𝗠𝗜𝗧𝗘𝗗 𝗥𝗔𝗜𝗗 】\n"
-    "  ✦ .replysid <text> <count>\n"
+    "  ✦ .replylexi <text> <count>\n"
     "  ✦ .sstop  → Limited raid stop\n"
     "\n"
-    "📌  .menu6 → 🔥 NEW 1000+ Fighting Raids"
+    "🌸  .menu6 → 🔥 NEW 1000+ Fighting Raids"
         )
         await safe_edit(event, menu)
 
@@ -1743,7 +1686,7 @@ if _IS_USERBOT:
     async def cmd_menu3(event, _):
         menu = (
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-    "      💣  𝗦𝗣𝗔𝗠  𝗘𝗡𝗚𝗜𝗡𝗘  &  📝  𝗧𝗘𝗫𝗧\n"
+    "    🌸 💣 𝗦𝗣𝗔𝗠 𝗘𝗡𝗚𝗜𝗡𝗘 & 📝 𝗧𝗘𝗫𝗧 🌸\n"
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
     "\n"
     "【 💣 𝗦𝗣𝗔𝗠 𝗦𝗬𝗦𝗧𝗘𝗠 】\n"
@@ -1766,7 +1709,7 @@ if _IS_USERBOT:
     "  ✦ .fastgc set {emoji} <template>\n"
     "  ✦ .fastgc stop  → FastGC band karo\n"
     "\n"
-    "📌  .menu → Main menu wapas"
+    "🌸  .menu → Main menu wapas"
         )
         await safe_edit(event, menu)
 
@@ -1775,7 +1718,7 @@ if _IS_USERBOT:
     async def cmd_menu4(event, _):
         menu = (
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-    "   🛡️  𝗣𝗥𝗢𝗧𝗘𝗖𝗧𝗜𝗢𝗡  &  🖼️  𝗣𝗙𝗣  &  ❤️  𝗔𝗨𝗧𝗢\n"
+    "   🌸 🛡️ 𝗣𝗥𝗢𝗧𝗘𝗖𝗧𝗜𝗢𝗡 • 🖼️ 𝗣𝗙𝗣 • ❤️ 𝗔𝗨𝗧𝗢 🌸\n"
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
     "\n"
     "【 🛡️ 𝗔𝗡𝗧𝗜-𝗗𝗘𝗟𝗘𝗧𝗘 】\n"
@@ -1799,7 +1742,7 @@ if _IS_USERBOT:
     "  ✦ .ar <emoji>  → Auto react on\n"
     "  ✦ .sar         → Auto react off\n"
     "\n"
-    "📌  .menu → Main menu wapas"
+    "🌸  .menu → Main menu wapas"
         )
         await safe_edit(event, menu)
 
@@ -1808,7 +1751,7 @@ if _IS_USERBOT:
     async def cmd_menu5(event, _):
         menu = (
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-    "    🛠️  𝗧𝗢𝗢𝗟𝗦  •  🎵  𝗠𝗨𝗦𝗜𝗖  •  👤  𝗣𝗥𝗢𝗙\n"
+    "    🌸 🛠️ 𝗧𝗢𝗢𝗟𝗦 • 🎵 𝗠𝗨𝗦𝗜𝗖 • 👤 𝗣𝗥𝗢𝗙 🌸\n"
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
     "\n"
     "【 🛠️ 𝗠𝗔𝗜𝗡 𝗧𝗢𝗢𝗟𝗦 】\n"
@@ -1844,7 +1787,7 @@ if _IS_USERBOT:
     "  ✦ .banner   → Banner set karo\n"
     "  ✦ .rembanner→ Banner hatao\n"
     "\n"
-    "📌  .menu7 & .menu8 → Aur tools"
+    "🌸  .menu7 & .menu8 → Aur tools"
         )
         await safe_edit(event, menu)
 
@@ -1853,7 +1796,7 @@ if _IS_USERBOT:
     async def cmd_menu6(event, _):
         menu = (
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-    "   🔥  𝗙𝗜𝗚𝗛𝗧𝗜𝗡𝗚  𝗥𝗔𝗜𝗗𝗦  —  𝟭𝟬𝟬𝟬+ 𝗧𝗘𝗫𝗧𝗦\n"
+    "   🌸 🔥 𝗙𝗜𝗚𝗛𝗧𝗜𝗡𝗚 𝗥𝗔𝗜𝗗𝗦 — 𝟭𝟬𝟬𝟬+ 𝗧𝗘𝗫𝗧𝗦 🌸\n"
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
     "\n"
     "  💡 𝗨𝘀𝗲: .cmdname @username\n"
@@ -1887,7 +1830,7 @@ if _IS_USERBOT:
     "  🛑 .stopall  → 𝗦𝗮𝗮𝗿𝗲 raids ek saath band\n"
     "  📊 .raidstatus → Active raids check\n"
     "\n"
-    "⚡ 𝟮𝟬 𝗥𝗮𝗶𝗱 𝗧𝘆𝗽𝗲𝘀 × 𝟱𝟬 𝗧𝗲𝘅𝘁𝘀 = 𝟭𝟬𝟬𝟬+ 𝗙𝗶𝗴𝗵𝘁𝗶𝗻𝗴 𝗧𝗲𝘅𝘁𝘀 🔥"
+    "🌸 𝟮𝟬 𝗥𝗮𝗶𝗱 𝗧𝘆𝗽𝗲𝘀 × 𝟱𝟬 𝗧𝗲𝘅𝘁𝘀 = 𝟭𝟬𝟬𝟬+ 𝗙𝗶𝗴𝗵𝘁𝗶𝗻𝗴 𝗧𝗲𝘅𝘁𝘀 🌸"
         )
         await safe_edit(event, menu)
 
@@ -1896,7 +1839,7 @@ if _IS_USERBOT:
     async def cmd_menu7(event, _):
         menu = (
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-    "         ⚙️  𝗨𝗧𝗜𝗟𝗜𝗧𝗬  𝗧𝗢𝗢𝗟𝗦\n"
+    "       🌸 ⚙️ 𝗨𝗧𝗜𝗟𝗜𝗧𝗬 𝗧𝗢𝗢𝗟𝗦 🌸\n"
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
     "\n"
     "【 📝 𝗧𝗘𝗫𝗧 𝗧𝗢𝗢𝗟𝗦 】\n"
@@ -1949,7 +1892,7 @@ if _IS_USERBOT:
     "  ✦ .whois    → User info\n"
     "  ✦ .mention  → User mention\n"
     "\n"
-    "📌  .menu → Main menu wapas"
+    "🌸  .menu → Main menu wapas"
         )
         await safe_edit(event, menu)
 
@@ -1958,7 +1901,7 @@ if _IS_USERBOT:
     async def cmd_menu8(event, _):
         menu = (
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-    "      🎮  𝗙𝗨𝗡  •  𝗚𝗔𝗠𝗘𝗦  •  𝗠𝗔𝗦𝗧𝗜\n"
+    "      🌸 🎮 𝗙𝗨𝗡 • 𝗚𝗔𝗠𝗘𝗦 • 𝗠𝗔𝗦𝗧𝗜 🌸\n"
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
     "\n"
     "【 🎲 𝗚𝗔𝗠𝗘𝗦 】\n"
@@ -1992,7 +1935,7 @@ if _IS_USERBOT:
     "  ✦ .raidstatus → Active raids 🔥\n"
     "  ✦ .ping       → Latency check ⚡\n"
     "\n"
-    "📌  .menu → Main menu wapas"
+    "🌸  .menu → Main menu wapas"
         )
         await safe_edit(event, menu)
 
@@ -2001,7 +1944,7 @@ if _IS_USERBOT:
     async def cmd_cmds(event, _):
         cmds = (
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-    "   📜  𝗦𝗜𝗗𝗫𝗕𝗢𝗧  𝗩𝟯  —  𝗙𝗨𝗟𝗟  𝗖𝗠𝗗𝗦\n"
+    "   🌸 📜 𝗟𝗘𝗫𝗜𝗕𝗢𝗧 𝗩𝟯 — 𝗙𝗨𝗟𝗟 𝗖𝗠𝗗𝗦 🌸\n"
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
     "\n"
     "👑 𝗔𝗗𝗠𝗜𝗡:\n"
@@ -2017,7 +1960,7 @@ if _IS_USERBOT:
     "  .pin .unpin .groupinfo .membercount .invitelink\n"
     "\n"
     "⚔️ 𝗥𝗔𝗜𝗗𝗦 (𝗢𝗥𝗜𝗚):\n"
-    "  .reply .rr .flag .hrr .replygod .replysid\n"
+    "  .reply .rr .flag .hrr .replygod .replylexi\n"
     "  stop: .sreply .srr .sflag .shrr .sgod .sstop\n"
     "\n"
     "🔥 𝗥𝗔𝗜𝗗𝗦 (𝗡𝗘𝗪 𝟭𝟬𝟬𝟬+ 𝗧𝗘𝗫𝗧𝗦):\n"
@@ -2091,7 +2034,7 @@ if _IS_USERBOT:
     "  .menu5 .menu6 .menu7 .menu8 .cmds\n"
     "\n"
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-    "⚡ 𝟱𝟬𝟬+ 𝗖𝗺𝗱𝘀  |  🔥 𝗣𝗿𝗲𝗳𝗶𝘅: .  |  𝗩𝟯"
+    "🌸 𝟱𝟬𝟬+ 𝗖𝗺𝗱𝘀  |  🔥 𝗣𝗿𝗲𝗳𝗶𝘅: .  |  𝗩𝟯 🌸"
         )
         await safe_edit(event, cmds)
 
@@ -2107,7 +2050,7 @@ if _IS_USERBOT:
             return await safe_edit(event, "❌ 𝐍ᴏ 𝐑ᴇᴘʟʏ\n👉 𝐑ᴇᴘʟʏ 𝐓ᴏ 𝐏ʜᴏᴛᴏ / 𝐕ɪᴅᴇᴏ")
         if not reply.media:
             return await safe_edit(event, "❌ 𝐈ɴᴠᴀʟɪᴅ 𝐌ᴇᴅɪᴀ\n👉 𝐎ɴʟʏ 𝐏ʜᴏᴛᴏ / 𝐕ɪᴅᴇᴏ")
-        await safe_edit(event, "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐁ᴀɴɴᴇʀ...\n━━━━━━━━━━━━━━━")
+        await safe_edit(event, "🌸 𝐏ʀᴏᴄᴇssɪɴɢ 𝐁ᴀɴɴᴇʀ...\n━━━━━━━━━━━━━━━")
         try:
             try: saved = await reply.forward_to("me")
             except Exception:
@@ -2129,7 +2072,7 @@ if _IS_USERBOT:
         global menu_banner_msg
         if not menu_banner_msg:
             return await safe_edit(event, "⚠️ 𝐍ᴏ 𝐁ᴀɴɴᴇʀ 𝐒ᴇᴛ")
-        await safe_edit(event, "⚡ 𝐑ᴇᴍᴏᴠɪɴɢ 𝐁ᴀɴɴᴇʀ...\n━━━━━━━━━━━━━━━")
+        await safe_edit(event, "🌸 𝐑ᴇᴍᴏᴠɪɴɢ 𝐁ᴀɴɴᴇʀ...\n━━━━━━━━━━━━━━━")
         try:
             chat_id, msg_id = menu_banner_msg
             try: await bot.delete_messages(chat_id, [msg_id])
@@ -2148,7 +2091,7 @@ if _IS_USERBOT:
             targets = await get_targets(event, arg)
             if not targets:
                 return await safe_edit(event, "❌ 𝐍ᴏ 𝐕ᴀʟɪᴅ 𝐓ᴀʀɢᴇᴛ\n👉 𝐑ᴇᴘʟʏ / @username / ID")
-            await safe_edit(event, "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐀ᴅᴍɪɴ 𝐀ᴅᴅ...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐏ʀᴏᴄᴇssɪɴɢ 𝐀ᴅᴍɪɴ 𝐀ᴅᴅ...\n━━━━━━━━━━━━━━━")
             added, already, skipped_owner = [], [], []
             for uid in targets:
                 try: uid = int(uid)
@@ -2176,7 +2119,7 @@ if _IS_USERBOT:
             targets = await get_targets(event, arg)
             if not targets:
                 return await safe_edit(event, "❌ 𝐍ᴏ 𝐕ᴀʟɪᴅ 𝐓ᴀʀɢᴇᴛ\n👉 𝐑ᴇᴘʟʏ / @username / ID")
-            await safe_edit(event, "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐀ᴅᴍɪɴ 𝐑ᴇᴍᴏᴠᴇ...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐏ʀᴏᴄᴇssɪɴɢ 𝐀ᴅᴍɪɴ 𝐑ᴇᴍᴏᴠᴇ...\n━━━━━━━━━━━━━━━")
             removed, not_admin, skipped_owner = [], [], []
             for uid in targets:
                 try: uid = int(uid)
@@ -2201,7 +2144,7 @@ if _IS_USERBOT:
     @register_cmd("admins")
     async def cmd_admins(event, _):
         try:
-            await safe_edit(event, "⚡ 𝐅ᴇᴛᴄʜɪɴɢ 𝐀ᴅᴍɪɴ 𝐋ɪsᴛ...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐅ᴇᴛᴄʜɪɴɢ 𝐀ᴅᴍɪɴ 𝐋ɪsᴛ...\n━━━━━━━━━━━━━━━")
             admin_list = "\n".join(f"• `{a}`" for a in sorted(admins)) if admins else "⚠️ 𝐍ᴏ 𝐄xᴛʀᴀ 𝐀ᴅᴍɪɴs"
             txt = f"👑 𝐀ᴅᴍɪɴ 𝐋ɪsᴛ\n━━━━━━━━━━━━━━━\n👑 𝐎ᴡɴᴇʀ → `{OWNER_ID}`\n\n{admin_list}\n\n📊 𝐓ᴏᴛᴀʟ → `{len(admins)}`"
             await safe_edit(event, txt)
@@ -2214,9 +2157,8 @@ if _IS_USERBOT:
         try:
             txt = (
                 "╔══════════════════════════════════╗\n"
-                "║  ⚔️  𝗕𝗘𝗦𝗧 𝗙𝗜𝗚𝗛𝗧𝗜𝗡𝗚 𝗖𝗢𝗠𝗠𝗔𝗡𝗗𝗦  ⚔️  ║\n"
+                "║  🌸 ⚔️ 𝗕𝗘𝗦𝗧 𝗙𝗜𝗚𝗛𝗧𝗜𝗡𝗚 𝗖𝗠𝗗𝗦 ⚔️ 🌸 ║\n"
                 "╚══════════════════════════════════╝\n\n"
-
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 "🔥 𝗥𝗔𝗜𝗗 𝗔𝗧𝗧𝗔𝗖𝗞𝗦  (reply karke use karo)\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
@@ -2232,7 +2174,6 @@ if _IS_USERBOT:
                 "`.storm`      🌪️ Storm mode — relentless assault\n"
                 "`.blizzard`   ❄️ Blizzard — freeze and destroy\n"
                 "`.venom`      ☠️ Venom — toxic takedown\n\n"
-
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 "🔁 𝗔𝗨𝗧𝗢-𝗥𝗘𝗣𝗟𝗬 𝗥𝗔𝗜𝗗𝗦  (chhod do, khud chalega)\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
@@ -2241,38 +2182,21 @@ if _IS_USERBOT:
                 "`.hrr`        💗 Heart reply — emoji se chido\n"
                 "`.flag`       🚩 Flag raid — flag se bhardo\n"
                 "`.replygod`   😈 GOD reply — 3x power, brutal\n"
-                "`.replysid <text> <count>`\n"
+                "`.replylexi <text> <count>`\n"
                 "              🎯 Limit raid — X baar reply\n\n"
-
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 "💥 𝗦𝗣𝗔𝗠 / 𝗦𝗣𝗥𝗔𝗬  (chat bhar do)\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 "`.spray <text>`        🌊 Spray — ruko mat, bhejo\n"
                 "`.spam <n> <text>`     📨 N baar same msg bhejo\n"
                 "`.rspam <n> <text>`    💀 Reply + Spam combo (BEAST)\n\n"
-
-                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "🔇 𝗠𝗨𝗧𝗘 / 𝗦𝗜𝗟𝗘𝗡𝗖𝗘\n"
-                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "`.mute`       🔇 Local mute — is chat mein\n"
-                "`.gmute`      🔕 Global mute — har jagah\n"
-                "`.purge <n>`  🧹 N msgs delete karo\n"
-                "`.kick`      👞 Group se bahar nikalo\n\n"
-
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 "🛑 𝗦𝗧𝗢𝗣 𝗖𝗢𝗠𝗠𝗔𝗡𝗗𝗦\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 "`.stop`  /  `.stopattack`  — Sab band karo\n"
                 "`.sreply` — Auto reply band\n"
                 "`.stopspray` — Spray band\n\n"
-
-                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "💡 𝗧𝗜𝗣𝗦:\n"
-                "• Pehle reply karo target pe, phir command\n"
-                "• `.stop` se sab instantly band hoga\n"
-                "• `.replygod` + `.spray` combo = 💀 MAX POWER\n"
-                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "🌟 𝗦𝗜𝗗 𝗔𝗗𝗩𝗔𝗡𝗖𝗘 𝗩𝟯 — 500+ Commands"
+                "🌸 𝗟𝗘𝗫𝗜 𝗔𝗗𝗩𝗔𝗡𝗖𝗘 𝗩𝟯 — 500+ Commands"
             )
             if event.out:
                 await safe_edit(event, txt)
@@ -2348,8 +2272,8 @@ if _IS_USERBOT:
             t1 = time.perf_counter()
             ms = round((t1 - t0) * 1000)
             try:
-                if msg: await msg.edit(f"🏓 𝐏ᴏɴɢ → `{ms} ms`")
-                else: await event.reply(f"🏓 𝐏ᴏɴɢ → `{ms} ms`")
+                if msg: await msg.edit(f"🌸 𝐏ᴏɴɢ → `{ms} ms`")
+                else: await event.reply(f"🌸 𝐏ᴏɴɢ → `{ms} ms`")
             except: pass
         except Exception as e:
             await safe_edit(event, f"❌ 𝐏ɪɴɢ 𝐄ʀʀ → `{str(e)[:40]}`")
@@ -2369,14 +2293,14 @@ if _IS_USERBOT:
                 uname = "Unknown"
             txt = (
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "  ⚡️  𝗦𝗜𝗗 𝗔𝗗𝗩𝗔𝗡𝗖𝗘 𝗩𝟯  ⚡️\n"
+                "  🌸  𝗟𝗘𝗫𝗜 𝗦𝗔𝗞𝗨𝗥𝗔 𝗩𝟯  🌸\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"🟢  𝐒𝐭𝐚𝐭𝐮𝐬    →  `ALIVE ✅`\n"
                 f"👤  𝐀𝐜𝐜𝐨𝐮𝐧𝐭   →  `{uname}`\n"
                 f"⏱️  𝐔𝐩𝐭𝐢𝐦𝐞    →  `{uptime_str}`\n"
                 f"📦  𝐂𝐨𝐦𝐦𝐚𝐧𝐝𝐬  →  `500+`\n"
                 f"⚔️  𝐑𝐚𝐢𝐝𝐬     →  `20 Types`\n"
-                f"🔥  𝐕𝐞𝐫𝐬𝐢𝐨𝐧   →  `SIDxBOT✨❤️`\n"
+                f"🌸  𝐕𝐞𝐫𝐬𝐢𝐨𝐧   →  `LEXIxBOT✨🌸`\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 "💡  𝐐𝐮𝐢𝐜𝐤 𝐒𝐭𝐚𝐫𝐭:\n"
                 "    `.ping`   — Speed test karo\n"
@@ -2385,7 +2309,7 @@ if _IS_USERBOT:
                 "    `.spray`  — Spam spray shuru\n"
                 "    `.help`   — Poori commands list\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "🌟  𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲  𝗦𝗜𝗗𝘅𝗕𝗢𝗧"
+                "🌸  𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲  𝗟𝗘𝗫𝗜𝗕𝗢𝗧 🌸"
             )
             if event.out:
                 await safe_edit(event, txt)
@@ -2400,12 +2324,12 @@ if _IS_USERBOT:
         try:
             txt = (
                 "╔══════════════════════════════╗\n"
-                "║  📖  𝗖𝗢𝗠𝗠𝗔𝗡𝗗 𝗚𝗨𝗜𝗗𝗘  📖  ║\n"
+                "║  🌸 📖 𝗖𝗢𝗠𝗠𝗔𝗡𝗗 𝗚𝗨𝗜𝗗𝗘 📖 🌸 ║\n"
                 "╚══════════════════════════════╝\n\n"
                 "💡 𝐏𝐫𝐞𝐟𝐢𝐱: `.`  (𝐝𝐨𝐭)\n"
                 "💡 𝐔𝐬𝐞: 𝐀𝐩𝐧𝐚 𝐦𝐞𝐬𝐬𝐚𝐠𝐞 𝐛𝐡𝐞𝐣𝐨 𝐲𝐚 𝐫𝐞𝐩𝐥𝐲 𝐤𝐚𝐫𝐨\n\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "⚡ 𝗕𝗔𝗦𝗜𝗖 (𝐤𝐚𝐡𝐢 𝐛𝐡𝐢 𝐛𝐡𝐞𝐣𝐨)\n"
+                "🌸 𝗕𝗔𝗦𝗜𝗖 (𝐤𝐚𝐡𝐢 𝐛𝐡𝐢 𝐛𝐡𝐞𝐣𝐨)\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 "`.alive`  — Bot alive hai ya nahi check karo\n"
                 "`.ping`   — Speed test (ms mein)\n"
@@ -2449,7 +2373,7 @@ if _IS_USERBOT:
                 "`.setbio <b>`  — Bio badlo\n\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 "📋 𝐏𝐨𝐨𝐫𝐢 𝐥𝐢𝐬𝐭: `.cmds`\n"
-                "🌟  𝗦𝗜𝗗𝘅𝗕𝗢𝗧"
+                "🌸  𝗟𝗘𝗫𝗜𝗕𝗢𝗧"
             )
             if event.out:
                 await safe_edit(event, txt)
@@ -2464,13 +2388,11 @@ if _IS_USERBOT:
         try:
             txt = (
                 "╔══════════════════════════════════╗\n"
-                "║  ⚡  𝗦𝗜𝗗 𝗔𝗗𝗩𝗔𝗡𝗖𝗘 𝗩𝟯 — 𝗖𝗠𝗗𝗦  ⚡  ║\n"
+                "║  🌸 ⚡ 𝗟𝗘𝗫𝗜 𝗦𝗔𝗞𝗨𝗥𝗔 𝗩𝟯 — 𝗖𝗠𝗗𝗦 ⚡ 🌸 ║\n"
                 "╚══════════════════════════════════╝\n\n"
-
                 "🔰 ━━━━  𝗕𝗔𝗦𝗜𝗖  ━━━━ 🔰\n"
                 "`.alive` `.ping` `.status` `.uptime`\n"
                 "`.id` `.info` `.whois` `.chatid`\n\n"
-
                 "⚔️ ━━━━  𝗥𝗔𝗜𝗗 / 𝗙𝗜𝗚𝗛𝗧  ━━━━ ⚔️\n"
                 "`.attack` `.roast` `.diss` `.war`\n"
                 "`.savage` `.ultra` `.godwar` `.troll`\n"
@@ -2478,43 +2400,28 @@ if _IS_USERBOT:
                 "`.ghost` `.legend` `.doom` `.combo`\n"
                 "`.nuke` `.storm` `.blizzard` `.venom`  ★ NEW\n"
                 "🛑 Stop: `.stopall` | Status: `.raidstatus`\n\n"
-
                 "🔁 ━━━━  𝗔𝗨𝗧𝗢-𝗥𝗘𝗣𝗟𝗬  ━━━━ 🔁\n"
                 "`.reply` `.rr` `.flag` `.hrr`\n"
-                "`.replygod` `.replysid` `.rspam`\n"
+                "`.replygod` `.replylexi` `.rspam`\n"
                 "🛑 Stop: `.sreply` `.srr` `.sflag`\n"
                 "        `.shrr` `.sgod` `.sstop`\n\n"
-
                 "💥 ━━━━  𝗦𝗣𝗥𝗔𝗬 / 𝗦𝗣𝗔𝗠  ━━━━ 💥\n"
                 "`.spray` `.dspray` `.tspray` `.rspray`\n"
                 "`.multispray` `.countspray` `.spraydelay`\n"
                 "`.addtext` `.listtexts` `.edittext`\n"
                 "`.deltext` `.cleartext`\n\n"
-
                 "🛡️ ━━━━  𝗣𝗥𝗢𝗧𝗘𝗖𝗧𝗜𝗢𝗡  ━━━━ 🛡️\n"
-                "`.protect` — Apne aap ko protect karo\n"
-                "`.unprotect` — Protection hatao\n"
-                "`.protectlist` — Protected list dekho\n"
-                "`.antidel` — Deleted messages dekho\n"
-                "`.watchspam` — Spam monitor on\n"
-                "`.unwatchspam` — Spam monitor off\n"
-                "`.watchlist` — Watch list dekho\n"
-                "`.lock` `.unlock` — Group lock/unlock\n"
-                "`.mute` `.unmute` — User mute karo\n"
-                "`.gmute` `.gunmute` — Global mute\n\n"
-
+                "`.protect` `.unprotect` `.protectlist`\n"
+                "`.antidel` `.watchspam` `.unwatchspam` `.watchlist`\n"
+                "`.lock` `.unlock` `.mute` `.unmute` `.gmute` `.gunmute`\n\n"
                 "👑 ━━━━  𝗚𝗥𝗢𝗨𝗣 𝗔𝗗𝗠𝗜𝗡  ━━━━ 👑\n"
-                "`.ban` `.unban` `.kick` `.promote`\n"
-                "`.demote` `.pin` `.unpin` `.purge`\n"
+                "`.ban` `.unban` `.kick` `.promote` `.demote`\n"
+                "`.pin` `.unpin` `.purge`\n"
                 "`.warn` `.warnlist` `.clearwarn`\n"
                 "`.groupinfo` `.membercount` `.invitelink`\n\n"
-
                 "🎭 ━━━━  𝗖𝗟𝗢𝗡𝗘 / 𝗣𝗥𝗢𝗙𝗜𝗟𝗘  ━━━━ 🎭\n"
-                "`.copy` — Kisi ka profile clone karo\n"
-                "`.normal` — Normal profile restore karo\n"
-                "`.setname` `.setbio` `.setpp`\n"
-                "`.getpp` `.mention`\n\n"
-
+                "`.copy` `.normal` `.setname` `.setbio`\n"
+                "`.setpp` `.getpp` `.mention`\n\n"
                 "🛠️ ━━━━  𝗨𝗧𝗜𝗟𝗜𝗧𝗬  ━━━━ 🛠️\n"
                 "`.tts` `.qr` `.fancy` `.style`\n"
                 "`.calc` `.weather` `.ip` `.short`\n"
@@ -2522,21 +2429,18 @@ if _IS_USERBOT:
                 "`.music` `.dmusic` `.ytdl`\n"
                 "`.encode` `.decode` `.b64` `.b64d`\n"
                 "`.md5` `.sha256` `.binary` `.morse`\n\n"
-
                 "🎮 ━━━━  𝗙𝗨𝗡  ━━━━ 🎮\n"
                 "`.joke` `.fact` `.quote` `.riddle`\n"
                 "`.truth` `.dare` `.pickup` `.roastme`\n"
                 "`.8ball` `.rps` `.choose` `.flip`\n"
                 "`.dice` `.react` `.echo`\n\n"
-
                 "📝 ━━━━  𝗧𝗘𝗫𝗧 𝗧𝗢𝗢𝗟𝗦  ━━━━ 📝\n"
                 "`.upper` `.lower` `.reverse` `.bold`\n"
                 "`.italic` `.mono` `.zalgo` `.leet`\n"
                 "`.camel` `.snake` `.shout` `.shadow`\n"
                 "`.rot13` `.big` `.small` `.spaceit`\n\n"
-
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "⚡ 𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗯𝘆 𝗦𝗜𝗗𝘅𝗕𝗢𝗧 | 500+ 𝗖𝗺𝗱𝘀"
+                "🌸 𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗯𝘆 𝗟𝗘𝗫𝗜𝗕𝗢𝗧 | 500+ 𝗖𝗺𝗱𝘀"
             )
             await safe_edit(event, txt)
         except Exception as e:
@@ -2548,49 +2452,26 @@ if _IS_USERBOT:
         try:
             txt = (
                 "╔══════════════════════════════════╗\n"
-                "║  🛡️  𝗦𝗜𝗗 𝗣𝗥𝗢𝗧𝗘𝗖𝗧𝗜𝗢𝗡 𝗦𝗬𝗦𝗧𝗘𝗠  🛡️  ║\n"
+                "║  🌸 🛡️ 𝗟𝗘𝗫𝗜 𝗣𝗥𝗢𝗧𝗘𝗖𝗧𝗜𝗢𝗡 𝗦𝗬𝗦𝗧𝗘𝗠 🛡️ 🌸 ║\n"
                 "╚══════════════════════════════════╝\n\n"
-
                 "🔰 ━━━━  𝗦𝗘𝗟𝗙 𝗣𝗥𝗢𝗧𝗘𝗖𝗧𝗜𝗢𝗡  ━━━━ 🔰\n"
                 "`.protect` — Reply karke kisi se khud ko protect karo\n"
-                "   ↳ Woh tumhe target nahi kar sakta raid mein\n"
                 "`.unprotect` — Kisi ki protection hatao\n"
                 "`.protectlist` — Kaun protect hai dekho\n\n"
-
                 "👁️ ━━━━  𝗔𝗡𝗧𝗜-𝗗𝗘𝗟𝗘𝗧𝗘  ━━━━ 👁️\n"
-                "`.antidel` — ON/OFF karo\n"
-                "   ↳ Jab koi message delete kare — tum dekh sakte ho\n\n"
-
+                "`.antidel` — ON/OFF karo\n\n"
                 "🔍 ━━━━  𝗦𝗣𝗔𝗠 𝗪𝗔𝗧𝗖𝗛  ━━━━ 🔍\n"
-                "`.watchspam` — Reply karke spam monitor on karo\n"
-                "   ↳ Woh X baar message bheje toh auto action\n"
-                "`.unwatchspam` — Monitor band karo\n"
-                "`.watchlist` — Active monitors dekho\n\n"
-
+                "`.watchspam` `.unwatchspam` `.watchlist`\n\n"
                 "🔒 ━━━━  𝗚𝗥𝗢𝗨𝗣 𝗟𝗢𝗖𝗞  ━━━━ 🔒\n"
-                "`.lock` — Group mein koi action nahi kar sakta\n"
-                "`.unlock` — Group unlock karo\n\n"
-
+                "`.lock` `.unlock`\n\n"
                 "🤫 ━━━━  𝗠𝗨𝗧𝗘 𝗦𝗬𝗦𝗧𝗘𝗠  ━━━━ 🤫\n"
-                "`.mute` — Is chat mein mute karo\n"
-                "`.unmute` — Unmute karo\n"
-                "`.gmute` — Global mute (har jagah)\n"
-                "`.gunmute` — Global unmute\n"
-                "`.mutelist` — Muted users dekho\n\n"
-
+                "`.mute` `.unmute` `.gmute` `.gunmute` `.mutelist`\n\n"
                 "⚠️ ━━━━  𝗪𝗔𝗥𝗡𝗜𝗡𝗚 𝗦𝗬𝗦𝗧𝗘𝗠  ━━━━ ⚠️\n"
-                "`.warn` — Warning do\n"
-                "`.warnlist` — Warnings dekho\n"
-                "`.clearwarn` — Warnings clear karo\n\n"
-
+                "`.warn` `.warnlist` `.clearwarn`\n\n"
                 "🚫 ━━━━  𝗕𝗔𝗡 / 𝗞𝗜𝗖𝗞  ━━━━ 🚫\n"
-                "`.ban` `.unban` — Group se ban/unban\n"
-                "`.kick` — Group se nikalo\n\n"
-
+                "`.ban` `.unban` `.kick`\n\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "💡 𝐓𝐢𝐩: `.protect` + `.antidel` + `.watchspam`\n"
-                "   𝐭𝐢𝐧𝐨𝐧 𝐨𝐧 𝐫𝐚𝐤𝐡𝐨 — 𝐟𝐮𝐥𝐥 𝐩𝐫𝐨𝐭𝐞𝐜𝐭𝐢𝐨𝐧 𝐦𝐢𝐥𝐞𝐠𝐢 🛡️\n"
-                "⚡ 𝗦𝗜𝗗𝘅𝗕𝗢𝗧"
+                "🌸 𝗟𝗘𝗫𝗜𝗕𝗢𝗧"
             )
             await safe_edit(event, txt)
         except Exception as e:
@@ -2607,12 +2488,13 @@ if _IS_USERBOT:
             try: admin_count = len(admins)
             except: admin_count = 0
             txt = (
-                "✅ 𝐔sᴇʀʙᴏᴛ 𝐒ᴛᴀᴛᴜs 𝐕𝟯\n"
+                "🌸 𝐔sᴇʀʙᴏᴛ 𝐒ᴛᴀᴛᴜs 𝐕𝟯\n"
                 "━━━━━━━━━━━━━━━\n"
                 f"⏱️ 𝐔ᴘᴛɪᴍᴇ → `{uptime}s`\n"
                 f"👑 𝐀ᴅᴍɪɴs → `{admin_count}`\n"
                 f"⚔️ 𝐑𝐚𝐢𝐝 𝐒𝐞𝐭𝐬 → `20 types`\n"
                 f"📦 𝐂𝐨𝐦𝐦𝐚𝐧𝐝𝐬 → `500+`\n"
+                f"🌸 𝐓𝐡𝐞𝐦𝐞 → `Sakura Blossom`\n"
                 f"⚙️ 𝐌ᴏᴅᴇ → `Operational`"
             )
             if event.out: await safe_edit(event, txt)
@@ -2625,7 +2507,7 @@ if _IS_USERBOT:
     async def cmd_flip(event, _):
         try:
             result = random.choice(["🪙 𝐇ᴇᴀᴅs", "🪙 𝐓ᴀɪʟs"])
-            text = f"🎲 𝐂ᴏɪɴ 𝐅ʟɪᴘ\n━━━━━━━━━━━━━━━\n👉 𝐑ᴇsᴜʟᴛ → {result}"
+            text = f"🌸 𝐂ᴏɪɴ 𝐅ʟɪᴘ\n━━━━━━━━━━━━━━━\n👉 𝐑ᴇsᴜʟᴛ → {result}"
             if event.out: await safe_edit(event, text)
             else: await event.reply(text)
         except Exception as e:
@@ -2650,7 +2532,7 @@ if _IS_USERBOT:
             targets = await get_targets(event, arg)
             if not targets:
                 return await safe_edit(event, "❌ 𝐍ᴏ 𝐓ᴀʀɢᴇᴛ\n👉 `.mute` (reply / @username / id)")
-            await safe_edit(event, "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐌ᴜᴛᴇ...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐏ʀᴏᴄᴇssɪɴɢ 𝐌ᴜᴛᴇ...\n━━━━━━━━━━━━━━━")
             added, already = [], []
             for uid in targets:
                 try: uid = int(uid)
@@ -2674,7 +2556,7 @@ if _IS_USERBOT:
             targets = await get_targets(event, arg)
             if not targets:
                 return await safe_edit(event, "❌ 𝐍ᴏ 𝐓ᴀʀɢᴇᴛ\n👉 `.unmute` (reply / @username / id)")
-            await safe_edit(event, "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐔ɴᴍᴜᴛᴇ...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐏ʀᴏᴄᴇssɪɴɢ 𝐔ɴᴍᴜᴛᴇ...\n━━━━━━━━━━━━━━━")
             removed, not_muted = [], []
             for uid in targets:
                 try: uid = int(uid)
@@ -2698,7 +2580,7 @@ if _IS_USERBOT:
             targets = await get_targets(event, arg)
             if not targets:
                 return await safe_edit(event, "❌ 𝐍ᴏ 𝐓ᴀʀɢᴇᴛ")
-            await safe_edit(event, "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐆ᴍᴜᴛᴇ...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐏ʀᴏᴄᴇssɪɴɢ 𝐆ᴍᴜᴛᴇ...\n━━━━━━━━━━━━━━━")
             added, already = [], []
             for uid in targets:
                 try: uid = int(uid)
@@ -2722,7 +2604,7 @@ if _IS_USERBOT:
             targets = await get_targets(event, arg)
             if not targets:
                 return await safe_edit(event, "❌ 𝐍ᴏ 𝐓ᴀʀɢᴇᴛ")
-            await safe_edit(event, "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐆ᴜɴᴍᴜᴛᴇ...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐏ʀᴏᴄᴇssɪɴɢ 𝐆ᴜɴᴍᴜᴛᴇ...\n━━━━━━━━━━━━━━━")
             removed, not_muted = [], []
             for uid in targets:
                 try: uid = int(uid)
@@ -2746,7 +2628,7 @@ if _IS_USERBOT:
             local_list = "\n".join(f"• `{x}`" for x in sorted(muted_users)) if muted_users else "None"
             global_list = "\n".join(f"• `{x}`" for x in sorted(global_muted)) if global_muted else "None"
             text = (
-                "🔇 𝐌𝐔𝐓𝐄 𝐋𝐈𝐒𝐓\n"
+                "🌸 𝐌𝐔𝐓𝐄 𝐋𝐈𝐒𝐓\n"
                 "━━━━━━━━━━━━━━━\n"
                 f"🔇 𝐋𝐨𝐜𝐚𝐥:\n{local_list}\n\n"
                 f"🔕 𝐆𝐥𝐨𝐛𝐚𝐥:\n{global_list}"
@@ -2763,7 +2645,7 @@ if _IS_USERBOT:
             except: count = 50
             if count < 1: count = 1
             if count > 200: count = 200
-            await safe_edit(event, "⚡ 𝐏ᴜʀɢɪɴɢ 𝐌ᴇssᴀɢᴇs...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐏ᴜʀɢɪɴɢ 𝐌ᴇssᴀɢᴇs...\n━━━━━━━━━━━━━━━")
             msgs = []
             async for m in bot.iter_messages(event.chat_id, limit=count + 1):
                 msgs.append(m.id)
@@ -2793,7 +2675,7 @@ if _IS_USERBOT:
                     return await safe_edit(event, "❌ 𝐍ᴏ 𝐀ᴅᴍɪɴ 𝐑ɪɢʜᴛs")
             except:
                 return await safe_edit(event, "❌ 𝐏ᴇʀᴍɪssɪᴏɴ 𝐂ʜᴇᴄᴋ 𝐅ᴀɪʟ")
-            await safe_edit(event, "⚡ 𝐊ɪᴄᴋɪɴɢ 𝐓ᴀʀɢᴇᴛs...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐊ɪᴄᴋɪɴɢ 𝐓ᴀʀɢᴇᴛs...\n━━━━━━━━━━━━━━━")
             kicked, failed, skipped = [], [], []
             me = await bot.get_me()
             for uid in targets:
@@ -2814,7 +2696,6 @@ if _IS_USERBOT:
             await safe_edit(event, f"❌ 𝐓ʜʀᴏᴡ 𝐄ʀʀ → `{str(e)[:40]}`")
 
 
-    # ─── LOCK / UNLOCK ───
     @register_cmd("lock", group_only=True)
     async def cmd_lock(event, _):
         try:
@@ -2828,18 +2709,17 @@ if _IS_USERBOT:
     async def cmd_unlock(event, _):
         try:
             group_locks.discard(event.chat_id)
-            await safe_edit(event, "🔓 𝐆ʀᴏᴜᴘ 𝐔ɴʟᴏᴄᴋᴇᴅ — 𝐄𝐯𝐞𝐫𝐲𝐨𝐧𝐞 𝐂𝐚𝐧 𝐌ᴇssᴀɢᴇ")
+            await safe_edit(event, "🔓 𝐆ʀᴏᴜ𝐩 𝐔ɴʟᴏᴄᴋᴇᴅ — 𝐄𝐯𝐞𝐫𝐲𝐨𝐧𝐞 𝐂𝐚𝐧 𝐌ᴇssᴀɢ𝐞")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐔ɴʟᴏᴄᴋ 𝐄ʀʀ → `{str(e)[:40]}`")
 
 
-    # ─── ADDBOTS ───
     @register_cmd("addbots")
     async def cmd_addbots(event, arg):
         try:
             try: count = max(1, min(int(arg), len(ADD_BOTS_LIST))) if arg else len(ADD_BOTS_LIST)
             except: count = len(ADD_BOTS_LIST)
-            await safe_edit(event, f"⚡ 𝐀ᴅᴅɪɴɢ {count} 𝐁ᴏᴛs...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, f"🌸 𝐀ᴅᴅɪɴɢ {count} 𝐁ᴏᴛs...\n━━━━━━━━━━━━━━━")
             added, failed = [], []
             for b in ADD_BOTS_LIST[:count]:
                 try:
@@ -2869,7 +2749,7 @@ if _IS_USERBOT:
             for uid in targets: reply_users.add(uid)
             await safe_edit(event, f"⚔️ 𝐑ᴇᴘʟʏ 𝐑𝐚𝐢𝐝 𝐎𝐧 → `{len(targets)}` ᴛᴀʀɢᴇᴛs")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐑𝐞𝐩𝐥𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐑ᴇᴘʟ𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
 
 
     @register_cmd("sreply")
@@ -2879,10 +2759,10 @@ if _IS_USERBOT:
             if targets:
                 stopped = [str(uid) for uid in targets if uid in reply_users]
                 for uid in targets: reply_users.discard(uid)
-                await safe_edit(event, f"🛑 𝐑ᴇᴘʟʏ 𝐎ғғ → `{', '.join(stopped)}`" if stopped else "⚠️ 𝐍ᴏᴛ 𝐀ᴄᴛɪᴠᴇ")
+                await safe_edit(event, f"🛑 𝐑ᴇᴘʟ𝐲 𝐎ғғ → `{', '.join(stopped)}`" if stopped else "⚠️ 𝐍ᴏᴛ 𝐀ᴄᴛɪᴠᴇ")
             else:
                 reply_users.clear()
-                await safe_edit(event, "🛑 𝐑ᴇᴘʟʏ 𝐎ғғ — 𝐀ʟʟ 𝐔sᴇʀs")
+                await safe_edit(event, "🛑 𝐑ᴇᴘʟ𝐲 𝐎ғғ — 𝐀ʟʟ 𝐔sᴇʀs")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐑𝐄𝐏𝐋𝐘 𝐄ʀʀ → `{str(e)[:40]}`")
 
@@ -2932,7 +2812,7 @@ if _IS_USERBOT:
                 await safe_edit(event, "🛑 𝐅ʟᴀɢ 𝐎ғғ")
             else:
                 flag_users.clear()
-                await safe_edit(event, "🛑 𝐅ʟᴀɢ 𝐎ғғ — 𝐀ʟʟ")
+                await safe_edit(event, "🛑 𝐅ʟᴀɢ 𝐎ғғ — 𝐀𝐥𝐥")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐅𝐋𝐀𝐆 𝐄ʀʀ → `{str(e)[:40]}`")
 
@@ -2957,7 +2837,7 @@ if _IS_USERBOT:
                 await safe_edit(event, "🛑 𝐇𝐞𝐚𝐫𝐭 𝐎ғғ")
             else:
                 hrr_users.clear()
-                await safe_edit(event, "🛑 𝐇𝐑𝐑 𝐎ғғ — 𝐀ʟʟ")
+                await safe_edit(event, "🛑 𝐇𝐑𝐑 𝐎ғғ — 𝐀𝐥𝐥")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐇𝐑𝐑 𝐄ʀʀ → `{str(e)[:40]}`")
 
@@ -2982,25 +2862,25 @@ if _IS_USERBOT:
                 await safe_edit(event, "🛑 𝐆𝐨𝐝 𝐎ғғ")
             else:
                 replygod_users.clear()
-                await safe_edit(event, "🛑 𝐆𝐨𝐝 𝐎ғғ — 𝐀ʟʟ")
+                await safe_edit(event, "🛑 𝐆𝐨𝐝 𝐎ғғ — 𝐀𝐥𝐥")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐆𝐎𝐃 𝐄ʀʀ → `{str(e)[:40]}`")
 
 
-    @register_cmd("replysid", needs_reply=True)
-    async def cmd_replysid(event, arg):
+    @register_cmd("replylexi", needs_reply=True)
+    async def cmd_replylexi(event, arg):
         try:
             targets = await get_targets(event, "")
             parts = arg.strip().rsplit(None, 1) if arg else []
             if len(parts) < 2:
-                return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.replysid <text> <count>`")
+                return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.replylexi <text> <count>`")
             text_part = parts[0].strip()
             try: count = int(parts[1].strip())
             except: return await safe_edit(event, "❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐜𝐨𝐮𝐧𝐭")
             count = max(1, min(count, 500))
-            if not targets: return await safe_edit(event, "❌ 𝐍𝐨 𝐭𝐚𝐫𝐠𝐞𝐭")
+            if not targets: return await safe_edit(event, "❌ 𝐍ᴏ 𝐭ᴀʀɢᴇᴛ")
             for uid in targets:
-                replysid_users[uid] = {"text": text_part, "count": count}
+                replylexi_users[uid] = {"text": text_part, "count": count}
             await safe_edit(event, f"🎯 𝐋𝐢𝐦𝐢𝐭 𝐑𝐚𝐢𝐝 𝐎𝐧 → `{count}` 𝐫𝐞𝐩𝐥𝐢𝐞𝐬")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐑𝐘 𝐄ʀʀ → `{str(e)[:40]}`")
@@ -3011,23 +2891,22 @@ if _IS_USERBOT:
         try:
             targets = await get_targets(event, arg)
             if targets:
-                for uid in targets: replysid_users.pop(uid, None)
+                for uid in targets: replylexi_users.pop(uid, None)
                 await safe_edit(event, "🛑 𝐋𝐢𝐦𝐢𝐭 𝐑𝐚𝐢𝐝 𝐎ғғ")
             else:
-                replysid_users.clear()
+                replylexi_users.clear()
                 await safe_edit(event, "🛑 𝐀𝐥𝐥 𝐋𝐢𝐦𝐢𝐭 𝐑𝐚𝐢𝐝𝐬 𝐒𝐭𝐨𝐩𝐩𝐞𝐝")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐒𝐓𝐎𝐏 𝐄ʀʀ → `{str(e)[:40]}`")
 
 
-    # ─── MEGA COMBO ──────────────────────────────────────────────────────────────
     @register_cmd("combo", needs_reply=True)
     async def cmd_combo(event, arg):
         try:
             targets = await get_targets(event, arg)
             if not targets:
                 return await safe_edit(event,
-                    "⚡ **COMBO**\n━━━━━━━━━━━━━━━\n"
+                    "🌸 **COMBO**\n━━━━━━━━━━━━━━━\n"
                     "Usage: reply karke `.combo` bhejo\n"
                     "Optional: `.combo <spray_text>`\n\n"
                     "Kya karta hai:\n"
@@ -3039,18 +2918,10 @@ if _IS_USERBOT:
                     "🌊 Spray shuru (text optional)\n\n"
                     "Sab band karne ke liye → `.stopcombo`"
                 )
-
             spray_text = arg.strip() if arg.strip() else "😂💀🔥"
-
-            # Activate all raid sets on targets
             for uid in targets:
-                reply_users.add(uid)
-                rr_users.add(uid)
-                hrr_users.add(uid)
-                replygod_users.add(uid)
-                flag_users.add(uid)
-
-            # Also start spray in background
+                reply_users.add(uid); rr_users.add(uid); hrr_users.add(uid)
+                replygod_users.add(uid); flag_users.add(uid)
             async def _spray_loop():
                 for _ in range(500):
                     try:
@@ -3062,14 +2933,12 @@ if _IS_USERBOT:
                         break
                     except:
                         break
-
             task = asyncio.ensure_future(_spray_loop())
             spray_tasks[event.chat_id] = task
-
             uid_list = ", ".join(f"`{u}`" for u in targets)
             await safe_edit(event,
                 "╔══════════════════════════════╗\n"
-                "║  💀  𝗠𝗘𝗚𝗔 𝗖𝗢𝗠𝗕𝗢 𝗔𝗖𝗧𝗜𝗩𝗔𝗧𝗘𝗗  💀  ║\n"
+                "║  🌸 𝗠𝗘𝗚𝗔 𝗖𝗢𝗠𝗕𝗢 🌸  ║\n"
                 "╚══════════════════════════════╝\n\n"
                 f"🎯 𝗧𝗮𝗿𝗴𝗲𝘁𝘀 → {uid_list}\n\n"
                 "🗡️ Auto Reply     → ✅ ON\n"
@@ -3078,9 +2947,8 @@ if _IS_USERBOT:
                 "😈 God Reply      → ✅ ON\n"
                 "🚩 Flag Raid      → ✅ ON\n"
                 f"🌊 Spray          → ✅ ON (`{spray_text}`)\n\n"
-                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "🛑 Band karne ke liye → `.stopcombo`\n"
-                "🌟 𝗦𝗜𝗗 𝗔𝗗𝗩𝗔𝗡𝗖𝗘 — MAX POWER 💀"
+                "🛑 Stop → `.stopcombo`\n"
+                "🌸 𝗟𝗘𝗫𝗜 — MAX POWER 💀"
             )
         except Exception as e:
             await safe_edit(event, f"❌ Combo Err → `{str(e)[:40]}`")
@@ -3090,46 +2958,24 @@ if _IS_USERBOT:
     async def cmd_stopcombo(event, arg):
         try:
             targets = await get_targets(event, arg)
-
-            # Stop all raid sets for targets (or all if no target)
             if targets:
                 for uid in targets:
-                    reply_users.discard(uid)
-                    rr_users.discard(uid)
-                    hrr_users.discard(uid)
-                    replygod_users.discard(uid)
-                    flag_users.discard(uid)
-                    replysid_users.pop(uid, None)
+                    reply_users.discard(uid); rr_users.discard(uid)
+                    hrr_users.discard(uid); replygod_users.discard(uid)
+                    flag_users.discard(uid); replylexi_users.pop(uid, None)
             else:
-                reply_users.clear()
-                rr_users.clear()
-                hrr_users.clear()
-                replygod_users.clear()
-                flag_users.clear()
-                replysid_users.clear()
-
-            # Stop spray
+                reply_users.clear(); rr_users.clear(); hrr_users.clear()
+                replygod_users.clear(); flag_users.clear(); replylexi_users.clear()
             task = spray_tasks.pop(event.chat_id, None)
-            if task:
-                task.cancel()
-
+            if task: task.cancel()
             await safe_edit(event,
                 "🛑 **COMBO STOPPED**\n"
-                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "✅ Auto Reply    → OFF\n"
-                "✅ Random Reply  → OFF\n"
-                "✅ Heart Reply   → OFF\n"
-                "✅ God Reply     → OFF\n"
-                "✅ Flag Raid     → OFF\n"
-                "✅ Spray         → OFF\n"
-                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "Sab kuch band ho gaya ✌️"
+                "All raids OFF ✌️"
             )
         except Exception as e:
             await safe_edit(event, f"❌ StopCombo Err → `{str(e)[:40]}`")
 
 
-    # ─── REPLY + SPAM COMBO ─────────────────────────────────────────────────────
     @register_cmd("rspam", needs_reply=True)
     async def cmd_rspam(event, arg):
         try:
@@ -3144,18 +2990,16 @@ if _IS_USERBOT:
                     "🛑 𝐒𝐭𝐨𝐩 → `.stoprspam`"
                 )
             try: count = max(1, min(int(parts[0].strip()), 50))
-            except: return await safe_edit(event, "❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐜𝐨𝐮𝐧𝐭 — 𝐧𝐮𝐦𝐛𝐞𝐫 𝐝𝐚𝐥𝐨")
+            except: return await safe_edit(event, "❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐜𝐨𝐮𝐧𝐭")
             text = parts[1].strip()
             for uid in targets:
                 rspam_users[uid] = {"text": text, "count": count}
             names = ", ".join(f"`{u}`" for u in targets)
             await safe_edit(event,
-                f"💥 **Reply+Spam MODE ON**\n"
-                f"━━━━━━━━━━━━━━━━━━━━\n"
+                f"🌸 **Reply+Spam MODE ON**\n"
                 f"🎯 𝐓𝐚𝐫𝐠𝐞𝐭  → {names}\n"
                 f"🔁 𝐑𝐞𝐩𝐥𝐢𝐞𝐬 → `{count}x` per message\n"
                 f"📝 𝐓𝐞𝐱𝐭   → `{text[:40]}`\n"
-                f"━━━━━━━━━━━━━━━━━━━━\n"
                 f"🛑 𝐒𝐭𝐨𝐩 → `.stoprspam`"
             )
         except Exception as e:
@@ -3170,8 +3014,7 @@ if _IS_USERBOT:
                 stopped = []
                 for uid in targets:
                     if uid in rspam_users:
-                        rspam_users.pop(uid)
-                        stopped.append(uid)
+                        rspam_users.pop(uid); stopped.append(uid)
                 if stopped:
                     await safe_edit(event, f"🛑 𝐑𝐞𝐩𝐥𝐲+𝐒𝐩𝐚𝐦 𝐎ғғ → {len(stopped)} user(s)")
                 else:
@@ -3184,7 +3027,6 @@ if _IS_USERBOT:
             await safe_edit(event, f"❌ 𝐒𝐭𝐨𝐩𝐑𝐒𝐩𝐚𝐦 𝐄ʀʀ → `{str(e)[:40]}`")
 
 
-    # ─── SPRAY ENGINE ───
     @register_cmd("spray")
     async def cmd_spray(event, arg):
         try:
@@ -3228,9 +3070,9 @@ if _IS_USERBOT:
         global SPRAY_DELAY
         try:
             if not arg:
-                return await safe_edit(event, f"⚡ 𝐂𝐮𝐫𝐫𝐞𝐧𝐭 𝐃𝐞𝐥𝐚𝐲 → `{SPRAY_DELAY}s`")
+                return await safe_edit(event, f"🌸 𝐂𝐮𝐫𝐫𝐞𝐧𝐭 𝐃𝐞𝐥𝐚𝐲 → `{SPRAY_DELAY}s`")
             SPRAY_DELAY = max(0.05, float(arg))
-            await safe_edit(event, f"⚡ 𝐃𝐞𝐥𝐚𝐲 → `{SPRAY_DELAY}s`")
+            await safe_edit(event, f"🌸 𝐃𝐞𝐥𝐚𝐲 → `{SPRAY_DELAY}s`")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐃𝐞𝐥𝐚𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
 
@@ -3330,7 +3172,6 @@ if _IS_USERBOT:
             await safe_edit(event, f"❌ 𝐂𝐒𝐩𝐫𝐚𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
 
 
-    # ─── TEXT MANAGER ───
     @register_cmd("addtext")
     async def cmd_addtext(event, arg):
         try:
@@ -3398,7 +3239,6 @@ if _IS_USERBOT:
             await safe_edit(event, f"❌ 𝐂𝐥𝐞𝐚𝐫𝐓𝐞𝐱𝐭 𝐄ʀʀ → `{str(e)[:40]}`")
 
 
-    # ─── FASTGC ───
     @register_cmd("fastgc")
     async def cmd_fastgc(event, arg):
         try:
@@ -3420,13 +3260,12 @@ if _IS_USERBOT:
                 FASTGC_STATE.update({"active": True, "template": template, "chat_id": event.chat_id})
                 task = asyncio.create_task(gc_fast_loop(event.chat_id))
                 FASTGC_STATE["task"] = task
-                return await safe_edit(event, f"⚡ 𝐅𝐚𝐬𝐭𝐆𝐂 𝐒𝐭𝐚𝐫𝐭𝐞𝐝\n📝 `{template}`")
+                return await safe_edit(event, f"🌸 𝐅𝐚𝐬𝐭𝐆𝐂 𝐒𝐭𝐚𝐫𝐭𝐞𝐝\n📝 `{template}`")
             await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.fastgc set {emoji} <template>` or `.fastgc stop`")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐅𝐚𝐬𝐭𝐆𝐂 𝐄ʀʀ → `{str(e)[:40]}`")
 
 
-    # ─── ANTIDEL ───
     @register_cmd("antidel")
     async def cmd_antidel(event, arg):
         global antidel_enabled
@@ -3446,7 +3285,6 @@ if _IS_USERBOT:
             await safe_edit(event, f"❌ 𝐀𝐧𝐭𝐢𝐃𝐞𝐥 𝐄ʀʀ → `{str(e)[:40]}`")
 
 
-    # ─── WATCHSPAM ───
     @register_cmd("watchspam", needs_reply=True)
     async def cmd_watchspam(event, arg):
         try:
@@ -3479,7 +3317,7 @@ if _IS_USERBOT:
                 for k in removed: del watch_spam[k]
                 await safe_edit(event, "🗑️ 𝐀𝐥𝐥 𝐖𝐚𝐭𝐜𝐡𝐞𝐬 𝐑𝐞𝐦𝐨𝐯𝐞𝐝")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐔𝐧𝐰𝐚𝐭𝐜𝐡 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐔𝐧𝐰𝐚𝐭𝐜𝐡 𝐄ʀ𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("watchlist")
@@ -3491,10 +3329,9 @@ if _IS_USERBOT:
             lines = [f"• `{uid}` → `{v['limit']}` / `{v['seconds']}s`" for (_, uid), v in chat_watches]
             await safe_edit(event, "👁️ 𝐖𝐚𝐭𝐜𝐡𝐥𝐢𝐬𝐭\n━━━━━━━━━━━━━━━\n" + "\n".join(lines))
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐖𝐚𝐭𝐜𝐡𝐋𝐢𝐬𝐭 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐖𝐚𝐭𝐜𝐡𝐋𝐢𝐬𝐭 𝐄ʀ𝐫 → `{str(e)[:40]}`")
 
 
-    # ─── GROUP PFP ───
     gpfp_pool = []
     gpfp_task = None
 
@@ -3509,7 +3346,7 @@ if _IS_USERBOT:
             await bot(functions.channels.EditPhotoRequest(channel=event.chat_id, photo=await bot.upload_file(BytesIO(file))))
             await safe_edit(event, "🖼️ 𝐆𝐫𝐨𝐮𝐩 𝐏𝐅𝐏 𝐔𝐩𝐝𝐚𝐭𝐞𝐝")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐒𝐞𝐭𝐆𝐏𝐅𝐏 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐒𝐞𝐭𝐆𝐏𝐅𝐏 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("addgpfp", needs_reply=True)
@@ -3522,7 +3359,7 @@ if _IS_USERBOT:
             if file: gpfp_pool.append(file)
             await safe_edit(event, f"✅ 𝐀𝐝𝐝𝐞𝐝 𝐭𝐨 𝐏𝐨𝐨𝐥 → `{len(gpfp_pool)}`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐀𝐝𝐝𝐆𝐏𝐅𝐏 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐀𝐝𝐝𝐆𝐏𝐅𝐏 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("listgpfp")
@@ -3537,7 +3374,7 @@ if _IS_USERBOT:
             if gpfp_task: gpfp_task.cancel(); gpfp_task = None
             await safe_edit(event, "🛑 𝐀𝐮𝐭𝐨 𝐆𝐏𝐅𝐏 𝐒𝐭𝐨𝐩𝐩𝐞𝐝")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐒𝐭𝐨𝐩𝐆𝐏𝐅𝐏 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐒𝐭𝐨𝐩𝐆𝐏𝐅𝐏 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("autogpfp", group_only=True)
@@ -3563,10 +3400,9 @@ if _IS_USERBOT:
             gpfp_task = asyncio.create_task(do_auto())
             await safe_edit(event, f"🖼️ 𝐀𝐮𝐭𝐨 𝐆𝐏𝐅𝐏 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 → `{interval}s`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐀𝐮𝐭𝐨𝐆𝐏𝐅𝐏 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐀𝐮𝐭𝐨𝐆𝐏𝐅𝐏 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
-    # ─── AUTO REACT ───
     @register_cmd("ar")
     async def cmd_ar(event, arg):
         global auto_react_emoji
@@ -3576,7 +3412,7 @@ if _IS_USERBOT:
             auto_react_emoji = arg.strip()
             await safe_edit(event, f"❤️ 𝐀𝐮𝐭𝐨 𝐑𝐞𝐚𝐜𝐭 → `{auto_react_emoji}`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐀𝐑 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐀𝐑 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("sar")
@@ -3586,7 +3422,6 @@ if _IS_USERBOT:
         await safe_edit(event, "❤️ 𝐀𝐮𝐭𝐨 𝐑𝐞𝐚𝐜𝐭 𝐎𝐅𝐅")
 
 
-    # ─── NOTES ───
     @register_cmd("notesadd")
     async def cmd_notesadd(event, arg):
         try:
@@ -3597,7 +3432,7 @@ if _IS_USERBOT:
             save_notes()
             await safe_edit(event, f"📝 𝐍𝐨𝐭𝐞 𝐒𝐚𝐯𝐞𝐝 → 𝐈𝐃 `{nid}`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐍𝐨𝐭𝐞𝐬𝐀𝐝𝐝 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐍𝐨𝐭𝐞𝐬𝐀𝐝𝐝 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("noteslist")
@@ -3608,7 +3443,7 @@ if _IS_USERBOT:
             lines = [f"`{k}`. {v[:60]}" for k, v in sorted(notes.items())]
             await safe_edit(event, "🧠 𝐍𝐨𝐭𝐞𝐬 𝐋𝐢𝐬𝐭\n━━━━━━━━━━━━━━━\n" + "\n".join(lines))
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐍𝐨𝐭𝐞𝐬𝐋𝐢𝐬𝐭 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐍𝐨𝐭𝐞𝐬𝐋𝐢𝐬𝐭 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("notesdelete")
@@ -3622,16 +3457,15 @@ if _IS_USERBOT:
             del notes[nid]; save_notes()
             await safe_edit(event, f"🗑️ 𝐍𝐨𝐭𝐞 `{nid}` 𝐃𝐞𝐥𝐞𝐭𝐞𝐝")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐍𝐨𝐭𝐞𝐬𝐃𝐞𝐥 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐍𝐨𝐭𝐞𝐬𝐃𝐞𝐥 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
-    # ─── ORIGINAL TOOLS ───
     @register_cmd("tts")
     async def cmd_tts(event, arg):
         try:
             if not arg:
                 return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.tts <text>`")
-            await safe_edit(event, "⚡ 𝐆𝐞𝐧𝐞𝐫𝐚𝐭𝐢𝐧𝐠 𝐓𝐓𝐒...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐆𝐞𝐧𝐞𝐫𝐚𝐭𝐢𝐧𝐠 𝐓𝐓𝐒...\n━━━━━━━━━━━━━━━")
             fname = f"tts_{int(time.time())}.mp3"
             try: gTTS(text=arg[:5000], lang="hi", slow=False).save(fname)
             except: return await safe_edit(event, "❌ 𝐓𝐓𝐒 𝐍𝐞𝐭𝐰𝐨𝐫𝐤 𝐅𝐚𝐢𝐥")
@@ -3644,7 +3478,7 @@ if _IS_USERBOT:
                 try: os.remove(fname)
                 except: pass
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐓𝐓𝐒 𝐄ʀʀ → `{str(e)[:50]}`")
+            await safe_edit(event, f"❌ 𝐓𝐓𝐒 𝐄𝐫𝐫 → `{str(e)[:50]}`")
 
 
     @register_cmd("qrcode")
@@ -3652,7 +3486,7 @@ if _IS_USERBOT:
         try:
             if not arg:
                 return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.qrcode <text>`")
-            await safe_edit(event, "⚡ 𝐆𝐞𝐧𝐞𝐫𝐚𝐭𝐢𝐧𝐠 𝐐𝐑...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐆𝐞𝐧𝐞𝐫𝐚𝐭𝐢𝐧𝐠 𝐐𝐑...\n━━━━━━━━━━━━━━━")
             file = f"qr_{int(time.time())}.png"
             qrcode.make(arg[:3000]).save(file)
             try:
@@ -3664,7 +3498,7 @@ if _IS_USERBOT:
                 try: os.remove(file)
                 except: pass
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐐𝐑 𝐄ʀʀ → `{str(e)[:50]}`")
+            await safe_edit(event, f"❌ 𝐐𝐑 𝐄𝐫𝐫 → `{str(e)[:50]}`")
 
 
     @register_cmd("fancy")
@@ -3673,13 +3507,13 @@ if _IS_USERBOT:
             if not arg:
                 return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.fancy <text>`")
             t = arg[:500]
-            styles = [f"★彡 {t} 彡★", f"『 {t} 』", f"✦ {t} ✦", f"☾ {t} ☽", f"➳ {t} ➳",
-                      f"⚡ {t} ⚡", f"❖ {t} ❖", f"♛ {t} ♛", f"꧁ {t} ꧂", f"░▒▓ {t} ▓▒░"]
-            text = "✨ 𝐅𝐚𝐧𝐜𝐲 𝐒𝐭𝐲𝐥𝐞𝐬\n━━━━━━━━━━━━━━━\n" + "\n".join(styles)
+            styles = [f"🌸彡 {t} 彡🌸", f"🎀 {t} 🎀", f"✦ {t} ✦", f"☾ {t} ☽", f"➳ {t} ➳",
+                      f"✨ {t} ✨", f"❖ {t} ❖", f"♛ {t} ♛", f"꧁ {t} ꧂", f"░▒▓ {t} ▓▒░"]
+            text = "🌸 𝐅𝐚𝐧𝐜𝐲 𝐒𝐭𝐲𝐥𝐞𝐬\n━━━━━━━━━━━━━━━\n" + "\n".join(styles)
             if event.out: await safe_edit(event, text)
             else: await event.reply(text)
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐅𝐚𝐧𝐜𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐅𝐚𝐧𝐜𝐲 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("style")
@@ -3694,7 +3528,7 @@ if _IS_USERBOT:
             if event.out: await safe_edit(event, text)
             else: await event.reply(text)
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐒𝐭𝐲𝐥𝐞 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐒𝐭𝐲𝐥𝐞 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("emoji")
@@ -3702,13 +3536,13 @@ if _IS_USERBOT:
         try:
             if not arg:
                 return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.emoji <text>`")
-            pool = ["🔥","❤️","✨","⚡","💥","🌟","💫","🎯","💎","🦋","🌈","🧨","🎆","👑","🌸","🪄"]
+            pool = ["🌸","🌷","🌺","🎀","💕","✨","💖","💫","🩷","🩵","🌹","🧸","🎆","👑","💐","🪄"]
             emojis = "".join(random.choice(pool) for _ in range(8))
-            text = f"😀 𝐄𝐦𝐨𝐣𝐢 𝐒𝐭𝐲𝐥𝐞\n━━━━━━━━━━━━━━━\n{arg[:500]} {emojis}"
+            text = f"🌸 𝐄𝐦𝐨𝐣𝐢 𝐒𝐭𝐲𝐥𝐞\n━━━━━━━━━━━━━━━\n{arg[:500]} {emojis}"
             if event.out: await safe_edit(event, text)
             else: await event.reply(text)
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐄𝐦𝐨𝐣𝐢 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐄𝐦𝐨𝐣𝐢 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("calc")
@@ -3733,7 +3567,7 @@ if _IS_USERBOT:
         try:
             if not arg:
                 return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.weather <city>`")
-            await safe_edit(event, "⚡ 𝐅𝐞𝐭𝐜𝐡𝐢𝐧𝐠 𝐖𝐞𝐚𝐭𝐡𝐞𝐫...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐅𝐞𝐭𝐜𝐡𝐢𝐧𝐠 𝐖𝐞𝐚𝐭𝐡𝐞𝐫...\n━━━━━━━━━━━━━━━")
             try:
                 geo = requests.get(f"https://geocoding-api.open-meteo.com/v1/search?name={arg}&count=1", timeout=8).json()
             except: return await safe_edit(event, "❌ 𝐆𝐞𝐨 𝐍𝐞𝐭𝐰𝐨𝐫𝐤 𝐅𝐚𝐢𝐥")
@@ -3757,7 +3591,7 @@ if _IS_USERBOT:
         try:
             if not arg:
                 return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.ip <ip>`")
-            await safe_edit(event, "⚡ 𝐋𝐨𝐨𝐤𝐢𝐧𝐠 𝐈𝐏...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐋𝐨𝐨𝐤𝐢𝐧𝐠 𝐈𝐏...\n━━━━━━━━━━━━━━━")
             try:
                 data = requests.get(f"http://ip-api.com/json/{arg}", timeout=8).json()
             except: return await safe_edit(event, "❌ 𝐈𝐏 𝐍𝐞𝐭𝐰𝐨𝐫𝐤 𝐅𝐚𝐢𝐥")
@@ -3777,7 +3611,7 @@ if _IS_USERBOT:
                 return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.short <url>`")
             if not arg.startswith(("http://", "https://")):
                 arg = "http://" + arg
-            await safe_edit(event, "⚡ 𝐒𝐡𝐨𝐫𝐭𝐞𝐧𝐢𝐧𝐠...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐒𝐡𝐨𝐫𝐭𝐞𝐧𝐢𝐧𝐠...\n━━━━━━━━━━━━━━━")
             try:
                 short_url = requests.get(f"http://tinyurl.com/api-create.php?url={requests.utils.requote_uri(arg)}", timeout=8).text.strip()
             except: return await safe_edit(event, "❌ 𝐒𝐡𝐨𝐫𝐭 𝐅𝐚𝐢𝐥")
@@ -3802,7 +3636,7 @@ if _IS_USERBOT:
                 except: return await safe_edit(event, "❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐔𝐬𝐞𝐫")
             if not target:
                 return await safe_edit(event, "⚠️ `.info` (reply / @user / id)")
-            await safe_edit(event, "⚡ 𝐅𝐞𝐭𝐜𝐡𝐢𝐧𝐠 𝐔𝐬𝐞𝐫...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐅𝐞𝐭𝐜𝐡𝐢𝐧𝐠 𝐔𝐬𝐞𝐫...\n━━━━━━━━━━━━━━━")
             user = await bot.get_entity(target)
             if getattr(user, "deleted", False):
                 return await safe_edit(event, "❌ 𝐃𝐞𝐥𝐞𝐭𝐞𝐝 𝐔𝐬𝐞𝐫")
@@ -3841,7 +3675,7 @@ if _IS_USERBOT:
                 return await safe_edit(event, "⚠️ 𝐒𝐞𝐥𝐟 𝐂𝐥𝐨𝐧𝐞 𝐁𝐥𝐨𝐜𝐤")
             if CLONE_ACTIVE and LAST_CLONE_ID == target.id:
                 return await safe_edit(event, "⚠️ 𝐀𝐥𝐫𝐞𝐚𝐝𝐲 𝐂𝐥𝐨𝐧𝐞𝐝")
-            await safe_edit(event, "⚡ 𝐂𝐥𝐨𝐧𝐢𝐧𝐠...\n━━━━━━━━━━━━━━━")
+            await safe_edit(event, "🌸 𝐂𝐥𝐨𝐧𝐢𝐧𝐠...\n━━━━━━━━━━━━━━━")
             if not CLONE_ACTIVE:
                 full_me = await bot(functions.users.GetFullUserRequest(me.id))
                 CLONE_DATA["name"] = me.first_name
@@ -3861,7 +3695,7 @@ if _IS_USERBOT:
             LAST_CLONE_ID = target.id
             await safe_edit(event, f"🎭 𝐂𝐥𝐨𝐧𝐞𝐝 → `{fname}`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐂𝐨𝐩𝐲 𝐄ʀʀ → `{str(e)[:50]}`")
+            await safe_edit(event, f"❌ 𝐂𝐨𝐩𝐲 𝐄𝐫𝐫 → `{str(e)[:50]}`")
 
 
     @register_cmd("normal")
@@ -3884,17 +3718,16 @@ if _IS_USERBOT:
             LAST_CLONE_ID = None
             await safe_edit(event, "✅ 𝐏𝐫𝐨𝐟𝐢𝐥𝐞 𝐑𝐞𝐬𝐭𝐨𝐫𝐞𝐝")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐍𝐨𝐫𝐦𝐚𝐥 𝐄ʀʀ → `{str(e)[:50]}`")
+            await safe_edit(event, f"❌ 𝐍𝐨𝐫𝐦𝐚𝐥 𝐄𝐫𝐫 → `{str(e)[:50]}`")
 
 
-    # ─── MUSIC ───
     @register_cmd("music")
     async def cmd_music(event, arg):
         if not arg:
             return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.music <song name>`")
         async def download_and_send():
             try:
-                await safe_edit(event, f"🎵 𝐒𝐞𝐚𝐫𝐜𝐡𝐢𝐧𝐠: `{arg}`\n━━━━━━━━━━━━━━━")
+                await safe_edit(event, f"🌸 𝐒𝐞𝐚𝐫𝐜𝐡𝐢𝐧𝐠: `{arg}`\n━━━━━━━━━━━━━━━")
                 ydl_opts = {
                     'format': 'bestaudio/best',
                     'outtmpl': os.path.join(DOWNLOAD_PATH, '%(title)s.%(ext)s'),
@@ -3912,7 +3745,7 @@ if _IS_USERBOT:
                 if not os.path.exists(new):
                     for f in os.listdir(DOWNLOAD_PATH):
                         if f.endswith('.mp3'): new = os.path.join(DOWNLOAD_PATH, f); break
-                await bot.send_file(event.chat_id, new, voice_note=True, caption=f"🎵 `{title[:60]}`")
+                await bot.send_file(event.chat_id, new, voice_note=True, caption=f"🌸 `{title[:60]}`")
                 try: os.remove(new)
                 except: pass
                 await event.delete()
@@ -3927,7 +3760,7 @@ if _IS_USERBOT:
             return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.dmusic <song name>`")
         async def download_music():
             try:
-                await safe_edit(event, f"🎵 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠: `{arg}`\n━━━━━━━━━━━━━━━")
+                await safe_edit(event, f"🌸 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠: `{arg}`\n━━━━━━━━━━━━━━━")
                 ydl_opts = {
                     'format': 'bestaudio/best',
                     'outtmpl': os.path.join(DOWNLOAD_PATH, '%(title)s.%(ext)s'),
@@ -3945,7 +3778,7 @@ if _IS_USERBOT:
                 if not os.path.exists(new):
                     for f in os.listdir(DOWNLOAD_PATH):
                         if f.endswith('.mp3'): new = os.path.join(DOWNLOAD_PATH, f); break
-                await bot.send_file(event.chat_id, new, caption=f"🎵 `{title[:60]}`\n🎧 `320kbps MP3`",
+                await bot.send_file(event.chat_id, new, caption=f"🌸 `{title[:60]}`\n🎧 `320kbps MP3`",
                                     attributes=[types.DocumentAttributeAudio(duration=dur, title=title)])
                 try: os.remove(new)
                 except: pass
@@ -3955,12 +3788,7 @@ if _IS_USERBOT:
         asyncio.create_task(download_music())
 
 
-    # ────────────────────────────────────────────────
-    #         NEW FIGHTING RAID COMMANDS (16 + 4 = 20 types)
-    # ────────────────────────────────────────────────
-
     def make_raid_cmds(name, start_set, text_list):
-        """Factory to create start/stop raid commands"""
         @register_cmd(name, needs_reply=True)
         async def cmd_start(event, arg):
             try:
@@ -3969,19 +3797,19 @@ if _IS_USERBOT:
                 for uid in targets: start_set.add(uid)
                 await safe_edit(event, f"🔥 **{name.upper()} RAID ON** → `{len(targets)}` targets")
             except Exception as e:
-                await safe_edit(event, f"❌ {name} 𝐄ʀʀ → `{str(e)[:40]}`")
+                await safe_edit(event, f"❌ {name} 𝐄𝐫𝐫 → `{str(e)[:40]}`")
         @register_cmd(f"s{name}")
         async def cmd_stop(event, arg):
             try:
                 targets = await get_targets(event, arg)
                 if targets:
                     for uid in targets: start_set.discard(uid)
-                    await safe_edit(event, f"🛑 **{name.upper()} RAID OFF** → targets removed")
+                    await safe_edit(event, f"🛑 **{name.upper()} RAID OFF**")
                 else:
                     start_set.clear()
-                    await safe_edit(event, f"🛑 **{name.upper()} RAID OFF** → all cleared")
+                    await safe_edit(event, f"🛑 **{name.upper()} RAID OFF** all")
             except Exception as e:
-                await safe_edit(event, f"❌ s{name} 𝐄ʀʀ → `{str(e)[:40]}`")
+                await safe_edit(event, f"❌ s{name} 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
     make_raid_cmds("attack", attack_users, attack_list)
     make_raid_cmds("roast", roast_users, roast_list)
@@ -3998,7 +3826,6 @@ if _IS_USERBOT:
     make_raid_cmds("ghost", ghost_users, ghost_list)
     make_raid_cmds("legend", legend_users, legend_list)
     make_raid_cmds("doom", doom_users, doom_list)
-    # ─── NEW 4 ───
     make_raid_cmds("nuke", nuke_users, nuke_list)
     make_raid_cmds("storm", storm_users, storm_list)
     make_raid_cmds("blizzard", blizzard_users, blizzard_list)
@@ -4014,7 +3841,7 @@ if _IS_USERBOT:
                         nuke_users, storm_users, blizzard_users, venom_users,
                         reply_users, rr_users, flag_users, hrr_users, replygod_users]
             for s in all_sets: s.clear()
-            replysid_users.clear()
+            replylexi_users.clear()
             rspam_users.clear()
             for task in spray_tasks.values():
                 try: task.cancel()
@@ -4022,7 +3849,7 @@ if _IS_USERBOT:
             spray_tasks.clear()
             await safe_edit(event, "🛑 **ALL RAIDS STOPPED** — All sets cleared!")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐒𝐭𝐨𝐩𝐀𝐥𝐥 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐒𝐭𝐨𝐩𝐀𝐥𝐥 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("raidstatus")
@@ -4043,100 +3870,58 @@ if _IS_USERBOT:
             if not active:
                 return await safe_edit(event, "⚠️ 𝐍𝐨 𝐀𝐜𝐭𝐢𝐯𝐞 𝐑𝐚𝐢𝐝𝐬")
             lines = [f"• **{k}** → `{v}` targets" for k, v in active.items()]
-            text = "⚔️ **ACTIVE RAIDS**\n━━━━━━━━━━━━━━━\n" + "\n".join(lines)
+            text = "🌸 **ACTIVE RAIDS**\n━━━━━━━━━━━━━━━\n" + "\n".join(lines)
             await safe_edit(event, text)
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐑𝐚𝐢𝐝𝐒𝐭𝐚𝐭𝐮𝐬 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐑𝐚𝐢𝐝𝐒𝐭𝐚𝐭𝐮𝐬 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
-
-    # ────────────────────────────────────────────────
-    #         NEW 100 UTILITY TOOL COMMANDS
-    # ────────────────────────────────────────────────
 
     # ─── TEXT TOOLS ───
     @register_cmd("upper")
     async def cmd_upper(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.upper <text>`")
-            await safe_edit(event, f"🔠 `{arg.upper()}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.upper <text>`")
+        await safe_edit(event, f"🔠 `{arg.upper()}`")
 
     @register_cmd("lower")
     async def cmd_lower(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.lower <text>`")
-            await safe_edit(event, f"🔡 `{arg.lower()}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.lower <text>`")
+        await safe_edit(event, f"🔡 `{arg.lower()}`")
 
     @register_cmd("reverse")
     async def cmd_reverse(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.reverse <text>`")
-            await safe_edit(event, f"↩️ `{arg[::-1]}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.reverse <text>`")
+        await safe_edit(event, f"↩️ `{arg[::-1]}`")
 
     @register_cmd("len")
     async def cmd_len(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.len <text>`")
-            await safe_edit(event, f"📏 𝐋𝐞𝐧𝐠𝐭𝐡 → `{len(arg)}` chars")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.len <text>`")
+        await safe_edit(event, f"📏 𝐋𝐞𝐧 → `{len(arg)}` chars")
 
     @register_cmd("wcount")
     async def cmd_wcount(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.wcount <text>`")
-            words = len(arg.split())
-            chars = len(arg)
-            await safe_edit(event, f"📊 𝐖𝐨𝐫𝐝𝐬 → `{words}` | 𝐂𝐡𝐚𝐫𝐬 → `{chars}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.wcount <text>`")
+        await safe_edit(event, f"📊 𝐖𝐨𝐫𝐝𝐬 → `{len(arg.split())}` | 𝐂𝐡𝐚𝐫𝐬 → `{len(arg)}`")
 
     @register_cmd("bold")
     async def cmd_bold(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.bold <text>`")
-            await safe_edit(event, f"**{arg}**")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.bold <text>`")
+        await safe_edit(event, f"**{arg}**")
 
     @register_cmd("italic")
     async def cmd_italic(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.italic <text>`")
-            await safe_edit(event, f"__{arg}__")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.italic <text>`")
+        await safe_edit(event, f"__{arg}__")
 
     @register_cmd("mono")
     async def cmd_mono(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.mono <text>`")
-            await safe_edit(event, f"`{arg}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.mono <text>`")
+        await safe_edit(event, f"`{arg}`")
 
     @register_cmd("encode")
     async def cmd_encode(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.encode <text>`")
-            encoded = base64.b64encode(arg.encode()).decode()
-            await safe_edit(event, f"🔐 𝐁𝐚𝐬𝐞𝟔𝟒\n━━━━━━━━━━━━━━━\n`{encoded}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.encode <text>`")
+        encoded = base64.b64encode(arg.encode()).decode()
+        await safe_edit(event, f"🔐 𝐁𝐚𝐬𝐞𝟔𝟒\n━━━━━━━━━━━━━━━\n`{encoded}`")
 
     @register_cmd("decode")
     async def cmd_decode(event, arg):
@@ -4145,273 +3930,179 @@ if _IS_USERBOT:
             decoded = base64.b64decode(arg.encode()).decode()
             await safe_edit(event, f"🔓 𝐃𝐞𝐜𝐨𝐝𝐞𝐝\n━━━━━━━━━━━━━━━\n`{decoded}`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐁𝐚𝐬𝐞𝟔𝟒 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 → `{str(e)[:40]}`")
 
     @register_cmd("rot13")
     async def cmd_rot13(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.rot13 <text>`")
-            import codecs
-            result = codecs.encode(arg, 'rot_13')
-            await safe_edit(event, f"🔄 𝐑𝐎𝐓𝟏𝟑 → `{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.rot13 <text>`")
+        import codecs
+        result = codecs.encode(arg, 'rot_13')
+        await safe_edit(event, f"🔄 𝐑𝐎𝐓𝟏𝟑 → `{result}`")
 
     @register_cmd("morse")
     async def cmd_morse(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.morse <text>`")
-            MORSE = {'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..','0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.',' ':'/'}
-            result = " ".join(MORSE.get(c.upper(), '?') for c in arg[:200])
-            await safe_edit(event, f"📻 𝐌𝐨𝐫𝐬𝐞\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.morse <text>`")
+        MORSE = {'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..','0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.',' ':'/'}
+        result = " ".join(MORSE.get(c.upper(), '?') for c in arg[:200])
+        await safe_edit(event, f"📻 𝐌𝐨𝐫𝐬𝐞\n━━━━━━━━━━━━━━━\n`{result}`")
 
     @register_cmd("binary")
     async def cmd_binary(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.binary <text>`")
-            result = " ".join(format(ord(c), '08b') for c in arg[:50])
-            await safe_edit(event, f"💻 𝐁𝐢𝐧𝐚𝐫𝐲\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.binary <text>`")
+        result = " ".join(format(ord(c), '08b') for c in arg[:50])
+        await safe_edit(event, f"💻 𝐁𝐢𝐧𝐚𝐫𝐲\n━━━━━━━━━━━━━━━\n`{result}`")
 
     @register_cmd("leet")
     async def cmd_leet(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.leet <text>`")
-            leet_map = {'a':'4','e':'3','g':'9','i':'1','o':'0','s':'5','t':'7','b':'8'}
-            result = "".join(leet_map.get(c.lower(), c) for c in arg[:500])
-            await safe_edit(event, f"🤖 𝐋𝐞𝐞𝐭\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.leet <text>`")
+        leet_map = {'a':'4','e':'3','g':'9','i':'1','o':'0','s':'5','t':'7','b':'8'}
+        result = "".join(leet_map.get(c.lower(), c) for c in arg[:500])
+        await safe_edit(event, f"🤖 𝐋𝐞𝐞𝐭 → `{result}`")
 
     @register_cmd("repeat")
     async def cmd_repeat(event, arg):
-        try:
-            parts = (arg or "").strip().split(None, 1)
-            if len(parts) < 2: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.repeat <n> <text>`")
-            try: n = min(int(parts[0]), 20)
-            except: return await safe_edit(event, "❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐧𝐮𝐦𝐛𝐞𝐫")
-            result = "\n".join([parts[1]] * n)
-            await safe_edit(event, result[:4000])
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        parts = (arg or "").strip().split(None, 1)
+        if len(parts) < 2: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.repeat <n> <text>`")
+        try: n = min(int(parts[0]), 20)
+        except: return await safe_edit(event, "❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐧𝐮𝐦𝐛𝐞𝐫")
+        result = "\n".join([parts[1]] * n)
+        await safe_edit(event, result[:4000])
 
     @register_cmd("zalgo")
     async def cmd_zalgo(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.zalgo <text>`")
-            zalgo_chars = [chr(i) for i in range(0x0300, 0x036F)]
-            result = ""
-            for c in arg[:100]:
-                result += c + "".join(random.choice(zalgo_chars) for _ in range(random.randint(1, 5)))
-            await safe_edit(event, result)
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.zalgo <text>`")
+        zalgo_chars = [chr(i) for i in range(0x0300, 0x036F)]
+        result = ""
+        for c in arg[:100]:
+            result += c + "".join(random.choice(zalgo_chars) for _ in range(random.randint(1, 5)))
+        await safe_edit(event, result)
 
     @register_cmd("big")
     async def cmd_big(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.big <text>`")
-            BIG = {'a':'𝐀','b':'𝐁','c':'𝐂','d':'𝐃','e':'𝐄','f':'𝐅','g':'𝐆','h':'𝐇','i':'𝐈','j':'𝐉','k':'𝐊','l':'𝐋','m':'𝐌','n':'𝐍','o':'𝐎','p':'𝐏','q':'𝐐','r':'𝐑','s':'𝐒','t':'𝐓','u':'𝐔','v':'𝐕','w':'𝐖','x':'𝐗','y':'𝐘','z':'𝐙',' ':' '}
-            result = "".join(BIG.get(c.lower(), c) for c in arg[:300])
-            await safe_edit(event, result)
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.big <text>`")
+        BIG = {'a':'𝐀','b':'𝐁','c':'𝐂','d':'𝐃','e':'𝐄','f':'𝐅','g':'𝐆','h':'𝐇','i':'𝐈','j':'𝐉','k':'𝐊','l':'𝐋','m':'𝐌','n':'𝐍','o':'𝐎','p':'𝐏','q':'𝐐','r':'𝐑','s':'𝐒','t':'𝐓','u':'𝐔','v':'𝐕','w':'𝐖','x':'𝐗','y':'𝐘','z':'𝐙',' ':' '}
+        result = "".join(BIG.get(c.lower(), c) for c in arg[:300])
+        await safe_edit(event, result)
 
     @register_cmd("small")
     async def cmd_small(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.small <text>`")
-            SMALL = {'a':'ᴀ','b':'ʙ','c':'ᴄ','d':'ᴅ','e':'ᴇ','f':'ꜰ','g':'ɢ','h':'ʜ','i':'ɪ','j':'ᴊ','k':'ᴋ','l':'ʟ','m':'ᴍ','n':'ɴ','o':'ᴏ','p':'ᴘ','q':'Q','r':'ʀ','s':'ꜱ','t':'ᴛ','u':'ᴜ','v':'ᴠ','w':'ᴡ','x':'x','y':'ʏ','z':'ᴢ'}
-            result = "".join(SMALL.get(c.lower(), c) for c in arg[:300])
-            await safe_edit(event, result)
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.small <text>`")
+        SMALL = {'a':'ᴀ','b':'ʙ','c':'ᴄ','d':'ᴅ','e':'ᴇ','f':'ꜰ','g':'ɢ','h':'ʜ','i':'ɪ','j':'ᴊ','k':'ᴋ','l':'ʟ','m':'ᴍ','n':'ɴ','o':'ᴏ','p':'ᴘ','q':'Q','r':'ʀ','s':'ꜱ','t':'ᴛ','u':'ᴜ','v':'ᴠ','w':'ᴡ','x':'x','y':'ʏ','z':'ᴢ'}
+        result = "".join(SMALL.get(c.lower(), c) for c in arg[:300])
+        await safe_edit(event, result)
 
     @register_cmd("shadow")
     async def cmd_shadow(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.shadow <text>`")
-            result = f"░▒▓ {arg[:300]} ▓▒░"
-            await safe_edit(event, result)
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.shadow <text>`")
+        await safe_edit(event, f"░▒▓ {arg[:300]} ▓▒░")
 
     @register_cmd("camel")
     async def cmd_camel(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.camel <text>`")
-            words = arg.split()
-            if not words: return await safe_edit(event, "❌ 𝐍𝐨 𝐖𝐨𝐫𝐝𝐬")
-            result = words[0].lower() + "".join(w.capitalize() for w in words[1:])
-            await safe_edit(event, f"🐪 𝐂𝐚𝐦𝐞𝐥𝐂𝐚𝐬𝐞 → `{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.camel <text>`")
+        words = arg.split()
+        if not words: return await safe_edit(event, "❌ 𝐍𝐨 𝐖𝐨𝐫𝐝𝐬")
+        result = words[0].lower() + "".join(w.capitalize() for w in words[1:])
+        await safe_edit(event, f"🐪 𝐂𝐚𝐦𝐞𝐥 → `{result}`")
 
-
-    # ─── CRYPTO TOOLS ───
     @register_cmd("md5")
     async def cmd_md5(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.md5 <text>`")
-            result = hashlib.md5(arg.encode()).hexdigest()
-            await safe_edit(event, f"🔐 𝐌𝐃𝟓\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.md5 <text>`")
+        result = hashlib.md5(arg.encode()).hexdigest()
+        await safe_edit(event, f"🔐 𝐌𝐃𝟓\n━━━━━━━━━━━━━━━\n`{result}`")
 
     @register_cmd("sha256")
     async def cmd_sha256(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.sha256 <text>`")
-            result = hashlib.sha256(arg.encode()).hexdigest()
-            await safe_edit(event, f"🔐 𝐒𝐇𝐀𝟐𝟓𝟔\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.sha256 <text>`")
+        result = hashlib.sha256(arg.encode()).hexdigest()
+        await safe_edit(event, f"🔐 𝐒𝐇𝐀𝟐𝟓𝟔\n━━━━━━━━━━━━━━━\n`{result}`")
 
     @register_cmd("b64")
     async def cmd_b64(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.b64 <text>`")
-            result = base64.b64encode(arg.encode()).decode()
-            await safe_edit(event, f"🔐 𝐁𝐚𝐬𝐞𝟔𝟒 𝐄𝐧𝐜𝐨𝐝𝐞\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.b64 <text>`")
+        result = base64.b64encode(arg.encode()).decode()
+        await safe_edit(event, f"🔐 𝐁𝐚𝐬𝐞𝟔𝟒\n━━━━━━━━━━━━━━━\n`{result}`")
 
     @register_cmd("b64d")
     async def cmd_b64d(event, arg):
         try:
             if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.b64d <base64>`")
             result = base64.b64decode(arg.encode()).decode()
-            await safe_edit(event, f"🔓 𝐁𝐚𝐬𝐞𝟔𝟒 𝐃𝐞𝐜𝐨𝐝𝐞\n━━━━━━━━━━━━━━━\n`{result}`")
+            await safe_edit(event, f"🔓 𝐃𝐞𝐜𝐨𝐝𝐞\n━━━━━━━━━━━━━━━\n`{result}`")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 → `{str(e)[:40]}`")
 
-
     @register_cmd("uuid")
     async def cmd_uuid(event, _):
-        try:
-            result = str(uuid.uuid4())
-            await safe_edit(event, f"🆔 𝐔𝐔𝐈𝐃\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        result = str(uuid.uuid4())
+        await safe_edit(event, f"🆔 𝐔𝐔𝐈𝐃\n━━━━━━━━━━━━━━━\n`{result}`")
 
     @register_cmd("password")
     async def cmd_password(event, arg):
-        try:
-            try: length = max(8, min(int(arg), 64)) if arg else 16
-            except: length = 16
-            chars = string.ascii_letters + string.digits + "!@#$%^&*()_+-=[]{}|"
-            pwd = "".join(random.choice(chars) for _ in range(length))
-            await safe_edit(event, f"🔑 𝐏𝐚𝐬𝐬𝐰𝐨𝐫𝐝 ({length} chars)\n━━━━━━━━━━━━━━━\n`{pwd}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
+        try: length = max(8, min(int(arg), 64)) if arg else 16
+        except: length = 16
+        chars = string.ascii_letters + string.digits + "!@#$%^&*()_+-=[]{}|"
+        pwd = "".join(random.choice(chars) for _ in range(length))
+        await safe_edit(event, f"🔑 𝐏𝐚𝐬𝐬𝐰𝐨𝐫𝐝 ({length} chars)\n━━━━━━━━━━━━━━━\n`{pwd}`")
 
-
-    # ─── TIME TOOLS ───
     @register_cmd("time")
     async def cmd_time(event, _):
-        try:
-            now = datetime.now()
-            await safe_edit(event, f"⏰ 𝐓𝐢𝐦𝐞\n━━━━━━━━━━━━━━━\n🕐 `{now.strftime('%H:%M:%S')}`\n📅 `{now.strftime('%d/%m/%Y')}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        now = datetime.now()
+        await safe_edit(event, f"⏰ 𝐓𝐢𝐦𝐞\n━━━━━━━━━━━━━━━\n🕐 `{now.strftime('%H:%M:%S')}`\n📅 `{now.strftime('%d/%m/%Y')}`")
 
     @register_cmd("date")
     async def cmd_date(event, _):
-        try:
-            now = datetime.now()
-            days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-            day = days[now.weekday()]
-            await safe_edit(event, f"📅 𝐃𝐚𝐭𝐞\n━━━━━━━━━━━━━━━\n📆 `{now.strftime('%d %B %Y')}`\n📌 `{day}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        now = datetime.now()
+        days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+        day = days[now.weekday()]
+        await safe_edit(event, f"📅 𝐃𝐚𝐭𝐞\n━━━━━━━━━━━━━━━\n📆 `{now.strftime('%d %B %Y')}`\n📌 `{day}`")
 
     @register_cmd("uptime")
     async def cmd_uptime(event, _):
-        try:
-            uptime = int(time.time() - START_TIME)
-            hours = uptime // 3600
-            minutes = (uptime % 3600) // 60
-            seconds = uptime % 60
-            await safe_edit(event, f"⏱️ 𝐔𝐩𝐭𝐢𝐦𝐞\n━━━━━━━━━━━━━━━\n`{hours}h {minutes}m {seconds}s`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
+        uptime = int(time.time() - START_TIME)
+        hours = uptime // 3600
+        minutes = (uptime % 3600) // 60
+        seconds = uptime % 60
+        await safe_edit(event, f"⏱️ 𝐔𝐩𝐭𝐢𝐦𝐞 → `{hours}h {minutes}m {seconds}s`")
 
-
-    # ─── MATH TOOLS ───
     @register_cmd("random")
     async def cmd_random(event, arg):
+        parts = (arg or "").strip().split()
         try:
-            parts = (arg or "").strip().split()
-            try:
-                mn = int(parts[0]) if len(parts) > 0 else 1
-                mx = int(parts[1]) if len(parts) > 1 else 100
-            except: mn, mx = 1, 100
-            if mn > mx: mn, mx = mx, mn
-            result = random.randint(mn, mx)
-            await safe_edit(event, f"🎲 𝐑𝐚𝐧𝐝𝐨𝐦 [{mn}, {mx}]\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+            mn = int(parts[0]) if len(parts) > 0 else 1
+            mx = int(parts[1]) if len(parts) > 1 else 100
+        except: mn, mx = 1, 100
+        if mn > mx: mn, mx = mx, mn
+        result = random.randint(mn, mx)
+        await safe_edit(event, f"🎲 𝐑𝐚𝐧𝐝𝐨𝐦 [{mn}, {mx}] → `{result}`")
 
     @register_cmd("tempconv")
     async def cmd_tempconv(event, arg):
-        try:
-            parts = (arg or "").strip().split()
-            if len(parts) < 2: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.tempconv C/F <value>`")
-            mode = parts[0].upper()
-            val = float(parts[1])
-            if mode == "C":
-                result = f"{val}°C = {(val * 9/5) + 32:.2f}°F"
-            elif mode == "F":
-                result = f"{val}°F = {(val - 32) * 5/9:.2f}°C"
-            else:
-                return await safe_edit(event, "❌ 𝐔𝐬𝐞 𝐂 𝐨𝐫 𝐅")
-            await safe_edit(event, f"🌡️ 𝐓𝐞𝐦𝐩 𝐂𝐨𝐧𝐯𝐞𝐫𝐭\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
+        parts = (arg or "").strip().split()
+        if len(parts) < 2: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.tempconv C/F <value>`")
+        mode = parts[0].upper()
+        try: val = float(parts[1])
+        except: return await safe_edit(event, "❌ Invalid")
+        if mode == "C":
+            result = f"{val}°C = {(val * 9/5) + 32:.2f}°F"
+        elif mode == "F":
+            result = f"{val}°F = {(val - 32) * 5/9:.2f}°C"
+        else:
+            return await safe_edit(event, "❌ 𝐔𝐬𝐞 𝐂 𝐨𝐫 𝐅")
+        await safe_edit(event, f"🌡️ → `{result}`")
 
-
-    # ─── USER TOOLS ───
     @register_cmd("id")
     async def cmd_id(event, arg):
-        try:
-            if event.is_reply:
-                r = await event.get_reply_message()
-                uid = r.sender_id if r else event.sender_id
-            else:
-                uid = event.sender_id
-            chat = event.chat_id
-            await safe_edit(event, f"🆔 𝐈𝐃 𝐈𝐧𝐟𝐨\n━━━━━━━━━━━━━━━\n👤 𝐔𝐬𝐞𝐫 → `{uid}`\n💬 𝐂𝐡𝐚𝐭 → `{chat}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if event.is_reply:
+            r = await event.get_reply_message()
+            uid = r.sender_id if r else event.sender_id
+        else:
+            uid = event.sender_id
+        chat = event.chat_id
+        await safe_edit(event, f"🆔 𝐈𝐃\n━━━━━━━━━━━━━━━\n👤 𝐔𝐬𝐞𝐫 → `{uid}`\n💬 𝐂𝐡𝐚𝐭 → `{chat}`")
 
     @register_cmd("chatid")
     async def cmd_chatid(event, _):
-        try:
-            await safe_edit(event, f"💬 𝐂𝐡𝐚𝐭 𝐈𝐃 → `{event.chat_id}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        await safe_edit(event, f"💬 𝐂𝐡𝐚𝐭 𝐈𝐃 → `{event.chat_id}`")
 
     @register_cmd("whois")
     async def cmd_whois(event, arg):
@@ -4441,8 +4132,7 @@ if _IS_USERBOT:
             )
             await safe_edit(event, text)
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐖𝐇𝐎𝐈𝐒 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("mention")
     async def cmd_mention(event, arg):
@@ -4465,7 +4155,6 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
-
     @register_cmd("getpp")
     async def cmd_getpp(event, arg):
         try:
@@ -4480,28 +4169,26 @@ if _IS_USERBOT:
                 except: return await safe_edit(event, "❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝")
             else:
                 target = event.sender_id
-            await safe_edit(event, "⚡ 𝐅𝐞𝐭𝐜𝐡𝐢𝐧𝐠 𝐏𝐏...")
+            await safe_edit(event, "🌸 𝐅𝐞𝐭𝐜𝐡𝐢𝐧𝐠 𝐏𝐏...")
             photo = await bot.download_profile_photo(target, file=bytes)
             if not photo: return await safe_edit(event, "❌ 𝐍𝐨 𝐏𝐫𝐨𝐟𝐢𝐥𝐞 𝐏𝐡𝐨𝐭𝐨")
             bio = BytesIO(photo); bio.name = "pp.jpg"
             await event.delete()
             await bot.send_file(event.chat_id, bio, caption="🖼️ 𝐏𝐫𝐨𝐟𝐢𝐥𝐞 𝐏𝐡𝐨𝐭𝐨")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐆𝐞𝐭𝐏𝐏 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("setname")
     async def cmd_setname(event, arg):
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.setname <name>`")
+        parts = arg.strip().split(None, 1)
+        fname = parts[0][:64]
+        lname = parts[1][:64] if len(parts) > 1 else ""
         try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.setname <name>`")
-            parts = arg.strip().split(None, 1)
-            fname = parts[0][:64]
-            lname = parts[1][:64] if len(parts) > 1 else ""
             await bot(functions.account.UpdateProfileRequest(first_name=fname, last_name=lname))
             await safe_edit(event, f"✅ 𝐍𝐚𝐦𝐞 𝐒𝐞𝐭 → `{fname} {lname}`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐒𝐞𝐭𝐍𝐚𝐦𝐞 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("setbio")
     async def cmd_setbio(event, arg):
@@ -4510,8 +4197,7 @@ if _IS_USERBOT:
             await bot(functions.account.UpdateProfileRequest(about=bio))
             await safe_edit(event, f"✅ 𝐁𝐢𝐨 𝐒𝐞𝐭 → `{bio}`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐒𝐞𝐭𝐁𝐢𝐨 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("setpp", needs_reply=True)
     async def cmd_setpp(event, _):
@@ -4526,10 +4212,8 @@ if _IS_USERBOT:
             ))
             await safe_edit(event, "✅ 𝐏𝐫𝐨𝐟𝐢𝐥𝐞 𝐏𝐡𝐨𝐭𝐨 𝐒𝐞𝐭")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐒𝐞𝐭𝐏𝐏 → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
-
-    # ─── GROUP MOD TOOLS ───
     @register_cmd("groupinfo")
     async def cmd_groupinfo(event, _):
         try:
@@ -4544,7 +4228,7 @@ if _IS_USERBOT:
             except: pass
             username = f"@{chat.username}" if getattr(chat, 'username', None) else "Private"
             text = (
-                "ℹ️ 𝐆𝐫𝐨𝐮𝐩 𝐈𝐧𝐟𝐨\n━━━━━━━━━━━━━━━\n"
+                "🌸 𝐆𝐫𝐨𝐮𝐩 𝐈𝐧𝐟𝐨\n━━━━━━━━━━━━━━━\n"
                 f"📛 𝐍𝐚𝐦𝐞 → `{name}`\n"
                 f"🆔 𝐈𝐃 → `{event.chat_id}`\n"
                 f"👥 𝐌𝐞𝐦𝐛𝐞𝐫𝐬 → `{count}`\n"
@@ -4552,8 +4236,7 @@ if _IS_USERBOT:
             )
             await safe_edit(event, text)
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐆𝐫𝐨𝐮𝐩𝐈𝐧𝐟𝐨 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("membercount")
     async def cmd_membercount(event, _):
@@ -4561,8 +4244,7 @@ if _IS_USERBOT:
             participants = await bot.get_participants(event.chat_id, limit=0)
             await safe_edit(event, f"👥 𝐌𝐞𝐦𝐛𝐞𝐫𝐬 → `{participants.total}`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐌𝐞𝐦𝐛𝐞𝐫𝐂𝐨𝐮𝐧𝐭 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("invitelink")
     async def cmd_invitelink(event, _):
@@ -4579,8 +4261,7 @@ if _IS_USERBOT:
                 except: return await safe_edit(event, "❌ 𝐂𝐚𝐧𝐧𝐨𝐭 𝐆𝐞𝐭 𝐋𝐢𝐧𝐤")
             await safe_edit(event, f"🔗 𝐈𝐧𝐯𝐢𝐭𝐞 𝐋𝐢𝐧𝐤\n━━━━━━━━━━━━━━━\n`{link}`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐈𝐧𝐯𝐢𝐭𝐞𝐋𝐢𝐧𝐤 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("ban", needs_reply=True, group_only=True)
     async def cmd_ban(event, arg):
@@ -4603,8 +4284,7 @@ if _IS_USERBOT:
             if failed: parts.append(f"⚠️ 𝐅𝐚𝐢𝐥𝐞𝐝 → `{', '.join(failed)}`")
             await safe_edit(event, "\n".join(parts) or "❌ 𝐍𝐨 𝐀𝐜𝐭𝐢𝐨𝐧")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐁𝐚𝐧 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("unban", needs_reply=True, group_only=True)
     async def cmd_unban(event, arg):
@@ -4627,8 +4307,7 @@ if _IS_USERBOT:
             if failed: parts.append(f"⚠️ 𝐅𝐚𝐢𝐥𝐞𝐝 → `{', '.join(failed)}`")
             await safe_edit(event, "\n".join(parts) or "❌ 𝐍𝐨 𝐀𝐜𝐭𝐢𝐨𝐧")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐔𝐧𝐛𝐚𝐧 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("kick", needs_reply=True, group_only=True)
     async def cmd_kick(event, arg):
@@ -4646,8 +4325,7 @@ if _IS_USERBOT:
             if failed: parts.append(f"⚠️ 𝐅𝐚𝐢𝐥𝐞𝐝 → `{', '.join(failed)}`")
             await safe_edit(event, "\n".join(parts) or "❌ 𝐍𝐨 𝐀𝐜𝐭𝐢𝐨𝐧")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐊𝐢𝐜𝐤 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("promote", needs_reply=True, group_only=True)
     async def cmd_promote(event, arg):
@@ -4673,8 +4351,7 @@ if _IS_USERBOT:
             if failed: parts.append(f"⚠️ 𝐅𝐚𝐢𝐥𝐞𝐝 → `{', '.join(failed)}`")
             await safe_edit(event, "\n".join(parts) or "❌ 𝐍𝐨 𝐀𝐜𝐭𝐢𝐨𝐧")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐏𝐫𝐨𝐦𝐨𝐭𝐞 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("demote", needs_reply=True, group_only=True)
     async def cmd_demote(event, arg):
@@ -4697,8 +4374,7 @@ if _IS_USERBOT:
             if failed: parts.append(f"⚠️ 𝐅𝐚𝐢𝐥𝐞𝐝 → `{', '.join(failed)}`")
             await safe_edit(event, "\n".join(parts) or "❌ 𝐍𝐨 𝐀𝐜𝐭𝐢𝐨𝐧")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐃𝐞𝐦𝐨𝐭𝐞 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("warn", needs_reply=True)
     async def cmd_warn(event, arg):
@@ -4714,33 +4390,24 @@ if _IS_USERBOT:
             save_warns()
             await safe_edit(event, "⚠️ 𝐖𝐀𝐑𝐍\n━━━━━━━━━━━━━━━\n" + "\n".join(results))
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐖𝐚𝐫𝐧 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("warnlist")
     async def cmd_warnlist(event, _):
-        try:
-            if not warns: return await safe_edit(event, "⚠️ 𝐍𝐨 𝐖𝐚𝐫𝐧𝐬")
-            lines = [f"• `{uid}` → `{count}` warns" for uid, count in sorted(warns.items())]
-            await safe_edit(event, "⚠️ 𝐖𝐀𝐑𝐍 𝐋𝐈𝐒𝐓\n━━━━━━━━━━━━━━━\n" + "\n".join(lines))
-        except Exception as e:
-            await safe_edit(event, f"❌ 𝐖𝐚𝐫𝐧𝐋𝐢𝐬𝐭 → `{str(e)[:40]}`")
-
+        if not warns: return await safe_edit(event, "⚠️ 𝐍𝐨 𝐖𝐚𝐫𝐧𝐬")
+        lines = [f"• `{uid}` → `{count}` warns" for uid, count in sorted(warns.items())]
+        await safe_edit(event, "⚠️ 𝐖𝐀𝐑𝐍 𝐋𝐈𝐒𝐓\n━━━━━━━━━━━━━━━\n" + "\n".join(lines))
 
     @register_cmd("clearwarn")
     async def cmd_clearwarn(event, arg):
-        try:
-            targets = await get_targets(event, arg)
-            if targets:
-                for uid in targets: warns.pop(uid, None)
-                await safe_edit(event, f"✅ 𝐖𝐚𝐫𝐧𝐬 𝐂𝐥𝐞𝐚𝐫𝐞𝐝 → `{len(targets)}` users")
-            else:
-                warns.clear()
-                await safe_edit(event, "✅ 𝐀𝐥𝐥 𝐖𝐚𝐫𝐧𝐬 𝐂𝐥𝐞𝐚𝐫𝐞𝐝")
-            save_warns()
-        except Exception as e:
-            await safe_edit(event, f"❌ 𝐂𝐥𝐞𝐚𝐫𝐖𝐚𝐫𝐧 → `{str(e)[:40]}`")
-
+        targets = await get_targets(event, arg)
+        if targets:
+            for uid in targets: warns.pop(uid, None)
+            await safe_edit(event, f"✅ 𝐂𝐥𝐞𝐚𝐫𝐞𝐝 → `{len(targets)}` users")
+        else:
+            warns.clear()
+            await safe_edit(event, "✅ 𝐀𝐥𝐥 𝐖𝐚𝐫𝐧𝐬 𝐂𝐥𝐞𝐚𝐫𝐞𝐝")
+        save_warns()
 
     @register_cmd("pin", needs_reply=True, group_only=True)
     async def cmd_pin(event, _):
@@ -4750,952 +4417,211 @@ if _IS_USERBOT:
             await bot.pin_message(event.chat_id, reply.id)
             await safe_edit(event, "📌 𝐌𝐞𝐬𝐬𝐚𝐠𝐞 𝐏𝐢𝐧𝐧𝐞𝐝")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐏𝐢𝐧 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("unpin", group_only=True)
     async def cmd_unpin(event, _):
         try:
             await bot(functions.messages.UnpinAllMessagesRequest(peer=event.chat_id))
-            await safe_edit(event, "📌 𝐀𝐥𝐥 𝐌𝐬𝐠𝐬 𝐔𝐧𝐩𝐢𝐧𝐧𝐞𝐝")
-        except Exception as e:
-            await safe_edit(event, f"❌ 𝐔𝐧𝐩𝐢𝐧 → `{str(e)[:40]}`")
-
-
-    # ─── FUN COMMANDS ───
-    @register_cmd("joke")
-    async def cmd_joke(event, _):
-        try:
-            j = random.choice(joke_list)
-            await safe_edit(event, f"😂 𝐉𝐎𝐊𝐄\n━━━━━━━━━━━━━━━\n{j}")
+            await safe_edit(event, "📌 𝐔𝐧𝐩𝐢𝐧𝐧𝐞𝐝")
         except Exception as e:
             await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
+    @register_cmd("joke")
+    async def cmd_joke(event, _):
+        await safe_edit(event, f"😂 𝐉𝐎𝐊𝐄\n━━━━━━━━━━━━━━━\n{random.choice(joke_list)}")
 
     @register_cmd("riddle")
     async def cmd_riddle(event, _):
-        try:
-            r = random.choice(riddle_list)
-            await safe_edit(event, f"🤔 𝐑𝐈𝐃𝐃𝐋𝐄\n━━━━━━━━━━━━━━━\n{r}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        await safe_edit(event, f"🤔 𝐑𝐈𝐃𝐃𝐋𝐄\n━━━━━━━━━━━━━━━\n{random.choice(riddle_list)}")
 
     @register_cmd("fact")
     async def cmd_fact(event, _):
-        try:
-            f = random.choice(fact_list)
-            await safe_edit(event, f"🧠 𝐅𝐀𝐂𝐓\n━━━━━━━━━━━━━━━\n{f}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        await safe_edit(event, f"🧠 𝐅𝐀𝐂𝐓\n━━━━━━━━━━━━━━━\n{random.choice(fact_list)}")
 
     @register_cmd("quote")
     async def cmd_quote(event, _):
-        try:
-            q = random.choice(quote_list)
-            await safe_edit(event, f"💭 𝐐𝐔𝐎𝐓𝐄\n━━━━━━━━━━━━━━━\n{q}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        await safe_edit(event, f"💭 𝐐𝐔𝐎𝐓𝐄\n━━━━━━━━━━━━━━━\n{random.choice(quote_list)}")
 
     @register_cmd("truth")
     async def cmd_truth(event, _):
-        try:
-            t = random.choice(truth_list)
-            await safe_edit(event, f"🤥 𝐓𝐑𝐔𝐓𝐇\n━━━━━━━━━━━━━━━\n{t}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        await safe_edit(event, f"🤥 𝐓𝐑𝐔𝐓𝐇\n━━━━━━━━━━━━━━━\n{random.choice(truth_list)}")
 
     @register_cmd("dare")
     async def cmd_dare(event, _):
-        try:
-            d = random.choice(dare_list)
-            await safe_edit(event, f"😈 𝐃𝐀𝐑𝐄\n━━━━━━━━━━━━━━━\n{d}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        await safe_edit(event, f"😈 𝐃𝐀𝐑𝐄\n━━━━━━━━━━━━━━━\n{random.choice(dare_list)}")
 
     @register_cmd("pickup")
     async def cmd_pickup(event, _):
-        try:
-            p = random.choice(pickup_list)
-            await safe_edit(event, f"💘 𝐏𝐈𝐂𝐊𝐔𝐏 𝐋𝐈𝐍𝐄\n━━━━━━━━━━━━━━━\n{p}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        await safe_edit(event, f"💘 𝐏𝐈𝐂𝐊𝐔𝐏\n━━━━━━━━━━━━━━━\n{random.choice(pickup_list)}")
 
     @register_cmd("compliment")
     async def cmd_compliment(event, _):
-        try:
-            c = random.choice(compliment_list)
-            await safe_edit(event, f"🌟 𝐂𝐎𝐌𝐏𝐋𝐈𝐌𝐄𝐍𝐓\n━━━━━━━━━━━━━━━\n{c}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        await safe_edit(event, f"🌸 𝐂𝐎𝐌𝐏𝐋𝐈𝐌𝐄𝐍𝐓\n━━━━━━━━━━━━━━━\n{random.choice(compliment_list)}")
 
     @register_cmd("roastme")
     async def cmd_roastme(event, _):
-        try:
-            r = random.choice(roast_list)
-            await safe_edit(event, f"🔥 𝐑𝐎𝐀𝐒𝐓 𝐘𝐎𝐔𝐑𝐒𝐄𝐋𝐅\n━━━━━━━━━━━━━━━\n{r}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        await safe_edit(event, f"🔥 𝐑𝐎𝐀𝐒𝐓\n━━━━━━━━━━━━━━━\n{random.choice(roast_list)}")
 
     @register_cmd("8ball")
     async def cmd_8ball(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.8ball <question>`")
-            answers = [
-                "🟢 𝐘𝐞𝐬, definitely!","🟢 𝐁𝐞𝐭 𝐨𝐧 𝐢𝐭!","🟢 𝐌𝐨𝐬𝐭 𝐥𝐢𝐤𝐞𝐥𝐲!",
-                "🟡 𝐂𝐚𝐧𝐧𝐨𝐭 𝐩𝐫𝐞𝐝𝐢𝐜𝐭 𝐧𝐨𝐰","🟡 𝐀𝐬𝐤 𝐚𝐠𝐚𝐢𝐧 𝐥𝐚𝐭𝐞𝐫","🟡 𝐂𝐨𝐧𝐜𝐞𝐧𝐭𝐫𝐚𝐭𝐞 𝐚𝐧𝐝 𝐚𝐬𝐤",
-                "🔴 𝐃𝐨𝐧'𝐭 𝐜𝐨𝐮𝐧𝐭 𝐨𝐧 𝐢𝐭","🔴 𝐕𝐞𝐫𝐲 𝐝𝐨𝐮𝐛𝐭𝐟𝐮𝐥","🔴 𝐎𝐮𝐭𝐥𝐨𝐨𝐤 𝐧𝐨𝐭 𝐠𝐨𝐨𝐝",
-            ]
-            ans = random.choice(answers)
-            await safe_edit(event, f"🎱 𝐌𝐀𝐆𝐈𝐂 𝟖-𝐁𝐀𝐋𝐋\n━━━━━━━━━━━━━━━\n❓ {arg}\n\n{ans}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.8ball <question>`")
+        answers = [
+            "🟢 𝐘𝐞𝐬!","🟢 𝐁𝐞𝐭 𝐨𝐧 𝐢𝐭!","🟢 𝐌𝐨𝐬𝐭 𝐥𝐢𝐤𝐞𝐥𝐲!",
+            "🟡 𝐂𝐚𝐧𝐧𝐨𝐭 𝐩𝐫𝐞𝐝𝐢𝐜𝐭","🟡 𝐀𝐬𝐤 𝐥𝐚𝐭𝐞𝐫","🟡 𝐂𝐨𝐧𝐜𝐞𝐧𝐭𝐫𝐚𝐭𝐞",
+            "🔴 𝐃𝐨𝐧'𝐭 𝐜𝐨𝐮𝐧𝐭","🔴 𝐕𝐞𝐫𝐲 𝐝𝐨𝐮𝐛𝐭𝐟𝐮𝐥","🔴 𝐎𝐮𝐭𝐥𝐨𝐨𝐤 𝐛𝐚𝐝",
+        ]
+        await safe_edit(event, f"🎱 𝟖-𝐁𝐀𝐋𝐋\n━━━━━━━━━━━━━━━\n❓ {arg}\n\n{random.choice(answers)}")
 
     @register_cmd("rps")
     async def cmd_rps(event, arg):
-        try:
-            choices = {"r": "🪨 𝐑𝐨𝐜𝐤", "p": "📄 𝐏𝐚𝐩𝐞𝐫", "s": "✂️ 𝐒𝐜𝐢𝐬𝐬𝐨𝐫𝐬"}
-            wins = {"r": "s", "p": "r", "s": "p"}
-            if not arg or arg.lower() not in choices:
-                return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.rps r/p/s`")
-            user_choice = arg.lower()
-            bot_choice = random.choice(list(choices.keys()))
-            if user_choice == bot_choice: result = "🤝 𝐃𝐫𝐚𝐰!"
-            elif wins[user_choice] == bot_choice: result = "🏆 𝐘𝐨𝐮 𝐖𝐢𝐧!"
-            else: result = "😈 𝐁𝐨𝐭 𝐖𝐢𝐧𝐬!"
-            text = f"✂️🪨📄 𝐑𝐏𝐒\n━━━━━━━━━━━━━━━\n👤 𝐘𝐨𝐮 → {choices[user_choice]}\n🤖 𝐁𝐨𝐭 → {choices[bot_choice]}\n\n{result}"
-            if event.out: await safe_edit(event, text)
-            else: await event.reply(text)
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
+        choices = {"r": "🪨 𝐑𝐨𝐜𝐤", "p": "📄 𝐏𝐚𝐩𝐞𝐫", "s": "✂️ 𝐒𝐜𝐢𝐬𝐬𝐨𝐫𝐬"}
+        wins = {"r": "s", "p": "r", "s": "p"}
+        if not arg or arg.lower() not in choices:
+            return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.rps r/p/s`")
+        user_choice = arg.lower()
+        bot_choice = random.choice(list(choices.keys()))
+        if user_choice == bot_choice: result = "🤝 𝐃𝐫𝐚𝐰!"
+        elif wins[user_choice] == bot_choice: result = "🏆 𝐘𝐨𝐮 𝐖𝐢𝐧!"
+        else: result = "😈 𝐁𝐨𝐭 𝐖𝐢𝐧𝐬!"
+        text = f"🌸 𝐑𝐏𝐒\n━━━━━━━━━━━━━━━\n👤 {choices[user_choice]}\n🤖 {choices[bot_choice]}\n\n{result}"
+        await safe_edit(event, text)
 
     @register_cmd("choose")
     async def cmd_choose(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.choose a|b|c`")
-            opts = [o.strip() for o in arg.split("|") if o.strip()]
-            if not opts: return await safe_edit(event, "❌ 𝐍𝐨 𝐎𝐩𝐭𝐢𝐨𝐧𝐬")
-            chosen = random.choice(opts)
-            await safe_edit(event, f"🎯 𝐂𝐇𝐎𝐈𝐂𝐄\n━━━━━━━━━━━━━━━\n🏆 `{chosen}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.choose a|b|c`")
+        opts = [o.strip() for o in arg.split("|") if o.strip()]
+        if not opts: return await safe_edit(event, "❌ 𝐍𝐨 𝐎𝐩𝐭𝐢𝐨𝐧𝐬")
+        await safe_edit(event, f"🎯 → `{random.choice(opts)}`")
 
-
-    # ─── MESSAGE TOOLS ───
     @register_cmd("del", needs_reply=True)
     async def cmd_del(event, _):
         try:
             reply = await event.get_reply_message()
-            if reply:
-                await reply.delete()
+            if reply: await reply.delete()
             await event.delete()
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐃𝐞𝐥 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("echo")
     async def cmd_echo(event, arg):
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.echo <text>`")
         try:
-            if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.echo <text>`")
             await event.delete()
             await bot.send_message(event.chat_id, arg)
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐄𝐜𝐡𝐨 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("react")
     async def cmd_react(event, arg):
         try:
             if event.is_reply:
                 r = await event.get_reply_message()
-                emoji = arg.strip() if arg else "❤️"
+                emoji = arg.strip() if arg else "🌸"
                 await bot(functions.messages.SendReactionRequest(
                     peer=event.chat_id, msg_id=r.id,
                     reaction=[types.ReactionEmoji(emoticon=emoji)]
                 ))
-                await safe_edit(event, f"✅ 𝐑𝐞𝐚𝐜𝐭𝐞𝐝 {emoji}")
+                await safe_edit(event, f"✅ {emoji}")
             else:
                 await safe_edit(event, "❌ 𝐑𝐞𝐩𝐥𝐲 𝐭𝐨 𝐚 𝐦𝐞𝐬𝐬𝐚𝐠𝐞")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐑𝐞𝐚𝐜𝐭 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("read")
     async def cmd_read(event, _):
         try:
             await bot.send_read_acknowledge(event.chat_id)
-            await safe_edit(event, "✅ 𝐌𝐬𝐠𝐬 𝐌𝐚𝐫𝐤𝐞𝐝 𝐀𝐬 𝐑𝐞𝐚𝐝")
+            await safe_edit(event, "✅ 𝐑𝐞𝐚𝐝")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐑𝐞𝐚𝐝 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("typing")
     async def cmd_typing(event, arg):
         try:
             try: secs = min(int(arg), 10) if arg else 3
             except: secs = 3
-            await safe_edit(event, f"⌨️ 𝐓𝐲𝐩𝐢𝐧𝐠 𝐟𝐨𝐫 `{secs}s`...")
+            await safe_edit(event, f"⌨️ 𝐓𝐲𝐩𝐢𝐧𝐠 `{secs}s`...")
             async with bot.action(event.chat_id, 'typing'):
                 await asyncio.sleep(secs)
             await event.delete()
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐓𝐲𝐩𝐢𝐧𝐠 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("online")
     async def cmd_online(event, _):
         try:
             await bot(functions.account.UpdateStatusRequest(offline=False))
-            await safe_edit(event, "✅ 𝐒𝐞𝐭 𝐀𝐬 𝐎𝐧𝐥𝐢𝐧𝐞 🟢")
+            await safe_edit(event, "✅ 𝐎𝐧𝐥𝐢𝐧𝐞 🟢")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐎𝐧𝐥𝐢𝐧𝐞 → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("myip")
     async def cmd_myip(event, _):
         try:
-            await safe_edit(event, "⚡ 𝐅𝐞𝐭𝐜𝐡𝐢𝐧𝐠 𝐈𝐏...")
+            await safe_edit(event, "🌸 𝐅𝐞𝐭𝐜𝐡𝐢𝐧𝐠 𝐈𝐏...")
             try:
                 ip_data = requests.get("http://ip-api.com/json/", timeout=8).json()
                 ip = ip_data.get("query", "Unknown")
                 country = ip_data.get("country", "Unknown")
                 isp = ip_data.get("isp", "Unknown")
             except: return await safe_edit(event, "❌ 𝐅𝐞𝐭𝐜𝐡 𝐅𝐚𝐢𝐥")
-            text = f"🌐 𝗠𝗬 𝗜𝗣\n━━━━━━━━━━━━━━━\n📡 `{ip}`\n🌍 `{country}`\n📍 `{isp}`"
-            await safe_edit(event, text)
+            await safe_edit(event, f"🌐 𝗠𝗬 𝗜𝗣\n━━━━━━━━━━━━━━━\n📡 `{ip}`\n🌍 `{country}`\n📍 `{isp}`")
         except Exception as e:
             await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
-
-    # ─── EXTRA TAGDA TOOLS ───
-
-    @register_cmd("hex")
-    async def cmd_hex(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.hex <text>`")
-            result = " ".join(format(ord(c), '02X') for c in arg[:100])
-            await safe_edit(event, f"🔢 𝗛𝗘𝗫\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("octal")
-    async def cmd_octal(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.octal <text>`")
-            result = " ".join(format(ord(c), 'o') for c in arg[:100])
-            await safe_edit(event, f"🔢 𝗢𝗖𝗧𝗔𝗟\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("ascii")
-    async def cmd_ascii(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.ascii <text>`")
-            result = " ".join(str(ord(c)) for c in arg[:100])
-            await safe_edit(event, f"🔡 𝗔𝗦𝗖𝗜𝗜 𝗩𝗮𝗹𝘂𝗲𝘀\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("charcount")
-    async def cmd_charcount(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.charcount <text>`")
-            total = len(arg)
-            letters = sum(c.isalpha() for c in arg)
-            digits = sum(c.isdigit() for c in arg)
-            spaces = sum(c.isspace() for c in arg)
-            special = total - letters - digits - spaces
-            await safe_edit(event, (
-                f"📊 𝗖𝗛𝗔𝗥 𝗔𝗡𝗔𝗟𝗬𝗦𝗜𝗦\n━━━━━━━━━━━━━━━\n"
-                f"📝 Total    → `{total}`\n"
-                f"🔤 Letters  → `{letters}`\n"
-                f"🔢 Digits   → `{digits}`\n"
-                f"⬜ Spaces   → `{spaces}`\n"
-                f"✨ Special  → `{special}`"
-            ))
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("palindrome")
-    async def cmd_palindrome(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.palindrome <text>`")
-            clean = arg.lower().replace(" ", "")
-            is_pal = clean == clean[::-1]
-            icon = "✅" if is_pal else "❌"
-            result = "Palindrome hai!" if is_pal else "Palindrome nahi hai!"
-            await safe_edit(event, f"{icon} `{arg}`\n━━━━━━━━━━━━━━━\n{result}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("vowels")
-    async def cmd_vowels(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.vowels <text>`")
-            vs = [c for c in arg.lower() if c in 'aeiou']
-            cs = [c for c in arg.lower() if c.isalpha() and c not in 'aeiou']
-            await safe_edit(event, (
-                f"🔤 𝗩𝗢𝗪𝗘𝗟 𝗖𝗢𝗨𝗡𝗧\n━━━━━━━━━━━━━━━\n"
-                f"🅰️ Vowels    → `{len(vs)}` ({', '.join(vs[:20])})\n"
-                f"🔡 Consonants → `{len(cs)}`"
-            ))
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("titlecase")
-    async def cmd_titlecase(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.titlecase <text>`")
-            await safe_edit(event, f"📝 `{arg.title()}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("snake")
-    async def cmd_snake(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.snake <text>`")
-            result = "_".join(arg.lower().split())
-            await safe_edit(event, f"🐍 𝘀𝗻𝗮𝗸𝗲_𝗰𝗮𝘀𝗲 → `{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("shout")
-    async def cmd_shout(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.shout <text>`")
-            result = "  ".join(arg.upper())
-            await safe_edit(event, f"📢 `{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("alternating")
-    async def cmd_alternating(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.alternating <text>`")
-            result = "".join(c.upper() if i % 2 == 0 else c.lower() for i, c in enumerate(arg))
-            await safe_edit(event, f"🔀 `{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("spaceit")
-    async def cmd_spaceit(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.spaceit <text>`")
-            result = " ".join(arg)
-            await safe_edit(event, f"↔️ `{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("wordfreq")
-    async def cmd_wordfreq(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.wordfreq <text>`")
-            words = arg.lower().split()
-            freq: Dict[str, int] = {}
-            for w in words:
-                freq[w] = freq.get(w, 0) + 1
-            top = sorted(freq.items(), key=lambda x: x[1], reverse=True)[:10]
-            lines = "\n".join(f"  `{w}` → {n}x" for w, n in top)
-            await safe_edit(event, f"📊 𝗪𝗢𝗥𝗗 𝗙𝗥𝗘𝗤𝗨𝗘𝗡𝗖𝗬\n━━━━━━━━━━━━━━━\n{lines}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("removespaces")
-    async def cmd_removespaces(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.removespaces <text>`")
-            await safe_edit(event, f"✂️ `{''.join(arg.split())}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("truncate")
-    async def cmd_truncate(event, arg):
-        try:
-            parts = (arg or "").strip().split(None, 1)
-            if len(parts) < 2: return await safe_edit(event, "❌ Use → `.truncate <n> <text>`")
-            try: n = int(parts[0])
-            except: return await safe_edit(event, "❌ Invalid number")
-            text = parts[1]
-            result = text[:n] + ("..." if len(text) > n else "")
-            await safe_edit(event, f"✂️ `{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("percentage")
-    async def cmd_percentage(event, arg):
-        try:
-            parts = (arg or "").strip().split()
-            if len(parts) < 2: return await safe_edit(event, "❌ Use → `.percentage <value> <total>`")
-            val, total = float(parts[0]), float(parts[1])
-            if total == 0: return await safe_edit(event, "❌ Total 0 nahi ho sakta")
-            pct = (val / total) * 100
-            await safe_edit(event, f"📊 𝗣𝗘𝗥𝗖𝗘𝗡𝗧𝗔𝗚𝗘\n━━━━━━━━━━━━━━━\n`{val}` of `{total}` = **{pct:.2f}%**")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("square")
-    async def cmd_square(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.square <number>`")
-            n = float(arg.strip())
-            sq = n ** 2
-            sqrt = math.sqrt(abs(n))
-            await safe_edit(event, f"🔢 𝗦𝗤𝗨𝗔𝗥𝗘\n━━━━━━━━━━━━━━━\n`{n}²` = `{sq}`\n√`{abs(n)}` = `{sqrt:.4f}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("prime")
-    async def cmd_prime(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.prime <number>`")
-            n = int(arg.strip())
-            if n < 2:
-                return await safe_edit(event, f"❌ `{n}` prime nahi hai")
-            is_prime = all(n % i != 0 for i in range(2, int(n**0.5)+1))
-            icon = "✅" if is_prime else "❌"
-            msg = "Prime hai!" if is_prime else "Prime nahi hai!"
-            await safe_edit(event, f"{icon} `{n}` — {msg}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("factorial")
-    async def cmd_factorial(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.factorial <n>`")
-            n = int(arg.strip())
-            if n < 0: return await safe_edit(event, "❌ Negative number nahi chalega")
-            if n > 20: return await safe_edit(event, "❌ Max 20 tak")
-            result = math.factorial(n)
-            await safe_edit(event, f"🔢 `{n}!` = `{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("fibonacci")
-    async def cmd_fibonacci(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.fibonacci <n>`")
-            n = min(int(arg.strip()), 30)
-            a, b = 0, 1
-            seq = []
-            for _ in range(n):
-                seq.append(a)
-                a, b = b, a + b
-            await safe_edit(event, f"🌀 𝗙𝗜𝗕𝗢𝗡𝗔𝗖𝗖𝗜 ({n} terms)\n━━━━━━━━━━━━━━━\n`{', '.join(map(str, seq))}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("bmi")
-    async def cmd_bmi(event, arg):
-        try:
-            parts = (arg or "").strip().split()
-            if len(parts) < 2: return await safe_edit(event, "❌ Use → `.bmi <weight_kg> <height_cm>`")
-            weight, height_cm = float(parts[0]), float(parts[1])
-            height_m = height_cm / 100
-            bmi = weight / (height_m ** 2)
-            if bmi < 18.5: cat = "🟡 Underweight"
-            elif bmi < 25: cat = "🟢 Normal"
-            elif bmi < 30: cat = "🟠 Overweight"
-            else: cat = "🔴 Obese"
-            await safe_edit(event, (
-                f"⚖️ 𝗕𝗠𝗜 𝗖𝗔𝗟𝗖𝗨𝗟𝗔𝗧𝗢𝗥\n━━━━━━━━━━━━━━━\n"
-                f"⚖️ Weight → `{weight} kg`\n"
-                f"📏 Height → `{height_cm} cm`\n"
-                f"📊 BMI    → **{bmi:.1f}**\n"
-                f"💡 Status → {cat}"
-            ))
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("age")
-    async def cmd_age(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.age <DD/MM/YYYY>`")
-            from datetime import date
-            parts = arg.strip().split("/")
-            if len(parts) != 3: return await safe_edit(event, "❌ Format: DD/MM/YYYY")
-            bd = date(int(parts[2]), int(parts[1]), int(parts[0]))
-            today = date.today()
-            age_years = (today - bd).days // 365
-            age_days = (today - bd).days
-            await safe_edit(event, (
-                f"🎂 𝗔𝗚𝗘 𝗖𝗔𝗟𝗖𝗨𝗟𝗔𝗧𝗢𝗥\n━━━━━━━━━━━━━━━\n"
-                f"📅 DOB   → `{arg.strip()}`\n"
-                f"🎂 Age   → **{age_years} years**\n"
-                f"📆 Days  → `{age_days} days`"
-            ))
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("coin")
-    async def cmd_coin(event, _):
-        try:
-            result = random.choice(["🪙 HEADS", "🪙 TAILS"])
-            await safe_edit(event, f"🪙 𝗖𝗢𝗜𝗡 𝗙𝗟𝗜𝗣\n━━━━━━━━━━━━━━━\n{result}!")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("lucky")
-    async def cmd_lucky(event, _):
-        try:
-            n = random.randint(1, 100)
-            if n >= 80: msg = "🎉 Bahut Lucky hai aaj!"
-            elif n >= 50: msg = "😊 Thoda lucky hai!"
-            elif n >= 30: msg = "😐 Average luck hai"
-            else: msg = "😬 Aaj ghhar baith!"
-            await safe_edit(event, f"🍀 𝗟𝗨𝗖𝗞𝗬 𝗦𝗖𝗢𝗥𝗘\n━━━━━━━━━━━━━━━\n🎯 Score → **{n}/100**\n{msg}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("roll")
-    async def cmd_roll(event, arg):
-        try:
-            sides = int(arg.strip()) if arg and arg.strip().isdigit() else 6
-            sides = max(2, min(sides, 1000))
-            result = random.randint(1, sides)
-            await safe_edit(event, f"🎲 𝗗𝗜𝗖𝗘 𝗥𝗢𝗟𝗟 (d{sides})\n━━━━━━━━━━━━━━━\n**{result}**")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("number")
-    async def cmd_number(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.number <n>`")
-            n = int(arg.strip())
-            binary = bin(n)[2:]
-            octal = oct(n)[2:]
-            hexa = hex(n)[2:].upper()
-            await safe_edit(event, (
-                f"🔢 𝗡𝗨𝗠𝗕𝗘𝗥 𝗜𝗡𝗙𝗢 → `{n}`\n━━━━━━━━━━━━━━━\n"
-                f"🔵 Binary  → `{binary}`\n"
-                f"🟠 Octal   → `{octal}`\n"
-                f"🟣 Hex     → `{hexa}`\n"
-                f"📐 Squared → `{n**2}`"
-            ))
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("clap")
-    async def cmd_clap(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.clap <text>`")
-            result = "👏".join(arg.split())
-            await safe_edit(event, result)
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("mock")
-    async def cmd_mock(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.mock <text>`")
-            result = "".join(c.upper() if i % 2 == 0 else c.lower() for i, c in enumerate(arg))
-            await safe_edit(event, f"🤡 `{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("strike")
-    async def cmd_strike(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.strike <text>`")
-            result = "~~" + arg + "~~"
-            await safe_edit(event, result)
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("spoiler")
-    async def cmd_spoiler(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.spoiler <text>`")
-            result = "||" + arg + "||"
-            await safe_edit(event, result)
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("mirror")
-    async def cmd_mirror(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.mirror <text>`")
-            result = arg + " | " + arg[::-1]
-            await safe_edit(event, f"🪞 `{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("emoji2text")
-    async def cmd_emoji2text(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.emoji2text <text with emoji>`")
-            result = arg.encode('ascii', 'ignore').decode('ascii').strip()
-            if not result: result = "[Only emojis - no text]"
-            await safe_edit(event, f"📝 `{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("lettercount")
-    async def cmd_lettercount(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.lettercount <letter> <text>`")
-            parts = arg.split(None, 1)
-            if len(parts) < 2: return await safe_edit(event, "❌ Use → `.lettercount <letter> <text>`")
-            letter, text = parts[0], parts[1]
-            count = text.lower().count(letter.lower())
-            await safe_edit(event, f"🔍 `'{letter}'` appears **{count}** times in the text")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("nato")
-    async def cmd_nato(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.nato <text>`")
-            NATO = {
-                'A':'Alpha','B':'Bravo','C':'Charlie','D':'Delta','E':'Echo',
-                'F':'Foxtrot','G':'Golf','H':'Hotel','I':'India','J':'Juliet',
-                'K':'Kilo','L':'Lima','M':'Mike','N':'November','O':'Oscar',
-                'P':'Papa','Q':'Quebec','R':'Romeo','S':'Sierra','T':'Tango',
-                'U':'Uniform','V':'Victor','W':'Whiskey','X':'X-ray','Y':'Yankee',
-                'Z':'Zulu',' ':'/'
-            }
-            result = " - ".join(NATO.get(c.upper(), c) for c in arg[:50])
-            await safe_edit(event, f"📻 𝗡𝗔𝗧𝗢 𝗔𝗟𝗣𝗛𝗔𝗕𝗘𝗧\n━━━━━━━━━━━━━━━\n{result}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("boxtext")
-    async def cmd_boxtext(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.boxtext <text>`")
-            lines = arg.split('\n')
-            width = max(len(l) for l in lines) + 4
-            top = "┌" + "─" * (width - 2) + "┐"
-            bot = "└" + "─" * (width - 2) + "┘"
-            mid = "\n".join(f"│ {l.ljust(width - 4)} │" for l in lines)
-            await safe_edit(event, f"`{top}\n{mid}\n{bot}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("countdown")
-    async def cmd_countdown(event, arg):
-        try:
-            if not arg or not arg.strip().isdigit():
-                return await safe_edit(event, "❌ Use → `.countdown <seconds>` (max 10)")
-            n = min(int(arg.strip()), 10)
-            for i in range(n, 0, -1):
-                await safe_edit(event, f"⏳ Countdown: **{i}**...")
-                await asyncio.sleep(1)
-            await safe_edit(event, "🎉 **BOOM! Time up!** 💥")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("tinytext")
-    async def cmd_tinytext(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.tinytext <text>`")
-            TINY = {'a':'ᵃ','b':'ᵇ','c':'ᶜ','d':'ᵈ','e':'ᵉ','f':'ᶠ','g':'ᵍ','h':'ʰ','i':'ⁱ','j':'ʲ','k':'ᵏ','l':'ˡ','m':'ᵐ','n':'ⁿ','o':'ᵒ','p':'ᵖ','q':'ᵠ','r':'ʳ','s':'ˢ','t':'ᵗ','u':'ᵘ','v':'ᵛ','w':'ʷ','x':'ˣ','y':'ʸ','z':'ᶻ',' ':' '}
-            result = "".join(TINY.get(c.lower(), c) for c in arg[:200])
-            await safe_edit(event, result)
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("bubble")
-    async def cmd_bubble(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.bubble <text>`")
-            BUBBLE = {'a':'ⓐ','b':'ⓑ','c':'ⓒ','d':'ⓓ','e':'ⓔ','f':'ⓕ','g':'ⓖ','h':'ⓗ','i':'ⓘ','j':'ⓙ','k':'ⓚ','l':'ⓛ','m':'ⓜ','n':'ⓝ','o':'ⓞ','p':'ⓟ','q':'ⓠ','r':'ⓡ','s':'ⓢ','t':'ⓣ','u':'ⓤ','v':'ⓥ','w':'ⓦ','x':'ⓧ','y':'ⓨ','z':'ⓩ','A':'Ⓐ','B':'Ⓑ','C':'Ⓒ','D':'Ⓓ','E':'Ⓔ','F':'Ⓕ','G':'Ⓖ','H':'Ⓗ','I':'Ⓘ','J':'Ⓙ','K':'Ⓚ','L':'Ⓛ','M':'Ⓜ','N':'Ⓝ','O':'Ⓞ','P':'Ⓟ','Q':'Ⓠ','R':'Ⓡ','S':'Ⓢ','T':'Ⓣ','U':'Ⓤ','V':'Ⓥ','W':'Ⓦ','X':'Ⓧ','Y':'Ⓨ','Z':'Ⓩ',' ':' ','0':'⓪','1':'①','2':'②','3':'③','4':'④','5':'⑤','6':'⑥','7':'⑦','8':'⑧','9':'⑨'}
-            result = "".join(BUBBLE.get(c, c) for c in arg[:200])
-            await safe_edit(event, result)
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("square_text")
-    async def cmd_square_text(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.square_text <text>`")
-            SQ = {'a':'🅐','b':'🅑','c':'🅒','d':'🅓','e':'🅔','f':'🅕','g':'🅖','h':'🅗','i':'🅘','j':'🅙','k':'🅚','l':'🅛','m':'🅜','n':'🅝','o':'🅞','p':'🅟','q':'🅠','r':'🅡','s':'🅢','t':'🅣','u':'🅤','v':'🅥','w':'🅦','x':'🅧','y':'🅨','z':'🅩',' ':' '}
-            result = "".join(SQ.get(c.lower(), c) for c in arg[:200])
-            await safe_edit(event, result)
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("encrypt")
-    async def cmd_encrypt(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.encrypt <text>`")
-            encoded = base64.b64encode(arg[:500].encode()).decode()
-            rev = encoded[::-1]
-            final = base64.b64encode(rev.encode()).decode()
-            await safe_edit(event, f"🔒 𝗘𝗡𝗖𝗥𝗬𝗣𝗧𝗘𝗗\n━━━━━━━━━━━━━━━\n`{final}`\n\n💡 Use `.decrypt` to decode")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("decrypt")
-    async def cmd_decrypt(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.decrypt <encrypted text>`")
-            step1 = base64.b64decode(arg.strip().encode()).decode()
-            step2 = step1[::-1]
-            final = base64.b64decode(step2.encode()).decode()
-            await safe_edit(event, f"🔓 𝗗𝗘𝗖𝗥𝗬𝗣𝗧𝗘𝗗\n━━━━━━━━━━━━━━━\n{final}")
-        except Exception as e:
-            await safe_edit(event, f"❌ 𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗲𝗻𝗰𝗿𝘆𝗽𝘁𝗲𝗱 𝘁𝗲𝘅𝘁")
-
-
-    @register_cmd("sha1")
-    async def cmd_sha1(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.sha1 <text>`")
-            result = hashlib.sha1(arg.encode()).hexdigest()
-            await safe_edit(event, f"🔐 𝗦𝗛𝗔𝟭\n━━━━━━━━━━━━━━━\n`{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("sha512")
-    async def cmd_sha512(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.sha512 <text>`")
-            result = hashlib.sha512(arg.encode()).hexdigest()
-            await safe_edit(event, f"🔐 𝗦𝗛𝗔𝟱𝟭𝟮\n━━━━━━━━━━━━━━━\n`{result[:64]}...`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("charinfo")
-    async def cmd_charinfo(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.charinfo <char>`")
-            c = arg[0]
-            import unicodedata
-            name = unicodedata.name(c, "Unknown")
-            cp = format(ord(c), '04X')
-            cat = unicodedata.category(c)
-            await safe_edit(event, (
-                f"🔤 𝗖𝗛𝗔𝗥 𝗜𝗡𝗙𝗢: `{c}`\n━━━━━━━━━━━━━━━\n"
-                f"📛 Name     → {name}\n"
-                f"🔢 CodePoint→ U+{cp}\n"
-                f"📂 Category → {cat}\n"
-                f"🔢 ASCII    → {ord(c)}"
-            ))
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("timer")
-    async def cmd_timer(event, arg):
-        try:
-            if not arg or not arg.strip().isdigit():
-                return await safe_edit(event, "❌ Use → `.timer <seconds>` (max 60)")
-            n = min(int(arg.strip()), 60)
-            await safe_edit(event, f"⏱️ Timer started: **{n} seconds**")
-            await asyncio.sleep(n)
-            await safe_edit(event, f"✅ **Timer Done!** ⏰ ({n}s)")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("typetest")
-    async def cmd_typetest(event, _):
-        try:
-            words = ["python", "telegram", "userbot", "sid", "coding", "fire", "speed", "attack", "legend", "ultra"]
-            test_word = random.choice(words)
-            await safe_edit(event, f"⌨️ 𝗧𝗬𝗣𝗘 𝗧𝗘𝗦𝗧\n━━━━━━━━━━━━━━━\nType this word:\n**`{test_word}`**\n\n⏱️ Reply to continue")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("sysinfo")
-    async def cmd_sysinfo(event, _):
-        try:
-            import platform
-            uptime_secs = int(time.time() - START_TIME)
-            hrs = uptime_secs // 3600
-            mins = (uptime_secs % 3600) // 60
-            secs = uptime_secs % 60
-            py_ver = platform.python_version()
-            sys_name = platform.system()
-            cmd_count = len(commands)
-            await safe_edit(event, (
-                f"🖥️ 𝗦𝗬𝗦𝗧𝗘𝗠 𝗜𝗡𝗙𝗢\n━━━━━━━━━━━━━━━\n"
-                f"🐍 Python   → `{py_ver}`\n"
-                f"💻 System   → `{sys_name}`\n"
-                f"⏱️ Uptime   → `{hrs}h {mins}m {secs}s`\n"
-                f"📦 Commands → `{cmd_count}`\n"
-                f"⚡ Bot      → 𝗦𝗜𝗗𝘅𝗕𝗢𝗧 𝗩𝟯"
-            ))
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("table")
-    async def cmd_table(event, arg):
-        try:
-            if not arg or not arg.strip().isdigit():
-                return await safe_edit(event, "❌ Use → `.table <number>` (max 20)")
-            n = min(int(arg.strip()), 20)
-            lines = "\n".join(f"`{n} × {i:2} = {n*i}`" for i in range(1, 13))
-            await safe_edit(event, f"📊 𝗧𝗔𝗕𝗟𝗘 𝗢𝗙 {n}\n━━━━━━━━━━━━━━━\n{lines}")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("roman")
-    async def cmd_roman(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.roman <number>` (1-3999)")
-            n = int(arg.strip())
-            if not 1 <= n <= 3999: return await safe_edit(event, "❌ Range: 1 to 3999")
-            val = [1000,900,500,400,100,90,50,40,10,9,5,4,1]
-            syms = ['M','CM','D','CD','C','XC','L','XL','X','IX','V','IV','I']
-            result = ""
-            for i, v in enumerate(val):
-                while n >= v:
-                    result += syms[i]
-                    n -= v
-            await safe_edit(event, f"🏛️ `{arg.strip()}` → **{result}**")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("randname")
-    async def cmd_randname(event, _):
-        try:
-            first = ["Arjun","Rahul","Rohan","Dev","Kabir","Veer","Aarav","Shiv","Karan","Aditya",
-                     "Anjali","Priya","Neha","Nisha","Riya","Sana","Meera","Pooja","Divya","Tara"]
-            last = ["Sharma","Kumar","Singh","Verma","Gupta","Patel","Shah","Joshi","Rao","Nair"]
-            name = f"{random.choice(first)} {random.choice(last)}"
-            await safe_edit(event, f"👤 𝗥𝗔𝗡𝗗𝗢𝗠 𝗡𝗔𝗠𝗘\n━━━━━━━━━━━━━━━\n**{name}**")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("randcolor")
-    async def cmd_randcolor(event, _):
-        try:
-            r, g, b = random.randint(0,255), random.randint(0,255), random.randint(0,255)
-            hex_code = f"#{r:02X}{g:02X}{b:02X}"
-            await safe_edit(event, (
-                f"🎨 𝗥𝗔𝗡𝗗𝗢𝗠 𝗖𝗢𝗟𝗢𝗥\n━━━━━━━━━━━━━━━\n"
-                f"🔴 R → `{r}`\n🟢 G → `{g}`\n🔵 B → `{b}`\n"
-                f"🎨 HEX → **`{hex_code}`**"
-            ))
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    @register_cmd("flip_text")
-    async def cmd_flip_text(event, arg):
-        try:
-            if not arg: return await safe_edit(event, "❌ Use → `.flip_text <text>`")
-            FLIP = {'a':'ɐ','b':'q','c':'ɔ','d':'p','e':'ǝ','f':'ɟ','g':'ƃ','h':'ɥ','i':'ᴉ','j':'ɾ','k':'ʞ','l':'l','m':'ɯ','n':'u','o':'o','p':'d','q':'b','r':'ɹ','s':'s','t':'ʇ','u':'n','v':'ʌ','w':'ʍ','x':'x','y':'ʎ','z':'z',' ':' '}
-            result = "".join(FLIP.get(c.lower(), c) for c in arg[:200])[::-1]
-            await safe_edit(event, f"🙃 `{result}`")
-        except Exception as e:
-            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-
-
-    # ─── 3 NEW EXTRA UTILITIES (crypto, translate, imdb) ───
     @register_cmd("crypto")
     async def cmd_crypto(event, arg):
+        coin = (arg or "bitcoin").strip().lower()
+        coin_map = {"btc": "bitcoin", "eth": "ethereum", "doge": "dogecoin", "ltc": "litecoin", "xrp": "ripple", "ada": "cardano"}
+        coin = coin_map.get(coin, coin)
         try:
-            coin = (arg or "bitcoin").strip().lower()
-            coin_map = {"btc": "bitcoin", "eth": "ethereum", "doge": "dogecoin", "ltc": "litecoin", "xrp": "ripple", "ada": "cardano"}
-            coin = coin_map.get(coin, coin)
-            await safe_edit(event, f"⚡ Fetching price for `{coin.upper()}`...")
+            await safe_edit(event, f"🌸 Fetching `{coin.upper()}`...")
             url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin}&vs_currencies=usd"
             r = requests.get(url, timeout=8).json()
             price = r.get(coin, {}).get("usd")
             if price is None:
-                await safe_edit(event, "❌ Coin not found. Try BTC, ETH, DOGE, LTC, XRP, ADA, etc.")
+                await safe_edit(event, "❌ Coin not found. Try BTC, ETH, DOGE, LTC, XRP, ADA")
             else:
                 await safe_edit(event, f"📊 **{coin.upper()}** → ${price:,.2f} USD")
         except Exception as e:
-            await safe_edit(event, f"❌ Crypto → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("translate")
     async def cmd_translate(event, arg):
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.translate <text>`")
         try:
-            if not arg:
-                return await safe_edit(event, "❌ Use → `.translate <text>` (auto detects & translates to English)")
-            await safe_edit(event, "⚡ Translating...")
+            await safe_edit(event, "🌸 Translating...")
             url = "https://libretranslate.com/translate"
             data = {"q": arg, "source": "auto", "target": "en", "format": "text"}
             resp = requests.post(url, json=data, timeout=8)
             if resp.status_code == 200:
                 res = resp.json().get("translatedText", arg)
-                await safe_edit(event, f"🌐 **Translation**\n━━━━━━━━━━━━━━━\n**Original:**\n`{arg}`\n\n**English:**\n`{res}`")
+                await safe_edit(event, f"🌐 **Translation**\nOriginal: `{arg}`\nEnglish: `{res}`")
             else:
-                await safe_edit(event, "❌ Translation service unavailable. Try again later.")
+                await safe_edit(event, "❌ Service unavailable")
         except Exception as e:
-            await safe_edit(event, f"❌ Translate → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     @register_cmd("imdb")
     async def cmd_imdb(event, arg):
+        if not arg: return await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.imdb <movie title>`")
         try:
-            if not arg:
-                return await safe_edit(event, "❌ Use → `.imdb <movie title>`")
-            await safe_edit(event, f"⚡ Searching IMDb for `{arg}`...")
+            await safe_edit(event, f"🌸 Searching IMDb for `{arg}`...")
             title = requests.utils.quote(arg)
             url = f"http://www.omdbapi.com/?apikey=thewdb&t={title}&plot=short"
             resp = requests.get(url, timeout=8).json()
             if resp.get("Response") == "True":
                 msg = (f"🎬 **{resp.get('Title')}** ({resp.get('Year')})\n"
-                       f"⭐ Rating: {resp.get('imdbRating')}/10  🎫 {resp.get('Rated')}\n"
-                       f"📂 Genre: {resp.get('Genre')}\n"
-                       f"🎭 Director: {resp.get('Director')}\n"
-                       f"📝 Plot: {resp.get('Plot')[:200]}...")
+                       f"⭐ {resp.get('imdbRating')}/10  🎫 {resp.get('Rated')}\n"
+                       f"📂 {resp.get('Genre')}\n"
+                       f"🎭 {resp.get('Director')}\n"
+                       f"📝 {resp.get('Plot')[:200]}...")
                 await safe_edit(event, msg)
             else:
                 await safe_edit(event, f"❌ Movie not found: `{arg}`")
         except Exception as e:
-            await safe_edit(event, f"❌ IMDb → `{str(e)[:40]}`")
-
+            await safe_edit(event, f"❌ → `{str(e)[:40]}`")
 
     # ────────────────────────────────────────────────
     #                   AUTO HANDLERS
@@ -5707,16 +4633,13 @@ if _IS_USERBOT:
         chat = event.chat_id
         if not sender: return
         if sender == OWNER_ID: return
-        # Protected IDs are immune to ALL auto-effects (mute, raids, spam, etc.)
         if sender in PROTECTED_IDS: return
 
-        # Mute engine
         if sender in global_muted or sender in muted_users:
             try: await event.delete()
             except: pass
             return
 
-        # WatchSpam engine
         ws_key = (chat, sender)
         if ws_key in watch_spam:
             now = time.time()
@@ -5728,7 +4651,6 @@ if _IS_USERBOT:
                 except: pass
                 return
 
-        # Group lock
         if chat in group_locks:
             if not is_admin(sender):
                 try: await event.delete()
@@ -5736,7 +4658,6 @@ if _IS_USERBOT:
                 return
 
         try:
-            # Original raids
             if sender in reply_users:
                 try: await event.reply(random.choice(reply_list))
                 except FloodWaitError as fw: await asyncio.sleep(fw.seconds)
@@ -5772,28 +4693,17 @@ if _IS_USERBOT:
                 except FloodWaitError as fw: await asyncio.sleep(fw.seconds)
                 except: pass
 
-            # NEW raids — all 20 types
             new_raids = [
-                (attack_users, attack_list),
-                (roast_users, roast_list),
-                (diss_users, diss_list),
-                (war_users, war_list),
-                (savage_users, savage_list),
-                (ultra_users, ultra_list),
-                (godwar_users, godwar_list),
-                (combo_users, combo_list),
-                (troll_users, troll_list),
-                (shame_users, shame_list),
-                (fire_users, fire_list),
-                (devil_users, devil_list),
-                (karma_users, karma_list),
-                (ghost_users, ghost_list),
-                (legend_users, legend_list),
-                (doom_users, doom_list),
-                (nuke_users, nuke_list),
-                (storm_users, storm_list),
-                (blizzard_users, blizzard_list),
-                (venom_users, venom_list),
+                (attack_users, attack_list),(roast_users, roast_list),
+                (diss_users, diss_list),(war_users, war_list),
+                (savage_users, savage_list),(ultra_users, ultra_list),
+                (godwar_users, godwar_list),(combo_users, combo_list),
+                (troll_users, troll_list),(shame_users, shame_list),
+                (fire_users, fire_list),(devil_users, devil_list),
+                (karma_users, karma_list),(ghost_users, ghost_list),
+                (legend_users, legend_list),(doom_users, doom_list),
+                (nuke_users, nuke_list),(storm_users, storm_list),
+                (blizzard_users, blizzard_list),(venom_users, venom_list),
             ]
             for user_set, text_list in new_raids:
                 if sender in user_set:
@@ -5801,10 +4711,9 @@ if _IS_USERBOT:
                     except FloodWaitError as fw: await asyncio.sleep(fw.seconds)
                     except: pass
 
-            # Limited count raid
-            if sender in replysid_users:
+            if sender in replylexi_users:
                 try:
-                    data = replysid_users.get(sender)
+                    data = replylexi_users.get(sender)
                     if data:
                         count = int(data.get("count", 0))
                         text = data.get("text", "")
@@ -5812,16 +4721,15 @@ if _IS_USERBOT:
                             await event.reply(text)
                             data["count"] = count - 1
                         else:
-                            replysid_users.pop(sender, None)
+                            replylexi_users.pop(sender, None)
                 except FloodWaitError as fw: await asyncio.sleep(fw.seconds)
                 except: pass
 
-            # Reply + Spam combo
             if sender in rspam_users:
                 try:
                     data = rspam_users.get(sender)
                     if data:
-                        n    = int(data.get("count", 1))
+                        n = int(data.get("count", 1))
                         text = data.get("text", "")
                         for _ in range(n):
                             try:
@@ -5833,7 +4741,6 @@ if _IS_USERBOT:
                                 break
                 except Exception:
                     pass
-
         except Exception as e:
             print(f"[AUTO_HANDLER_ERR] {str(e)[:80]}")
 
@@ -5889,13 +4796,8 @@ if _IS_USERBOT:
         except: pass
 
 
-    # ────────────────────────────────────────────────
-    #                   COMMAND DISPATCHER
-    # ────────────────────────────────────────────────
     @bot.on(events.NewMessage(outgoing=True))
     async def dispatcher(event):
-        # ── SECURITY: Only the logged-in account (outgoing=True) can trigger commands ──
-        # outgoing=True already ensures this is OUR message, but double-check sender
         text = event.raw_text
         if not text: return
         if not text.startswith("."): return
@@ -5907,10 +4809,9 @@ if _IS_USERBOT:
         cmd_data = commands.get(cmd)
         if not cmd_data: return
 
-        # Extra check: sender must match the logged-in account (set at startup)
         sender = event.sender_id
         if OWNER_ID and sender and sender != OWNER_ID:
-            return  # silently ignore — another account somehow sent this
+            return
 
         if cmd_data.get("group_only"):
             try:
@@ -5936,19 +4837,15 @@ if _IS_USERBOT:
             except: pass
 
 
-    # ────────────────────────────────────────────────
-    #                   STARTUP
-    # ────────────────────────────────────────────────
     async def main():
         global OWNER_ID
         try:
             await bot.start()
             me = await bot.get_me()
-            # Lock OWNER_ID to the actual logged-in account — nobody else can use commands
             OWNER_ID = me.id
             uname = f"@{me.username}" if me.username else "NoUsername"
             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-            print("🤖 SID ADVANCE V3 USERBOT STARTED!")
+            print("🌸 LEXI SAKURA V3 USERBOT STARTED! 🌸")
             print(f"👤 Logged in as → {me.first_name} ({uname})")
             print(f"🆔 User ID → {me.id}  [OWNER LOCKED]")
             print(f"📦 Commands → {len(commands)} registered")
@@ -5960,7 +4857,7 @@ if _IS_USERBOT:
                     print("⚠️ Connection Lost → Reconnecting...")
                     await asyncio.sleep(3)
         except KeyboardInterrupt:
-            print("\n🛑 Userbot stopped manually")
+            print("\n🌸 Userbot stopped manually")
         except Exception as e:
             print(f"\n❌ Startup Error → {str(e)[:80]}")
         finally:
@@ -5978,7 +4875,7 @@ if _IS_USERBOT:
 
 else:
     # ════════════════════════════════════════════════════════════════
-    #   INLINE CONFIG — reads from environment variables
+    #   HOSTER BOT — LEXI PREMIUM HOSTER (Sakura Blossom Edition)
     # ════════════════════════════════════════════════════════════════
     import os
     import sys
@@ -5989,9 +4886,6 @@ else:
     TELEGRAM_API_ID   = int(os.environ.get("TELEGRAM_API_ID", "35378028"))
     TELEGRAM_API_HASH = os.environ.get("TELEGRAM_API_HASH", "94d5c73a29abe20afe9676e885f7bb2c")
 
-    # ════════════════════════════════════════════════════════════════
-    #   INLINE DATABASE — JSON file-based storage in ./data/
-    # ════════════════════════════════════════════════════════════════
     import json
     import threading
     import random as _random
@@ -5999,12 +4893,8 @@ else:
     _DB_DIR = os.path.join(os.getcwd(), "data")
     _db_lock = threading.Lock()
 
-    # ─── ANIME IMAGES ────────────────────────────────────────────────────────────────
-    # Use a live, maintained anime image API instead of hard-coded/invalid image URLs.
-    # The image is downloaded as bytes first so Telegram does not have to fetch a
-    # third-party URL itself (which avoids "frame not available in your region" errors).
     ANIME_API_URL = "https://nekos.best/api/v2/neko"
-    ANIME_USER_AGENT = "SID-Premium-Hoster (Telegram Bot)"
+    ANIME_USER_AGENT = "Lexi-Premium-Hoster (Telegram Bot)"
 
     def get_random_anime_image():
         try:
@@ -6020,15 +4910,12 @@ else:
             image_url = results[0].get("url") if results else None
             if not image_url:
                 raise RuntimeError("Anime API returned no image URL")
-
             image_resp = requests.get(
                 image_url,
                 headers={"User-Agent": ANIME_USER_AGENT},
                 timeout=20,
             )
             image_resp.raise_for_status()
-
-            # Keep the payload reasonably sized for Telegram.
             image_bytes = image_resp.content
             if not image_bytes:
                 raise RuntimeError("Anime image response was empty")
@@ -6069,8 +4956,7 @@ else:
         users_dir = os.path.join(_DB_DIR, "users")
         if not os.path.isdir(users_dir):
             return []
-        return [d for d in os.listdir(users_dir)
-                if os.path.isdir(os.path.join(users_dir, d))]
+        return [d for d in os.listdir(users_dir) if os.path.isdir(os.path.join(users_dir, d))]
 
     def user_count():
         return len(get_all_users())
@@ -6143,7 +5029,6 @@ else:
     def is_blocked(uid):
         return uid in get_blocked()
 
-    # ─── WELCOME VIDEO STORAGE ──────────────────────────────────────────────────────
     _WELCOME_VIDEO_PATH = _db_path("welcome_video.json")
 
     def get_welcome_video():
@@ -6156,7 +5041,6 @@ else:
         if os.path.exists(_WELCOME_VIDEO_PATH):
             os.remove(_WELCOME_VIDEO_PATH)
 
-    # ─── BOT SETTINGS ────────────────────────────────────────────────────────────────
     _BOT_SETTINGS_PATH = _db_path("bot_settings.json")
 
     def get_bot_settings():
@@ -6188,9 +5072,6 @@ else:
         get_random_anime_image=get_random_anime_image,
     )
 
-    # ════════════════════════════════════════════════════════════════
-    #   INLINE RUNNER — subprocess-based userbot process manager
-    # ════════════════════════════════════════════════════════════════
     import subprocess
     import time as _time
 
@@ -6286,10 +5167,6 @@ else:
         get_uptime=get_uptime,
     )
 
-    # ════════════════════════════════════════════════════════════════
-    #   HOSTER BOT CODE
-    # ════════════════════════════════════════════════════════════════
-
     import asyncio
     import logging
     import os
@@ -6311,7 +5188,6 @@ else:
         PhoneCodeInvalidError, FloodWaitError
     )
 
-
     logging.basicConfig(
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         level=logging.INFO,
@@ -6319,19 +5195,9 @@ else:
     logger = logging.getLogger(__name__)
 
     START_TIME = time.time()
-
-    MAX_ACCOUNTS_PER_USER = 3   # max accounts one user can host
-
-    # ─── CONVERSATION STATES ──────────────────────────────────────────────────────
+    MAX_ACCOUNTS_PER_USER = 3
     ASK_PHONE, ASK_CODE, ASK_2FA = range(3)
-
-    # ─── PENDING LOGINS ───────────────────────────────────────────────────────────
     pending_logins: dict = {}
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   FONT STYLES
-    # ════════════════════════════════════════════════════════════════════════════════
 
     def bold_serif(t: str) -> str:
         result = ""
@@ -6399,25 +5265,12 @@ else:
             else: result += c
         return result
 
-    def bold_italic_serif(t: str) -> str:
-        result = ""
-        for c in t:
-            if 'A' <= c <= 'Z': result += chr(ord(c) - ord('A') + 0x1D468)
-            elif 'a' <= c <= 'z': result += chr(ord(c) - ord('a') + 0x1D482)
-            else: result += c
-        return result
-
     DIV  = "━━━━━━━━━━━━━━━━━━━━━━━━━━"
     DIV2 = "·͜·͜·͜·͜·͜·͜·͜·͜·͜·͜·͜·͜·͜·͜·͜·͜·͜·"
     DIV3 = "⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯"
     TOP  = "╔══════════════════════════╗"
     BOT  = "╚══════════════════════════╝"
     MID  = "╠══════════════════════════╣"
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   HELPERS
-    # ════════════════════════════════════════════════════════════════════════════════
 
     def is_owner(uid): return uid == OWNER_ID
     def is_premium(uid): return is_owner(uid) or db.is_sudo(uid, OWNER_ID)
@@ -6434,7 +5287,7 @@ else:
     async def owner_only(update: Update) -> bool:
         if not is_owner(update.effective_user.id):
             await update.message.reply_text(
-                f"{TOP}\n║  🔒  {bold_serif('Access Denied')}  🔒  ║\n{BOT}\n\n"
+                f"{TOP}\n║  🌸  {bold_serif('Access Denied')}  🌸  ║\n{BOT}\n\n"
                 f"{script('This command is restricted to')}\n👑 {sans_bold('Owners Only')}",
                 parse_mode=ParseMode.MARKDOWN,
             )
@@ -6444,7 +5297,7 @@ else:
     async def premium_only(update: Update) -> bool:
         if not is_premium(update.effective_user.id):
             await update.message.reply_text(
-                f"🌟 {bold_serif('Premium Required')}\n\n"
+                f"🌸 {bold_serif('Premium Required')}\n\n"
                 f"{script('This feature is for')}\n"
                 f"👑 {sans_bold('Owners')} & {sans_bold('Premium Users')} {script('only')}\n\n"
                 f"📩 {mono('Contact:')} {SUPPORT_USERNAME}",
@@ -6469,11 +5322,6 @@ else:
             try: await data["client"].disconnect()
             except: pass
 
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /start
-    # ════════════════════════════════════════════════════════════════════════════════
-
     async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await check_blocked(update): return
         uid  = update.effective_user.id
@@ -6487,16 +5335,11 @@ else:
         running  = [a for a in hosted if runner.is_running(uid, a["slot"])]
 
         if hosted:
-            status_line = (
-                f"\n📱 {fraktur('Accounts')} : {mono(str(len(hosted)))} hosted  "
-                f"| {mono(str(len(running)))} running"
-            )
+            status_line = (f"\n📱 {fraktur('Accounts')} : {mono(str(len(hosted)))} hosted  "
+                           f"| {mono(str(len(running)))} running")
         else:
             status_line = f"\n⚪ {fraktur('Userbot')}: {italic_serif('Not hosted yet')}"
 
-        # Show the owner-configured welcome video before the main /start menu.
-        # The Telegram file_id remains valid across bot restarts, so no local
-        # video file has to be stored on Railway.
         welcome_video = db.get_welcome_video()
         if welcome_video and welcome_video.get("file_id"):
             try:
@@ -6513,44 +5356,35 @@ else:
             except Exception as e:
                 logger.warning(f"Failed to send welcome video: {e}")
 
+        # 🎨 COLORFUL INLINE BUTTONS
         keyboard = [
-            [
-                InlineKeyboardButton("🚀  𝗛𝗼𝘀𝘁 𝗠𝘆 𝗨𝘀𝗲𝗿𝗯𝗼𝘁", callback_data="host"),
-                InlineKeyboardButton("📋  𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀",        callback_data="commands"),
-            ],
-            [
-                InlineKeyboardButton("📊  𝗦𝘁𝗮𝘁𝘂𝘀",   callback_data="status"),
-                InlineKeyboardButton("🗑️  𝗟𝗼𝗴𝗼𝘂𝘁",   callback_data="menu_logout"),
-            ],
-            [
-                InlineKeyboardButton("📞  𝗦𝘂𝗽𝗽𝗼𝗿𝘁",          callback_data="support"),
-                InlineKeyboardButton("❓  𝗛𝗲𝗹𝗽 & 𝗚𝘂𝗶𝗱𝗲", callback_data="help"),
-            ],
+            [InlineKeyboardButton("🚀  𝗛𝗼𝘀𝘁 𝗠𝘆 𝗨𝘀𝗲𝗿𝗯𝗼𝘁", callback_data="host", style="success"),
+             InlineKeyboardButton("📋  𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀",        callback_data="commands", style="primary")],
+            [InlineKeyboardButton("📊  𝗦𝘁𝗮𝘁𝘂𝘀",   callback_data="status", style="primary"),
+             InlineKeyboardButton("🗑️  𝗟𝗼𝗴𝗼𝘂𝘁",   callback_data="menu_logout", style="danger")],
+            [InlineKeyboardButton("📞  𝗦𝘂𝗽𝗽𝗼𝗿𝘁",          callback_data="support", style="primary"),
+             InlineKeyboardButton("❓  𝗛𝗲𝗹𝗽 & 𝗚𝘂𝗶𝗱𝗲", callback_data="help", style="primary")],
         ]
         if is_owner(uid):
-            keyboard.append([
-                InlineKeyboardButton("📢  𝗕𝗿𝗼𝗮𝗱𝗰𝗮𝘀𝘁", callback_data="broadcast_menu"),
-                InlineKeyboardButton("⚙️  𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀",   callback_data="settings_menu"),
-            ])
+            keyboard.append([InlineKeyboardButton("📢  𝗕𝗿𝗼𝗮𝗱𝗰𝗮𝘀𝘁", callback_data="broadcast_menu", style="primary"),
+                             InlineKeyboardButton("⚙️  𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀",   callback_data="settings_menu", style="primary")])
 
-        # Fetch a fresh anime image as bytes so Telegram never has to fetch
-        # the image URL directly.
         anime_bytes = db.get_random_anime_image()
         text = (
             f"{TOP}\n"
-            f"║  🤖  {double_struck('SID Premium Hoster')}  🤖  ║\n"
+            f"║  🌸  {double_struck('Lexi Premium Hoster')}  🌸  ║\n"
             f"{BOT}\n\n"
-            f"🌟 {script('Welcome back')}, {bold_serif(name)}!\n\n"
+            f"🌸 {script('Welcome back')}, {bold_serif(name)}!\n\n"
             f"{DIV}\n"
-            f"⚡ {sans_bold('Version')}  : {mono('Advance V3')}\n"
+            f"⚡ {sans_bold('Version')}  : {mono('Sakura V3')}\n"
             f"📦 {sans_bold('Commands')} : {mono('500+')}\n"
-            f"⚔️ {sans_bold('Raids')}    : {mono('20 Types  1000+ Texts')}\n"
+            f"⚔️ {sans_bold('Raids')}    : {mono('20 Types · 1000+ Texts')}\n"
+            f"🌸 {sans_bold('Theme')}    : {mono('Sakura Blossom')}\n"
             f"{DIV}\n"
             f"🪪 {fraktur('Your ID')} : `{uid}`"
             f"{status_line}\n\n"
             f"{italic_serif('Select an option below')} 👇"
         )
-
         try:
             if anime_bytes:
                 anime_file = BytesIO(anime_bytes)
@@ -6571,26 +5405,19 @@ else:
                 reply_markup=InlineKeyboardMarkup(keyboard),
             )
 
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /setwelcomevideo (Owner)
-    # ════════════════════════════════════════════════════════════════════════════════
-
     async def cmd_setwelcomevideo(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update): return
         reply = update.message.reply_to_message
         if not reply:
             await update.message.reply_text(
-                f"📽️ {bold_serif('Set Welcome Video')}\n\n"
+                f"🌸 {bold_serif('Set Welcome Video')}\n\n"
                 f"{script('Reply to a video or video note with')}\n"
                 f"{mono('/setwelcomevideo')}",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
         file_id = None
         is_video_note = False
-
         if reply.video:
             file_id = reply.video.file_id
         elif reply.video_note:
@@ -6602,45 +5429,28 @@ else:
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
         db.set_welcome_video({"file_id": file_id, "is_video_note": is_video_note})
         await update.message.reply_text(
-            f"✅ {bold_serif('Welcome video set successfully!')}\n\n"
-            f"📹 {script('New users will see this video on /start')}",
+            f"✅ {bold_serif('Welcome video set successfully!')}",
             parse_mode=ParseMode.MARKDOWN,
         )
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /removewelcomevideo (Owner)
-    # ════════════════════════════════════════════════════════════════════════════════
 
     async def cmd_removewelcomevideo(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update): return
         if db.get_welcome_video() is None:
-            await update.message.reply_text(
-                f"⚠️ {italic_serif('No welcome video is currently set.')}",
-                parse_mode=ParseMode.MARKDOWN,
-            )
+            await update.message.reply_text(f"⚠️ {italic_serif('No welcome video is currently set.')}",
+                                             parse_mode=ParseMode.MARKDOWN)
             return
         db.remove_welcome_video()
-        await update.message.reply_text(
-            f"🗑️ {bold_serif('Welcome video removed.')}\n\n"
-            f"{script('The /start message will now show only text.')}",
-            parse_mode=ParseMode.MARKDOWN,
-        )
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /help
-    # ════════════════════════════════════════════════════════════════════════════════
+        await update.message.reply_text(f"🗑️ {bold_serif('Welcome video removed.')}",
+                                        parse_mode=ParseMode.MARKDOWN)
 
     async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await check_blocked(update): return
         text = (
-            f"❓ {double_struck('Help')} & {double_struck('Commands')}\n"
+            f"🌸 {double_struck('Help')} & {double_struck('Commands')} 🌸\n"
             f"{DIV}\n\n"
-            f"{'━'*3} {sans_bold('User Commands')} {'━'*3}\n\n"
+            f"🌸 {sans_bold('User Commands')}\n\n"
             f"🔹 {mono('/start')}       {script('Grand Welcome Screen')}\n"
             f"🔹 {mono('/help')}        {script('This Help Menu')}\n"
             f"🔹 {mono('/commands')}    {script('Userbot Features List')}\n"
@@ -6651,7 +5461,7 @@ else:
             f"🔹 {mono('/logout')}      {script('Logout an Account')}\n"
             f"🔹 {mono('/support')}     {script('Contact Admin')}\n\n"
             f"{DIV}\n"
-            f"{'━'*3} 👑 {sans_bold('Owner Commands')} {'━'*3}\n\n"
+            f"👑 {sans_bold('Owner Commands')}\n\n"
             f"🔺 {mono('/restartall')}    {fraktur('Restart All Userbots')}\n"
             f"🔺 {mono('/refresh')}       {fraktur('Refresh Bot State')}\n"
             f"🔺 {mono('/sudolist')}      {fraktur('Manage Sudo Users')}\n"
@@ -6668,23 +5478,18 @@ else:
         )
         await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
 
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /commands
-    # ════════════════════════════════════════════════════════════════════════════════
-
     async def cmd_commands(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await check_blocked(update): return
         text = (
-            f"⚡ {double_struck('SID Advance V3')} — {script('Userbot Features')}\n"
+            f"🌸 {double_struck('Lexi Sakura V3')} — {script('Userbot Features')}\n"
             f"{DIV}\n\n"
-            f"⚔️ {bold_serif('Raid & Fight')} {italic_serif('(20 Types  1000+ Texts)')}\n"
+            f"⚔️ {bold_serif('Raid & Fight')} {italic_serif('(20 Types · 1000+ Texts)')}\n"
             f"{mono('.attack .roast .diss .war .savage')}\n"
             f"{mono('.ultra .godwar .combo .troll .shame')}\n"
             f"{mono('.fire .devil .karma .ghost .legend .doom')}\n"
             f"{mono('.nuke .storm .blizzard .venom')} ★ NEW\n\n"
             f"🔁 {bold_serif('Auto-Reply')}\n"
-            f"{mono('.reply .rreply .flag .hrreply .replygod .replysid')}\n\n"
+            f"{mono('.reply .rreply .flag .hrreply .replygod .replylexi')}\n\n"
             f"💥 {bold_serif('Spam & Spray')}\n"
             f"{mono('.spray .stopspray .spam .addspam .clearspam')}\n\n"
             f"🛠️ {bold_serif('Utility')}\n"
@@ -6700,14 +5505,9 @@ else:
             f"{DIV}\n"
             f"📦 {sans_bold('Total')}: {double_struck('500+')} {script('Commands')}  •  "
             f"{script('Prefix')}: {mono('.')}\n\n"
-            f"🚀 {script('Deploy Yours')} → /host"
+            f"🌸 {script('Deploy Yours')} → /host"
         )
         await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /host — Phone + OTP Login Flow  (supports multiple. accounts)
-    # ════════════════════════════════════════════════════════════════════════════════
 
     async def cmd_host_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if update.callback_query:
@@ -6715,22 +5515,19 @@ else:
             reply = update.callback_query.message.reply_text
         else:
             reply = update.message.reply_text
-
         if not await check_blocked(update): return ConversationHandler.END
         uid = update.effective_user.id
-
         accounts = db.get_accounts(uid)
         hosted   = [a for a in accounts if a.get("hosted")]
         if len(hosted) >= MAX_ACCOUNTS_PER_USER:
             await reply(
                 f"📱 {bold_serif('Account Limit Reached')}\n\n"
                 f"{script('You already have')} {mono(str(len(hosted)))} {script('accounts hosted.')}\n"
-                f"📌 {italic_serif('Maximum:')} {mono(str(MAX_ACCOUNTS_PER_USER))} {italic_serif('per user')}\n\n"
-                f"🗑️ {script('Logout an account first:')} /logout",
+                f"📌 {italic_serif('Maximum:')} {mono(str(MAX_ACCOUNTS_PER_USER))}\n\n"
+                f"🗑️ {script('Logout first:')} /logout",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return ConversationHandler.END
-
         total = db.hosted_count()
         if total >= MAX_USERBOTS and not is_premium(uid):
             await reply(
@@ -6739,15 +5536,10 @@ else:
                 parse_mode=ParseMode.MARKDOWN,
             )
             return ConversationHandler.END
-
         await cleanup_pending(uid)
-
         extra = f"\n\n📱 {italic_serif('Account')} {mono(str(len(hosted)+1))} {italic_serif('of')} {mono(str(MAX_ACCOUNTS_PER_USER))}" if hosted else ""
-
         await reply(
-            f"{TOP}\n"
-            f"║  🚀  {bold_serif('Deploy Your Userbot')}  🚀  ║\n"
-            f"{BOT}\n\n"
+            f"{TOP}\n║  🌸  {bold_serif('Deploy Your Userbot')}  🌸  ║\n{BOT}\n\n"
             f"📱 {sans_bold('Step 1 of 3')}\n"
             f"{DIV3}\n"
             f"{script('Enter your Telegram Phone Number')}\n\n"
@@ -6757,7 +5549,6 @@ else:
             parse_mode=ParseMode.MARKDOWN,
         )
         return ASK_PHONE
-
 
     async def host_got_phone(update: Update, context: ContextTypes.DEFAULT_TYPE):
         uid   = update.effective_user.id
@@ -6770,10 +5561,7 @@ else:
                 parse_mode=ParseMode.MARKDOWN,
             )
             return ASK_PHONE
-
-        msg = await update.message.reply_text(
-            f"⏳ {sans_bold('Sending OTP to Telegram')}... 📨"
-        )
+        msg = await update.message.reply_text(f"🌸 {sans_bold('Sending OTP to Telegram')}... 📨")
         try:
             client = TelegramClient(StringSession(), TELEGRAM_API_ID, TELEGRAM_API_HASH)
             await client.connect()
@@ -6784,9 +5572,7 @@ else:
                 "phone_code_hash": result.phone_code_hash,
             }
             await msg.edit_text(
-                f"{TOP}\n"
-                f"║  📨  {bold_serif('OTP Sent Successfully')}  📨  ║\n"
-                f"{BOT}\n\n"
+                f"{TOP}\n║  🌸  {bold_serif('OTP Sent Successfully')}  🌸  ║\n{BOT}\n\n"
                 f"📱 {fraktur('Number')}: {mono(phone)}\n\n"
                 f"📩 {sans_bold('Step 2 of 3')}\n"
                 f"{DIV3}\n"
@@ -6798,9 +5584,7 @@ else:
             return ASK_CODE
         except FloodWaitError as e:
             await cleanup_pending(uid)
-            await msg.edit_text(
-                f"⏳ {sans_bold('Flood Wait!')} {mono(str(e.seconds) + 's')} baad try karo."
-            )
+            await msg.edit_text(f"⏳ {sans_bold('Flood Wait!')} {mono(str(e.seconds) + 's')} baad try karo.")
             return ConversationHandler.END
         except Exception as e:
             await cleanup_pending(uid)
@@ -6810,23 +5594,17 @@ else:
             )
             return ConversationHandler.END
 
-
     async def host_got_code(update: Update, context: ContextTypes.DEFAULT_TYPE):
         uid  = update.effective_user.id
         code = update.message.text.strip().replace(" ", "")
-
         pending = pending_logins.get(uid)
         if not pending:
-            await update.message.reply_text(
-                f"❌ {sans_bold('Session expired. Try /host again.')}"
-            )
+            await update.message.reply_text(f"❌ {sans_bold('Session expired. Try /host again.')}")
             return ConversationHandler.END
-
         client: TelegramClient = pending["client"]
         phone: str = pending["phone"]
         hash_: str = pending["phone_code_hash"]
-
-        msg = await update.message.reply_text(f"🔐 {sans_bold('Verifying OTP')}...")
+        msg = await update.message.reply_text(f"🌸 {sans_bold('Verifying OTP')}...")
         try:
             await client.sign_in(phone, code, phone_code_hash=hash_)
             session_string = client.session.save()
@@ -6834,17 +5612,15 @@ else:
             pending_logins.pop(uid, None)
             await _deploy_userbot(update, context, uid, session_string, phone, msg)
             return ConversationHandler.END
-
         except SessionPasswordNeededError:
             await msg.edit_text(
-                f"{TOP}\n║  🔒  {bold_serif('2FA Detected')}  🔒  ║\n{BOT}\n\n"
+                f"{TOP}\n║  🌸  {bold_serif('2FA Detected')}  🌸  ║\n{BOT}\n\n"
                 f"🛡️ {sans_bold('Step 3 of 3')}\n{DIV3}\n"
                 f"{script('Your account has Two-Step Verification')}\n\n"
                 f"🔑 {fraktur('Enter your 2FA Password')}:",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return ASK_2FA
-
         except PhoneCodeInvalidError:
             await msg.edit_text(
                 f"❌ {bold_serif('Wrong Code!')} Dobara enter karo:\n\n"
@@ -6852,23 +5628,14 @@ else:
                 parse_mode=ParseMode.MARKDOWN,
             )
             return ASK_CODE
-
         except PhoneCodeExpiredError:
             await cleanup_pending(uid)
-            await msg.edit_text(
-                f"⏳ {sans_bold('Code Expired!')} Dobara /host karo.",
-                parse_mode=ParseMode.MARKDOWN,
-            )
+            await msg.edit_text(f"⏳ {sans_bold('Code Expired!')} Dobara /host karo.")
             return ConversationHandler.END
-
         except Exception as e:
             await cleanup_pending(uid)
-            await msg.edit_text(
-                f"❌ {bold_serif('Error')}\n{mono(str(e)[:120])}\n\nDobara /host karo.",
-                parse_mode=ParseMode.MARKDOWN,
-            )
+            await msg.edit_text(f"❌ {bold_serif('Error')}\n{mono(str(e)[:120])}\n\nDobara /host karo.")
             return ConversationHandler.END
-
 
     async def host_got_2fa(update: Update, context: ContextTypes.DEFAULT_TYPE):
         uid      = update.effective_user.id
@@ -6877,10 +5644,9 @@ else:
         if not pending:
             await update.message.reply_text("❌ Session expire ho gayi. /host karo.")
             return ConversationHandler.END
-
         client: TelegramClient = pending["client"]
         phone: str = pending.get("phone", "")
-        msg = await update.message.reply_text(f"🔐 {sans_bold('Verifying 2FA Password')}...")
+        msg = await update.message.reply_text(f"🌸 {sans_bold('Verifying 2FA Password')}...")
         try:
             await client.sign_in(password=password)
             session_string = client.session.save()
@@ -6891,12 +5657,10 @@ else:
         except Exception as e:
             await cleanup_pending(uid)
             await msg.edit_text(
-                f"❌ {bold_serif('Wrong 2FA Password')}\n"
-                f"{mono(str(e)[:120])}\n\nDobara /host karo.",
+                f"❌ {bold_serif('Wrong 2FA Password')}\n{mono(str(e)[:120])}\n\nDobara /host karo.",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return ConversationHandler.END
-
 
     async def _deploy_userbot(update, context, uid, session_string, phone, msg):
         name     = update.effective_user.first_name or "User"
@@ -6906,64 +5670,41 @@ else:
         while slot in existing:
             slot += 1
         acc_num = slot + 1
-
-        await msg.edit_text(
-            f"⏳ {double_struck('Deploying Account')} #{acc_num}... 🔄\n{DIV2}"
-        )
-        ok = runner.start_userbot(
-            uid, slot, str(TELEGRAM_API_ID), TELEGRAM_API_HASH, session_string, str(uid),
-        )
+        await msg.edit_text(f"🌸 {double_struck('Deploying Account')} #{acc_num}... 🔄\n{DIV2}")
+        ok = runner.start_userbot(uid, slot, str(TELEGRAM_API_ID), TELEGRAM_API_HASH, session_string, str(uid))
         if ok:
             db.save_user_meta(uid, {"first_name": name})
             db.add_account(uid, {
-                "slot":           slot,
-                "session_string": session_string,
-                "hosted":         True,
-                "hosted_at":      int(time.time()),
-                "phone":          phone,
+                "slot": slot, "session_string": session_string,
+                "hosted": True, "hosted_at": int(time.time()), "phone": phone,
             })
-            # Send a fresh anime image after successful deployment.
             anime_bytes = db.get_random_anime_image()
+            deploy_text = (
+                f"{TOP}\n║  🌸  {bold_serif('Deploy Successful')}  🌸  ║\n{BOT}\n\n"
+                f"✅ {sans_bold('Account')} : {mono('#' + str(acc_num))}\n"
+                f"📱 {sans_bold('Phone')}   : {mono(phone if phone else 'N/A')}\n"
+                f"⚡ {sans_bold('Version')} : {mono('Lexi Sakura V3')}\n"
+                f"📦 {sans_bold('Commands')}: {mono('500+')}\n\n"
+                f"{DIV}\n"
+                f"🔹 {italic_serif('Kisi bhi chat mein')} {mono('.alive')} {italic_serif('bhejo')}\n"
+                f"🔹 /myaccounts {italic_serif('se sab accounts dekho')}\n"
+                f"🔹 /host {italic_serif('se aur account add karo')}"
+            )
             try:
                 await msg.delete()
                 if not anime_bytes:
-                    raise RuntimeError("No anime image available")
+                    raise RuntimeError("No anime image")
                 anime_file = BytesIO(anime_bytes)
                 anime_file.name = "deployment_anime.png"
                 await context.bot.send_photo(
                     chat_id=update.effective_chat.id,
                     photo=anime_file,
-                    caption=(
-                        f"{TOP}\n"
-                        f"║  🎉  {bold_serif('Deploy Successful')}  🎉  ║\n"
-                        f"{BOT}\n\n"
-                        f"✅ {sans_bold('Account')} : {mono('#' + str(acc_num))}\n"
-                        f"📱 {sans_bold('Phone')}   : {mono(phone if phone else 'N/A')}\n"
-                        f"⚡ {sans_bold('Version')} : {mono('SID Advance V3')}\n"
-                        f"📦 {sans_bold('Commands')}: {mono('500+')}\n\n"
-                        f"{DIV}\n"
-                        f"🔹 {italic_serif('Kisi bhi chat mein')} {mono('.alive')} {italic_serif('bhejo')}\n"
-                        f"🔹 /myaccounts {italic_serif('se sab accounts dekho')}\n"
-                        f"🔹 /host {italic_serif('se aur account add karo')}"
-                    ),
+                    caption=deploy_text,
                     parse_mode=ParseMode.MARKDOWN,
                 )
             except Exception as e:
                 logger.warning(f"Failed to send anime image after deploy: {e}")
-                await msg.edit_text(
-                    f"{TOP}\n"
-                    f"║  🎉  {bold_serif('Deploy Successful')}  🎉  ║\n"
-                    f"{BOT}\n\n"
-                    f"✅ {sans_bold('Account')} : {mono('#' + str(acc_num))}\n"
-                    f"📱 {sans_bold('Phone')}   : {mono(phone if phone else 'N/A')}\n"
-                    f"⚡ {sans_bold('Version')} : {mono('SID Advance V3')}\n"
-                    f"📦 {sans_bold('Commands')}: {mono('500+')}\n\n"
-                    f"{DIV}\n"
-                    f"🔹 {italic_serif('Kisi bhi chat mein')} {mono('.alive')} {italic_serif('bhejo')}\n"
-                    f"🔹 /myaccounts {italic_serif('se sab accounts dekho')}\n"
-                    f"🔹 /host {italic_serif('se aur account add karo')}",
-                    parse_mode=ParseMode.MARKDOWN,
-                )
+                await msg.edit_text(deploy_text, parse_mode=ParseMode.MARKDOWN)
         else:
             await msg.edit_text(
                 f"❌ {bold_serif('Deploy Failed')}\n\n"
@@ -6974,63 +5715,41 @@ else:
                 parse_mode=ParseMode.MARKDOWN,
             )
 
-
     async def host_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await cleanup_pending(update.effective_user.id)
-        await update.message.reply_text(
-            f"🚫 {bold_serif('Login Cancelled')}\n\n"
-            f"{script('Use /host to try again anytime.')}"
-        )
+        await update.message.reply_text(f"🚫 {bold_serif('Login Cancelled')}\n\n"
+                                        f"{script('Use /host to try again anytime.')}")
         return ConversationHandler.END
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /broadcast — Owner-only broadcast to all registered users
-    # ════════════════════════════════════════════════════════════════════════════════
 
     async def cmd_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update):
             return
-
         reply = update.message.reply_to_message
         text_arg = " ".join(context.args).strip()
-
         if not reply and not text_arg:
             await update.message.reply_text(
-                f"{TOP}\n"
-                f"║  📢  {bold_serif('Broadcast Center')}  📢  ║\n"
-                f"{BOT}\n\n"
+                f"{TOP}\n║  🌸  {bold_serif('Broadcast Center')}  🌸  ║\n{BOT}\n\n"
                 f"📝 {script('Reply to any message with')} {mono('/broadcast')}\n"
-                f"or {script('use')} {mono('/broadcast your message here')}\n\n"
-                f"✨ {italic_serif('Media, photos, videos and files are supported when replying.')}",
+                f"or {script('use')} {mono('/broadcast your message here')}",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
         users = []
         for uid_str in db.get_all_users():
-            try:
-                target_uid = int(uid_str)
-            except Exception:
-                continue
-            if target_uid == OWNER_ID or db.is_blocked(target_uid):
-                continue
+            try: target_uid = int(uid_str)
+            except Exception: continue
+            if target_uid == OWNER_ID or db.is_blocked(target_uid): continue
             users.append(target_uid)
-
         total = len(users)
         if total == 0:
-            await update.message.reply_text(
-                f"⚠️ {bold_serif('No eligible users found.')}",
-                parse_mode=ParseMode.MARKDOWN,
-            )
+            await update.message.reply_text(f"⚠️ {bold_serif('No eligible users found.')}",
+                                            parse_mode=ParseMode.MARKDOWN)
             return
-
         progress = await update.message.reply_text(
-            f"📢 {bold_serif('Broadcast Starting')}...\n"
+            f"🌸 {bold_serif('Broadcast Starting')}...\n"
             f"⏳ {script('Preparing')} • {mono(f'0/{total}')}",
             parse_mode=ParseMode.MARKDOWN,
         )
-
         sent = 0
         failed = 0
         for index, target_uid in enumerate(users, 1):
@@ -7042,18 +5761,13 @@ else:
                         message_id=reply.message_id,
                     )
                 else:
-                    await context.bot.send_message(
-                        chat_id=target_uid,
-                        text=text_arg,
-                    )
+                    await context.bot.send_message(chat_id=target_uid, text=text_arg)
                 sent += 1
             except Exception as e:
                 failed += 1
                 logger.warning(f"Broadcast failed for {target_uid}: {str(e)[:100]}")
-
-            # Small progress animation without changing broadcast behavior.
             if index == 1 or index % 10 == 0 or index == total:
-                frames = ["📢", "📣", "🚀", "✨", "📡"]
+                frames = ["🌸", "🌷", "✨", "🎀", "💕"]
                 frame = frames[(index // 10) % len(frames)]
                 try:
                     await progress.edit_text(
@@ -7064,32 +5778,24 @@ else:
                     )
                 except Exception:
                     pass
-
         await progress.edit_text(
-            f"{TOP}\n"
-            f"║  ✅  {bold_serif('Broadcast Complete')}  ✅  ║\n"
-            f"{BOT}\n\n"
+            f"{TOP}\n║  🌸  {bold_serif('Broadcast Complete')}  🌸  ║\n{BOT}\n\n"
             f"📨 {sans_bold('Sent')}    : {mono(str(sent))}\n"
             f"❌ {sans_bold('Failed')}  : {mono(str(failed))}\n"
             f"👥 {sans_bold('Total')}   : {mono(str(total))}\n\n"
             f"{DIV}\n"
-            f"✨ {italic_serif('Broadcast finished successfully.')}",
+            f"🌸 {italic_serif('Broadcast finished successfully.')}",
             parse_mode=ParseMode.MARKDOWN,
         )
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /myaccounts — list all accounts with inline manage buttons
-    # ════════════════════════════════════════════════════════════════════════════════
 
     async def cmd_myaccounts(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await check_blocked(update): return
         uid      = update.effective_user.id
         accounts = db.get_accounts(uid)
         hosted   = [a for a in accounts if a.get("hosted")]
-
         if not hosted:
-            keyboard = [[InlineKeyboardButton("🚀 Host My First Userbot", callback_data="host")]]
+            # 🎨 COLORFUL BUTTON
+            keyboard = [[InlineKeyboardButton("🚀 Host My First Userbot", callback_data="host", style="success")]]
             await update.message.reply_text(
                 f"📱 {bold_serif('No Accounts Hosted Yet')}\n\n"
                 f"{script('Get started with /host')}\n"
@@ -7098,7 +5804,6 @@ else:
                 reply_markup=InlineKeyboardMarkup(keyboard),
             )
             return
-
         lines = []
         keyboard = []
         for acct in hosted:
@@ -7108,53 +5813,34 @@ else:
             icon   = "🟢" if alive else "🔴"
             phone  = _phone_label(acct)
             up_str = f"  ⏱️ {uptime}" if uptime else ""
-            lines.append(
-                f"{icon} {bold_serif('Acc #' + str(slot+1))} — {mono(phone)}{up_str}"
-            )
+            lines.append(f"{icon} {bold_serif('Acc #' + str(slot+1))} — {mono(phone)}{up_str}")
+            # 🎨 COLORFUL BUTTONS
             row = []
             if alive:
-                row.append(InlineKeyboardButton(f"🔄 Restart #{slot+1}", callback_data=f"restart_acc_{slot}"))
+                row.append(InlineKeyboardButton(f"🔄 Restart #{slot+1}", callback_data=f"restart_acc_{slot}", style="primary"))
             else:
-                row.append(InlineKeyboardButton(f"▶️ Start #{slot+1}",   callback_data=f"start_acc_{slot}"))
-            row.append(InlineKeyboardButton(f"🗑️ Logout #{slot+1}", callback_data=f"logout_acc_{slot}"))
+                row.append(InlineKeyboardButton(f"▶️ Start #{slot+1}",   callback_data=f"start_acc_{slot}", style="success"))
+            row.append(InlineKeyboardButton(f"🗑️ Logout #{slot+1}", callback_data=f"logout_acc_{slot}", style="danger"))
             keyboard.append(row)
-
         if len(hosted) < MAX_ACCOUNTS_PER_USER:
-            keyboard.append([InlineKeyboardButton("➕ Add Another Account", callback_data="add_acc")])
-
-        header = (
-            f"{TOP}\n"
-            f"║  📱  {double_struck('My Accounts')} ({len(hosted)}/{MAX_ACCOUNTS_PER_USER})  📱  ║\n"
-            f"{BOT}\n\n"
-        )
+            keyboard.append([InlineKeyboardButton("➕ Add Another Account", callback_data="add_acc", style="success")])
+        header = (f"{TOP}\n║  🌸  {double_struck('My Accounts')} ({len(hosted)}/{MAX_ACCOUNTS_PER_USER})  🌸  ║\n{BOT}\n\n")
         body = "\n".join(lines)
         footer = f"\n\n{DIV}\n🔹 /host {italic_serif('— add account')}"
-
-        await update.message.reply_text(
-            header + body + footer,
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=InlineKeyboardMarkup(keyboard),
-        )
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /status
-    # ════════════════════════════════════════════════════════════════════════════════
+        await update.message.reply_text(header + body + footer, parse_mode=ParseMode.MARKDOWN,
+                                        reply_markup=InlineKeyboardMarkup(keyboard))
 
     async def cmd_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await check_blocked(update): return
         uid      = update.effective_user.id
         accounts = db.get_accounts(uid)
         hosted   = [a for a in accounts if a.get("hosted")]
-
         if not hosted:
             await update.message.reply_text(
-                f"❌ {bold_serif('No Userbot Found')}\n\n"
-                f"{script('Deploy one using')} /host",
+                f"❌ {bold_serif('No Userbot Found')}\n\n{script('Deploy one using')} /host",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
         import datetime
         lines = []
         for acct in hosted:
@@ -7170,81 +5856,56 @@ else:
                 f"   ⏱️ {italic_serif('Uptime')} : {mono(uptime)}\n"
                 f"   📅 {italic_serif('Hosted')} : {mono(since)}"
             )
-
         footer = ""
         if any(not runner.is_running(uid, a["slot"]) for a in hosted):
             footer = f"\n\n🔄 {italic_serif('Use /restart to revive stopped accounts.')}"
-
         await update.message.reply_text(
-            f"{TOP}\n║  📊  {double_struck('Userbot Status')}  📊  ║\n{BOT}\n\n"
+            f"{TOP}\n║  🌸  {double_struck('Userbot Status')}  🌸  ║\n{BOT}\n\n"
             + "\n\n".join(lines) +
-            f"\n\n{DIV}"
-            f"\n⚡ {sans_bold('Version')} : {mono('SID Advance V3')}"
-            f"{footer}",
+            f"\n\n{DIV}\n⚡ {sans_bold('Version')} : {mono('Lexi Sakura V3')}{footer}",
             parse_mode=ParseMode.MARKDOWN,
         )
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /restart  (single → restart; multiple → show selection)
-    # ════════════════════════════════════════════════════════════════════════════════
 
     async def cmd_restart(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await check_blocked(update): return
         uid      = update.effective_user.id
         accounts = db.get_accounts(uid)
         hosted   = [a for a in accounts if a.get("hosted")]
-
         if not hosted:
             await update.message.reply_text(
                 f"❌ {bold_serif('No Userbot Found.')} {script('Use /host first.')}",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
         if len(hosted) == 1:
-            acct = hosted[0]
-            slot = acct["slot"]
+            acct = hosted[0]; slot = acct["slot"]
             await _do_restart(update, uid, slot, acct)
             return
-
-        # Multiple accounts — show selection
         keyboard = []
         for acct in hosted:
             slot  = acct["slot"]
             phone = _phone_label(acct)
             alive = runner.is_running(uid, slot)
             icon  = "🟢" if alive else "🔴"
-            keyboard.append([
-                InlineKeyboardButton(
-                    f"{icon} Restart #{slot+1} — {phone}",
-                    callback_data=f"restart_acc_{slot}",
-                )
-            ])
-        keyboard.append([InlineKeyboardButton("❌ Cancel", callback_data="cancel_action")])
-
+            # 🎨 COLORFUL BUTTON
+            keyboard.append([InlineKeyboardButton(f"{icon} Restart #{slot+1} — {phone}",
+                                                   callback_data=f"restart_acc_{slot}", style="primary")])
+        keyboard.append([InlineKeyboardButton("❌ Cancel", callback_data="cancel_action", style="danger")])
         await update.message.reply_text(
-            f"🔄 {bold_serif('Which account to restart?')}\n\n"
-            f"{script('Select below')} 👇",
+            f"🔄 {bold_serif('Which account to restart?')}\n\n{script('Select below')} 👇",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(keyboard),
         )
 
-
     async def _do_restart(update_or_query, uid, slot, acct):
-        """Actually restart a specific slot. Works for both message and callback."""
         is_cb = hasattr(update_or_query, "callback_query") and update_or_query.callback_query
         if is_cb:
-            msg_obj = update_or_query.callback_query.message
-            send = msg_obj.reply_text
+            send = update_or_query.callback_query.message.reply_text
         else:
             send = update_or_query.message.reply_text
-
-        msg = await send(f"🔄 {sans_bold('Restarting Account')} #{slot+1}...")
-        ok = runner.restart_userbot(
-            uid, slot, str(TELEGRAM_API_ID), TELEGRAM_API_HASH,
-            acct.get("session_string", ""), str(uid),
-        )
+        msg = await send(f"🌸 {sans_bold('Restarting Account')} #{slot+1}...")
+        ok = runner.restart_userbot(uid, slot, str(TELEGRAM_API_ID), TELEGRAM_API_HASH,
+                                    acct.get("session_string", ""), str(uid))
         if ok:
             await msg.edit_text(
                 f"✅ {double_struck('Account #' + str(slot+1) + ' Restarted')}!\n\n"
@@ -7253,101 +5914,66 @@ else:
                 parse_mode=ParseMode.MARKDOWN,
             )
         else:
-            await msg.edit_text(
-                f"❌ {bold_serif('Restart Failed')}\n\n"
-                f"📩 {script('Contact')} {SUPPORT_USERNAME}",
-                parse_mode=ParseMode.MARKDOWN,
-            )
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /logout  (single → confirm; multiple → show selection)
-    # ════════════════════════════════════════════════════════════════════════════════
+            await msg.edit_text(f"❌ {bold_serif('Restart Failed')}\n\n📩 {script('Contact')} {SUPPORT_USERNAME}",
+                                parse_mode=ParseMode.MARKDOWN)
 
     async def cmd_logout(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await check_blocked(update): return
         uid      = update.effective_user.id
         accounts = db.get_accounts(uid)
         hosted   = [a for a in accounts if a.get("hosted")]
-
         if not hosted:
-            await update.message.reply_text(
-                f"❌ {italic_serif('Koi active userbot nahi hai.')}"
-            )
+            await update.message.reply_text(f"❌ {italic_serif('Koi active userbot nahi hai.')}")
             return
-
         if len(hosted) == 1:
-            acct = hosted[0]
-            slot = acct["slot"]
-            phone = _phone_label(acct)
-            keyboard = [[
-                InlineKeyboardButton("✅ Haan, Logout Karo", callback_data=f"confirm_logout_{slot}"),
-                InlineKeyboardButton("❌ Cancel",            callback_data="cancel_action"),
-            ]]
+            acct = hosted[0]; slot = acct["slot"]; phone = _phone_label(acct)
+            # 🎨 COLORFUL BUTTONS
+            keyboard = [[InlineKeyboardButton("✅ Haan, Logout Karo", callback_data=f"confirm_logout_{slot}", style="danger"),
+                         InlineKeyboardButton("❌ Cancel",            callback_data="cancel_action", style="success")]]
             await update.message.reply_text(
                 f"⚠️ {bold_serif('Logout Confirmation')}\n\n"
                 f"📱 {sans_bold('Account')} : {mono(phone)}\n\n"
-                f"{script('Logout karne se session delete ho jayega.')}\n"
-                f"{italic_serif('Dobara host karne ke liye /host karo.')}",
+                f"{script('Session delete ho jayega.')}\n"
+                f"{italic_serif('Dobara /host se add kar sakte ho.')}",
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(keyboard),
             )
             return
-
-        # Multiple accounts — show selection
         keyboard = []
         for acct in hosted:
-            slot  = acct["slot"]
-            phone = _phone_label(acct)
+            slot  = acct["slot"]; phone = _phone_label(acct)
             alive = runner.is_running(uid, slot)
             icon  = "🟢" if alive else "🔴"
-            keyboard.append([
-                InlineKeyboardButton(
-                    f"{icon} Logout #{slot+1} — {phone}",
-                    callback_data=f"logout_acc_{slot}",
-                )
-            ])
-        keyboard.append([InlineKeyboardButton("❌ Cancel", callback_data="cancel_action")])
-
+            # 🎨 COLORFUL BUTTON
+            keyboard.append([InlineKeyboardButton(f"{icon} Logout #{slot+1} — {phone}",
+                                                   callback_data=f"logout_acc_{slot}", style="danger")])
+        keyboard.append([InlineKeyboardButton("❌ Cancel", callback_data="cancel_action", style="primary")])
         await update.message.reply_text(
-            f"🗑️ {bold_serif('Kaunsa Account Logout Karna Hai?')}\n\n"
-            f"{script('Select below')} 👇",
+            f"🗑️ {bold_serif('Kaunsa Account Logout Karna Hai?')}\n\n{script('Select below')} 👇",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(keyboard),
         )
 
-
     async def _do_logout(uid, slot):
-        """Actually perform logout for a slot."""
         runner.stop_userbot(uid, slot)
         db.remove_account(uid, slot)
         session_dir = f"data/sessions/{uid}/{slot}"
         shutil.rmtree(session_dir, ignore_errors=True)
 
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /support
-    # ════════════════════════════════════════════════════════════════════════════════
-
     async def cmd_support(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await check_blocked(update): return
         await update.message.reply_text(
-            f"{TOP}\n║  📞  {double_struck('Support Center')}  📞  ║\n{BOT}\n\n"
+            f"{TOP}\n║  🌸  {double_struck('Support Center')}  🌸  ║\n{BOT}\n\n"
             f"👤 {sans_bold('Admin')}    : {SUPPORT_USERNAME}\n"
             f"⚡ {sans_bold('Response')} : {script('Fast')}\n\n"
             f"{DIV}\n"
-            f"🔧 {bold_serif('Try these first:')}\n\n"
+            f"🌷 {bold_serif('Try these first:')}\n\n"
             f"🔹 /myaccounts — {italic_serif('Sab accounts dekho')}\n"
             f"🔹 /restart    — {italic_serif('Userbot restart karo')}\n"
             f"🔹 /status     — {italic_serif('Status check karo')}\n"
             f"🔹 /logout → /host — {italic_serif('Re-deploy karo')}",
             parse_mode=ParseMode.MARKDOWN,
         )
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /supportraid (Premium)
-    # ════════════════════════════════════════════════════════════════════════════════
 
     async def cmd_supportraid(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await check_blocked(update): return
@@ -7362,21 +5988,16 @@ else:
             )
             return
         await update.message.reply_text(
-            f"{TOP}\n║  ⚔️  {bold_serif('Support Raid Launched')}  ⚔️  ║\n{BOT}\n\n"
+            f"{TOP}\n║  🌸  {bold_serif('Support Raid Launched')}  🌸  ║\n{BOT}\n\n"
             f"🎯 {sans_bold('Target')} : {mono(target)}\n"
             f"🌪️ {script('All premium userbots activated!')}\n"
             f"⚡ {fraktur('Raid Mode')}: {double_struck('MAX POWER')}",
             parse_mode=ParseMode.MARKDOWN,
         )
 
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /restartall (Owner)
-    # ════════════════════════════════════════════════════════════════════════════════
-
     async def cmd_restartall(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update): return
-        msg   = await update.message.reply_text(f"🔄 {sans_bold('Restarting All Userbots')}...")
+        msg   = await update.message.reply_text(f"🌸 {sans_bold('Restarting All Userbots')}...")
         count = 0
         for uid_str in db.get_all_users():
             uid = int(uid_str)
@@ -7384,10 +6005,8 @@ else:
             for acct in db.get_accounts(uid):
                 if not acct.get("hosted") or not acct.get("session_string"): continue
                 slot = acct["slot"]
-                ok = runner.restart_userbot(
-                    uid, slot, str(TELEGRAM_API_ID), TELEGRAM_API_HASH,
-                    acct["session_string"], uid_str,
-                )
+                ok = runner.restart_userbot(uid, slot, str(TELEGRAM_API_ID), TELEGRAM_API_HASH,
+                                            acct["session_string"], uid_str)
                 if ok: count += 1
         await msg.edit_text(
             f"✅ {double_struck('Restart Complete')}\n\n"
@@ -7395,76 +6014,53 @@ else:
             parse_mode=ParseMode.MARKDOWN,
         )
 
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /refresh (Owner)
-    # ════════════════════════════════════════════════════════════════════════════════
-
     async def cmd_refresh(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update): return
         await update.message.reply_text(
-            f"🔁 {bold_serif('Bot State Refreshed')}\n\n"
+            f"🌸 {bold_serif('Bot State Refreshed')}\n\n"
             f"🟢 {sans_bold('Running')} : {mono(str(runner.running_count()))}\n"
             f"📦 {sans_bold('Total')}   : {mono(str(db.hosted_count()))}\n"
             f"🕒 {sans_bold('Uptime')}  : {mono(uptime_str())}",
             parse_mode=ParseMode.MARKDOWN,
         )
 
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /sudolist (Owner)
-    # ════════════════════════════════════════════════════════════════════════════════
-
     async def cmd_sudolist(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update): return
         args  = context.args
         sudos = db.get_sudo_users()
-
         if args and args[0] == "add" and len(args) > 1:
             try:
                 db.add_sudo(int(args[1]))
-                await update.message.reply_text(
-                    f"✅ {mono(args[1])} {script('added to Sudo Users.')}",
-                    parse_mode=ParseMode.MARKDOWN,
-                )
+                await update.message.reply_text(f"✅ {mono(args[1])} {script('added to Sudo Users.')}",
+                                                parse_mode=ParseMode.MARKDOWN)
             except: await update.message.reply_text("❌ Invalid ID.")
             return
-
         if args and args[0] == "del" and len(args) > 1:
             try:
                 db.remove_sudo(int(args[1]))
-                await update.message.reply_text(
-                    f"✅ {mono(args[1])} {script('removed from Sudo Users.')}",
-                    parse_mode=ParseMode.MARKDOWN,
-                )
+                await update.message.reply_text(f"✅ {mono(args[1])} {script('removed from Sudo Users.')}",
+                                                parse_mode=ParseMode.MARKDOWN)
             except: await update.message.reply_text("❌ Invalid ID.")
             return
-
         if not sudos:
             await update.message.reply_text(
                 f"📋 {bold_serif('No Sudo Users yet.')}\n\nAdd: {mono('/sudolist add <uid>')}",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
         lines = "\n".join(f"  👑 {mono(str(u))}" for u in sudos)
         await update.message.reply_text(
-            f"{TOP}\n║  👑  {double_struck('Sudo Users')} ({len(sudos)})  👑  ║\n{BOT}\n\n"
+            f"{TOP}\n║  🌸  {double_struck('Sudo Users')} ({len(sudos)})  🌸  ║\n{BOT}\n\n"
             f"{lines}\n\n{DIV}\n"
             f"➕ {mono('/sudolist add <uid>')}\n"
             f"➖ {mono('/sudolist del <uid>')}",
             parse_mode=ParseMode.MARKDOWN,
         )
 
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /setdp (Owner)
-    # ════════════════════════════════════════════════════════════════════════════════
-
     async def cmd_setdp(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update): return
         if not update.message.reply_to_message or not update.message.reply_to_message.photo:
-            await update.message.reply_text(f"📸 {script('Kisi photo ko reply karo.')}")
+            await update.message.reply_text(f"🌸 {script('Kisi photo ko reply karo.')}")
             return
         photo = update.message.reply_to_message.photo[-1]
         file  = await context.bot.get_file(photo.file_id)
@@ -7474,23 +6070,14 @@ else:
             await context.bot.set_my_profile_photo(BytesIO(bytes(data)))
             await update.message.reply_text(f"✅ {bold_serif('Display Photo Updated')}!")
         except Exception as e:
-            await update.message.reply_text(
-                f"❌ {sans_bold('Failed')}: {mono(str(e)[:80])}",
-                parse_mode=ParseMode.MARKDOWN,
-            )
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /block  /unblock  /blockeduser (Owner)
-    # ════════════════════════════════════════════════════════════════════════════════
+            await update.message.reply_text(f"❌ {sans_bold('Failed')}: {mono(str(e)[:80])}",
+                                            parse_mode=ParseMode.MARKDOWN)
 
     async def cmd_block(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update): return
         if not context.args:
-            await update.message.reply_text(
-                f"📌 {sans_bold('Usage')}: {mono('/block <user_id>')}",
-                parse_mode=ParseMode.MARKDOWN,
-            )
+            await update.message.reply_text(f"📌 {sans_bold('Usage')}: {mono('/block <user_id>')}",
+                                            parse_mode=ParseMode.MARKDOWN)
             return
         try:
             target = int(context.args[0])
@@ -7500,32 +6087,24 @@ else:
             db.block_user(target)
             runner.stop_all_for_user(target)
             await update.message.reply_text(
-                f"🚫 {bold_serif('User Blocked')}\n\n"
-                f"🆔 {mono(str(target))}\n"
-                f"🔴 {script('All userbots stopped.')}",
+                f"🚫 {bold_serif('User Blocked')}\n\n🆔 {mono(str(target))}\n🔴 {script('All userbots stopped.')}",
                 parse_mode=ParseMode.MARKDOWN,
             )
         except ValueError:
             await update.message.reply_text("❌ Invalid ID.")
-
 
     async def cmd_unblock(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update): return
         if not context.args:
-            await update.message.reply_text(
-                f"📌 {sans_bold('Usage')}: {mono('/unblock <user_id>')}",
-                parse_mode=ParseMode.MARKDOWN,
-            )
+            await update.message.reply_text(f"📌 {sans_bold('Usage')}: {mono('/unblock <user_id>')}",
+                                            parse_mode=ParseMode.MARKDOWN)
             return
         try:
             db.unblock_user(int(context.args[0]))
-            await update.message.reply_text(
-                f"✅ {bold_serif('User Unblocked')}\n🆔 {mono(context.args[0])}",
-                parse_mode=ParseMode.MARKDOWN,
-            )
+            await update.message.reply_text(f"✅ {bold_serif('User Unblocked')}\n🆔 {mono(context.args[0])}",
+                                            parse_mode=ParseMode.MARKDOWN)
         except ValueError:
             await update.message.reply_text("❌ Invalid ID.")
-
 
     async def cmd_blockeduser(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update): return
@@ -7535,15 +6114,9 @@ else:
             return
         lines = "\n".join(f"  🚫 {mono(str(u))}" for u in blocked)
         await update.message.reply_text(
-            f"{TOP}\n║  🚫  {double_struck('Blocked Users')} ({len(blocked)})  🚫  ║\n{BOT}\n\n"
-            f"{lines}",
+            f"{TOP}\n║  🌸  {double_struck('Blocked Users')} ({len(blocked)})  🌸  ║\n{BOT}\n\n{lines}",
             parse_mode=ParseMode.MARKDOWN,
         )
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /stats (Owner)
-    # ════════════════════════════════════════════════════════════════════════════════
 
     async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update): return
@@ -7552,9 +6125,8 @@ else:
         running = runner.running_count()
         blocked = len(db.get_blocked())
         sudos   = len(db.get_sudo_users())
-
         await update.message.reply_text(
-            f"{TOP}\n║  📊  {double_struck('Bot Statistics')}  📊  ║\n{BOT}\n\n"
+            f"{TOP}\n║  🌸  {double_struck('Bot Statistics')}  🌸  ║\n{BOT}\n\n"
             f"👥 {sans_bold('Total Users')}    : {double_struck(str(total))}\n"
             f"🚀 {sans_bold('Hosted Accounts')}: {double_struck(str(hosted))}\n"
             f"🟢 {sans_bold('Running')}        : {double_struck(str(running))}\n"
@@ -7567,15 +6139,10 @@ else:
             parse_mode=ParseMode.MARKDOWN,
         )
 
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /secretfunction (Owner)
-    # ════════════════════════════════════════════════════════════════════════════════
-
     async def cmd_secretfunction(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update): return
         await update.message.reply_text(
-            f"{TOP}\n║  🔐  {bold_serif('Secret Commands')}  🔐  ║\n{BOT}\n\n"
+            f"{TOP}\n║  🌸  {bold_serif('Secret Commands')}  🌸  ║\n{BOT}\n\n"
             f"🔺 {mono('/sudolist add <uid>')}  — {fraktur('Add Premium User')}\n"
             f"🔺 {mono('/sudolist del <uid>')}  — {fraktur('Remove Premium User')}\n"
             f"🔺 {mono('/block <uid>')}         — {fraktur('Ban & Kill All Userbots')}\n"
@@ -7592,11 +6159,6 @@ else:
             parse_mode=ParseMode.MARKDOWN,
         )
 
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   /setbot — ON/OFF Bot (Owner)
-    # ════════════════════════════════════════════════════════════════════════════════
-
     async def cmd_setbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not await owner_only(update): return
         args = context.args
@@ -7609,79 +6171,57 @@ else:
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
         new_state = args[0].lower() == "on"
         db.set_bot_settings({"is_on": new_state})
         status = "ON 🟢" if new_state else "OFF 🔴"
         await update.message.reply_text(
-            f"✅ {bold_serif('Bot Status Updated')}\n\n"
-            f"📊 {sans_bold('Status')} : {mono(status)}",
+            f"✅ {bold_serif('Bot Status Updated')}\n\n📊 {sans_bold('Status')} : {mono(status)}",
             parse_mode=ParseMode.MARKDOWN,
         )
 
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   CALLBACK QUERY HANDLER
-    # ════════════════════════════════════════════════════════════════════════════════
-
     async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        # Check if bot is ON
         if not db.is_bot_on():
             await update.callback_query.answer("⚠️ Bot is currently OFF", show_alert=True)
             return
-
         query = update.callback_query
         await query.answer()
         uid  = update.effective_user.id
         data = query.data
 
-        # ── Cancel ───────────────────────────────────────────────────────────────
         if data == "cancel_action":
             await query.message.edit_text(f"🚫 {italic_serif('Cancelled.')}")
             return
-
-        # ── Broadcast menu — owner only ──────────────────────────────────────────
         if data == "broadcast_menu":
             if not is_owner(uid):
                 await query.answer("🔒 Owner only", show_alert=True)
                 return
             await query.message.reply_text(
-                f"{TOP}\n"
-                f"║  📢  {bold_serif('Broadcast Center')}  📢  ║\n"
-                f"{BOT}\n\n"
+                f"{TOP}\n║  🌸  {bold_serif('Broadcast Center')}  🌸  ║\n{BOT}\n\n"
                 f"📝 {script('Reply to any message with')} {mono('/broadcast')}\n"
-                f"or use {mono('/broadcast your message')}\n\n"
-                f"✨ {italic_serif('Button animation + live progress is enabled.')}",
+                f"or use {mono('/broadcast your message')}",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
-        # ── Settings menu — owner only ──────────────────────────────────────────
         if data == "settings_menu":
             if not is_owner(uid):
                 await query.answer("🔒 Owner only", show_alert=True)
                 return
             current_status = "ON 🟢" if db.is_bot_on() else "OFF 🔴"
+            # 🎨 COLORFUL BUTTONS
             keyboard = [
-                [InlineKeyboardButton(f"🟢 Bot is {current_status}", callback_data="toggle_bot")],
-                [InlineKeyboardButton("🔙 Back", callback_data="back_to_start")],
+                [InlineKeyboardButton(f"🟢 Bot is {current_status}", callback_data="toggle_bot", style="primary")],
+                [InlineKeyboardButton("🔙 Back", callback_data="back_to_start", style="primary")],
             ]
             await query.message.reply_text(
-                f"{TOP}\n"
-                f"║  ⚙️  {bold_serif('Bot Settings')}  ⚙️  ║\n"
-                f"{BOT}\n\n"
+                f"{TOP}\n║  🌸  {bold_serif('Bot Settings')}  🌸  ║\n{BOT}\n\n"
                 f"📊 {sans_bold('Bot Status')} : {mono(current_status)}\n"
                 f"🆔 {sans_bold('Owner ID')}  : `{OWNER_ID}`\n"
                 f"🔑 {sans_bold('API ID')}    : `{TELEGRAM_API_ID}`\n"
-                f"🔐 {sans_bold('API Hash')}  : `{TELEGRAM_API_HASH[:8]}...`\n\n"
-                f"{DIV}\n"
-                f"💡 {italic_serif('Toggle bot status below')}",
+                f"🔐 {sans_bold('API Hash')}  : `{TELEGRAM_API_HASH[:8]}...`",
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(keyboard),
             )
             return
-
-        # ── Toggle bot ────────────────────────────────────────────────────────────
         if data == "toggle_bot":
             if not is_owner(uid):
                 await query.answer("🔒 Owner only", show_alert=True)
@@ -7690,29 +6230,24 @@ else:
             db.set_bot_settings({"is_on": not current})
             new_status = "ON 🟢" if not current else "OFF 🔴"
             await query.message.edit_text(
-                f"✅ {bold_serif('Bot Status Updated')}\n\n"
-                f"📊 {sans_bold('Status')} : {mono(new_status)}",
+                f"✅ {bold_serif('Bot Status Updated')}\n\n📊 {sans_bold('Status')} : {mono(new_status)}",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
-        # ── Back to start ─────────────────────────────────────────────────────────
         if data == "back_to_start":
             await cmd_start(update, context)
             return
-
-        # ── Commands — full list inline ──────────────────────────────────────────
         if data == "commands":
             await query.message.reply_text(
-                f"⚡ {double_struck('SID Advance V3')} — {script('Full Commands')}\n"
+                f"🌸 {double_struck('Lexi Sakura V3')} — {script('Full Commands')}\n"
                 f"{DIV}\n\n"
-                f"⚔️ {bold_serif('Raid & Fight')} {italic_serif('(20 Types  1000+ Texts)')}\n"
+                f"⚔️ {bold_serif('Raid & Fight')} {italic_serif('(20 Types · 1000+ Texts)')}\n"
                 f"{mono('.attack .roast .diss .war .savage')}\n"
                 f"{mono('.ultra .godwar .combo .troll .shame')}\n"
                 f"{mono('.fire .devil .karma .ghost .legend .doom')}\n"
                 f"{mono('.nuke .storm .blizzard .venom')} ★ NEW\n\n"
                 f"🔁 {bold_serif('Auto-Reply')}\n"
-                f"{mono('.reply .rreply .flag .hrreply .replygod .replysid')}\n\n"
+                f"{mono('.reply .rreply .flag .hrreply .replygod .replylexi')}\n\n"
                 f"💥 {bold_serif('Spam & Spray')}\n"
                 f"{mono('.spray .stopspray .spam .addspam .clearspam')}\n\n"
                 f"🛠️ {bold_serif('Utility')}\n"
@@ -7731,181 +6266,120 @@ else:
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
-        # ── Status — user's actual hosted accounts ───────────────────────────────
         if data == "status":
             accounts = db.get_accounts(uid)
             hosted   = [a for a in accounts if a.get("hosted")]
             if not hosted:
                 await query.message.reply_text(
-                    f"❌ {bold_serif('No Userbot Hosted')}\n\n"
-                    f"{script('Use /host to deploy your first account.')}",
+                    f"❌ {bold_serif('No Userbot Hosted')}\n\n{script('Use /host to deploy your first account.')}",
                     parse_mode=ParseMode.MARKDOWN,
                 )
                 return
             import datetime
             lines = []
             for acct in hosted:
-                slot     = acct.get("slot", 0)
-                alive    = runner.is_running(uid, slot)
-                uptime   = runner.get_uptime(uid, slot) if alive else "—"
+                slot = acct.get("slot", 0)
+                alive = runner.is_running(uid, slot)
+                uptime = runner.get_uptime(uid, slot) if alive else "—"
                 hosted_at = acct.get("hosted_at", 0)
                 since = datetime.datetime.fromtimestamp(hosted_at).strftime("%d %b %Y") if hosted_at else "—"
-                icon  = "🟢" if alive else "🔴"
+                icon = "🟢" if alive else "🔴"
                 phone = _phone_label(acct)
-                lines.append(
-                    f"{icon} {sans_bold('Acc #' + str(slot+1))} — {mono(phone)}\n"
-                    f"   ⏱️ {uptime}   📅 {since}"
-                )
+                lines.append(f"{icon} {sans_bold('Acc #' + str(slot+1))} — {mono(phone)}\n   ⏱️ {uptime}   📅 {since}")
             footer = ""
             if any(not runner.is_running(uid, a["slot"]) for a in hosted):
                 footer = f"\n\n🔄 {italic_serif('/restart se revive karo.')}"
             await query.message.reply_text(
-                f"{TOP}\n║  📊  {double_struck('Userbot Status')}  📊  ║\n{BOT}\n\n"
+                f"{TOP}\n║  🌸  {double_struck('Userbot Status')}  🌸  ║\n{BOT}\n\n"
                 + "\n\n".join(lines) +
-                f"\n\n{DIV}"
-                f"\n⚡ {sans_bold('Version')} : {mono('SID Advance V3')}"
-                f"{footer}",
+                f"\n\n{DIV}\n⚡ {sans_bold('Version')} : {mono('Lexi Sakura V3')}{footer}",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
-        # ── Logout from menu — show account selector ─────────────────────────────
         if data == "menu_logout":
             accounts = db.get_accounts(uid)
             hosted   = [a for a in accounts if a.get("hosted")]
             if not hosted:
-                await query.message.reply_text(
-                    f"❌ {italic_serif('Koi active userbot nahi hai.')}"
-                )
+                await query.message.reply_text(f"❌ {italic_serif('Koi active userbot nahi hai.')}")
                 return
             if len(hosted) == 1:
-                acct  = hosted[0]
-                slot  = acct["slot"]
-                phone = _phone_label(acct)
-                kb = [[
-                    InlineKeyboardButton("✅ Haan, Logout Karo", callback_data=f"confirm_logout_{slot}"),
-                    InlineKeyboardButton("❌ Cancel",            callback_data="cancel_action"),
-                ]]
+                acct = hosted[0]; slot = acct["slot"]; phone = _phone_label(acct)
+                # 🎨 COLORFUL BUTTONS
+                kb = [[InlineKeyboardButton("✅ Haan, Logout Karo", callback_data=f"confirm_logout_{slot}", style="danger"),
+                       InlineKeyboardButton("❌ Cancel",            callback_data="cancel_action", style="success")]]
                 await query.message.reply_text(
                     f"⚠️ {bold_serif('Logout Confirmation')}\n\n"
                     f"📱 {sans_bold('Account')} : {mono(phone)}\n\n"
-                    f"{script('Session delete ho jayega.')}\n"
-                    f"{italic_serif('Dobara /host se add kar sakte ho.')}",
+                    f"{script('Session delete ho jayega.')}",
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=InlineKeyboardMarkup(kb),
                 )
             else:
                 kb = []
                 for acct in hosted:
-                    slot  = acct["slot"]
-                    phone = _phone_label(acct)
+                    slot = acct["slot"]; phone = _phone_label(acct)
                     alive = runner.is_running(uid, slot)
-                    icon  = "🟢" if alive else "🔴"
-                    kb.append([InlineKeyboardButton(
-                        f"{icon} Logout #{slot+1} — {phone}",
-                        callback_data=f"logout_acc_{slot}",
-                    )])
-                kb.append([InlineKeyboardButton("❌ Cancel", callback_data="cancel_action")])
+                    icon = "🟢" if alive else "🔴"
+                    # 🎨 COLORFUL BUTTON
+                    kb.append([InlineKeyboardButton(f"{icon} Logout #{slot+1} — {phone}",
+                                                    callback_data=f"logout_acc_{slot}", style="danger")])
+                kb.append([InlineKeyboardButton("❌ Cancel", callback_data="cancel_action", style="primary")])
                 await query.message.reply_text(
-                    f"🗑️ {bold_serif('Kaunsa Account Logout Karna Hai?')}\n\n"
-                    f"{script('Select below')} 👇",
+                    f"🗑️ {bold_serif('Kaunsa Account Logout Karna Hai?')}\n\n{script('Select below')} 👇",
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=InlineKeyboardMarkup(kb),
                 )
             return
-
-        # ── Support ───────────────────────────────────────────────────────────────
         if data == "support":
             await query.message.reply_text(
-                f"{TOP}\n║  📞  {double_struck('Support Center')}  📞  ║\n{BOT}\n\n"
+                f"{TOP}\n║  🌸  {double_struck('Support Center')}  🌸  ║\n{BOT}\n\n"
                 f"👤 {sans_bold('Bot Owner')}  : {SUPPORT_USERNAME}\n"
                 f"⚡ {sans_bold('Response')}   : {script('Fast')}\n\n"
                 f"{DIV}\n"
-                f"🔧 {bold_serif('Pehle Yeh Try Karo:')}\n\n"
+                f"🌷 {bold_serif('Pehle Yeh Try Karo:')}\n\n"
                 f"🔹 /myaccounts — {italic_serif('sab accounts dekho')}\n"
                 f"🔹 /restart    — {italic_serif('userbot restart karo')}\n"
                 f"🔹 /status     — {italic_serif('status check karo')}\n"
-                f"🔹 /logout     — {italic_serif('aur dobara /host karo')}\n\n"
-                f"{DIV}\n"
-                f"🤖 {bold_serif('Bot Owner')}: {SUPPORT_USERNAME}",
+                f"🔹 /logout     — {italic_serif('aur dobara /host karo')}",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
-        # ── Help & Guide — step-by-step ──────────────────────────────────────────
         if data == "help":
             await query.message.reply_text(
                 f"╔══════════════════════════════╗\n"
-                f"║  📖  {bold_serif('BOT USAGE GUIDE')}  📖  ║\n"
+                f"║  🌸  {bold_serif('BOT USAGE GUIDE')}  🌸  ║\n"
                 f"╚══════════════════════════════╝\n\n"
-                f"{'━'*30}\n"
-                f"🚀 {sans_bold('STEP 1')} — {bold_serif('Bot Start Karo')}\n"
-                f"{'━'*30}\n"
-                f"➡️ {script('Is bot pe')} /start {script('bhejo')}\n"
-                f"✅ {italic_serif('Welcome screen aayega')}\n\n"
-                f"{'━'*30}\n"
+                f"🌸 {sans_bold('STEP 1')} — {bold_serif('Bot Start Karo')}\n"
+                f"➡️ {script('Is bot pe')} /start {script('bhejo')}\n\n"
                 f"📱 {sans_bold('STEP 2')} — {bold_serif('Account Host Karo')}\n"
-                f"{'━'*30}\n"
                 f"➡️ {mono('Host My Userbot')} {script('button tap karo')}\n"
                 f"➡️ {script('Apna phone number enter karo')}\n"
                 f"    {mono('Format: +91XXXXXXXXXX')}\n"
                 f"➡️ {script('Telegram se OTP aayega')}\n"
-                f"    💡 {italic_serif('OTP spaces ke saath bhejo:')}\n"
-                f"    {mono('1 2 3 4 5')} ← {italic_serif('aisa karo')}\n"
+                f"    💡 {italic_serif('OTP spaces ke saath bhejo:')} {mono('1 2 3 4 5')}\n"
                 f"➡️ {script('2FA hai toh password bhi daalo')}\n"
                 f"✅ {italic_serif('Userbot deploy ho jayega!')}\n\n"
-                f"{'━'*30}\n"
                 f"⚡ {sans_bold('STEP 3')} — {bold_serif('Commands Chalao')}\n"
-                f"{'━'*30}\n"
-                f"➡️ {script('Kisi bhi chat mein jao')}\n"
-                f"➡️ {script('Dot')} {mono('.')} {script('se command likho:')}\n\n"
-                f"    {mono('.alive')}  → {script('Bot alive check karo')}\n"
-                f"    {mono('.ping')}   → {script('Speed check')}\n"
-                f"    {mono('.help')}   → {script('Poori command list')}\n"
-                f"    {mono('.attack')} → {script('Kisi pe reply karke attack')}\n"
-                f"    {mono('.roast')}  → {script('Kisi ko roast karo')}\n"
-                f"    {mono('.nuke')}   → ☢️ {script('Nuclear strike')}\n"
-                f"    {mono('.spray <text>')} → {script('Spam shuru')}\n"
-                f"    {mono('.stopspray')}    → {script('Spam band karo')}\n\n"
-                f"{'━'*30}\n"
+                f"    {mono('.alive')}  {mono('.ping')}  {mono('.help')}\n"
+                f"    {mono('.attack')}  {mono('.roast')}  {mono('.nuke')}\n"
+                f"    {mono('.spray <text>')}  {mono('.stopspray')}\n\n"
                 f"🔄 {sans_bold('STEP 4')} — {bold_serif('Manage Karo')}\n"
-                f"{'━'*30}\n"
-                f"    /myaccounts — {script('Sab accounts')}\n"
-                f"    /status     — {script('Status dekho')}\n"
-                f"    /restart    — {script('Restart karo')}\n"
-                f"    /logout     — {script('Logout karo')}\n"
-                f"    /host       — {script('Naya account add karo')}\n\n"
-                f"{'━'*30}\n"
-                f"⚠️ {sans_bold('IMPORTANT')}\n"
-                f"{'━'*30}\n"
-                f"🔸 {italic_serif('Sirf tumhara OWN account command chalayega')}\n"
-                f"🔸 {italic_serif('Kisi dusre ka message ignore hoga')}\n"
-                f"🔸 {italic_serif('Max')} {mono('3')} {italic_serif('accounts ek saath host ho sakte hain')}\n\n"
-                f"{'━'*30}\n"
-                f"🌟 {bold_serif('Bot Owner')}: {SUPPORT_USERNAME}\n"
-                f"⚡ {bold_serif('Powered by SIDxBOT')}",
+                f"    /myaccounts  /status  /restart  /logout  /host\n\n"
+                f"🌸 {bold_serif('Bot Owner')}: {SUPPORT_USERNAME}\n"
+                f"🌸 {bold_serif('Powered by LexixBOT')}",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
-        # ── Restart account ──────────────────────────────────────────────────────
         if data.startswith("restart_acc_"):
-            try:
-                slot = int(data.split("_")[-1])
-            except ValueError:
-                return
+            try: slot = int(data.split("_")[-1])
+            except ValueError: return
             acct = db.get_account(uid, slot)
             if not acct:
                 await query.message.reply_text(f"❌ {italic_serif('Account not found.')}")
                 return
-            msg = await query.message.reply_text(
-                f"🔄 {sans_bold('Restarting Account')} #{slot+1}..."
-            )
-            ok = runner.restart_userbot(
-                uid, slot, str(TELEGRAM_API_ID), TELEGRAM_API_HASH,
-                acct.get("session_string", ""), str(uid),
-            )
+            msg = await query.message.reply_text(f"🌸 {sans_bold('Restarting Account')} #{slot+1}...")
+            ok = runner.restart_userbot(uid, slot, str(TELEGRAM_API_ID), TELEGRAM_API_HASH,
+                                        acct.get("session_string", ""), str(uid))
             if ok:
                 await msg.edit_text(
                     f"✅ {double_struck('Account #' + str(slot+1) + ' Restarted')}!\n\n"
@@ -7916,24 +6390,16 @@ else:
             else:
                 await msg.edit_text(f"❌ {bold_serif('Restart Failed')}\n📩 {SUPPORT_USERNAME}")
             return
-
-        # ── Start (stopped) account ───────────────────────────────────────────────
         if data.startswith("start_acc_"):
-            try:
-                slot = int(data.split("_")[-1])
-            except ValueError:
-                return
+            try: slot = int(data.split("_")[-1])
+            except ValueError: return
             acct = db.get_account(uid, slot)
             if not acct:
                 await query.message.reply_text(f"❌ {italic_serif('Account not found.')}")
                 return
-            msg = await query.message.reply_text(
-                f"▶️ {sans_bold('Starting Account')} #{slot+1}..."
-            )
-            ok = runner.start_userbot(
-                uid, slot, str(TELEGRAM_API_ID), TELEGRAM_API_HASH,
-                acct.get("session_string", ""), str(uid),
-            )
+            msg = await query.message.reply_text(f"🌸 {sans_bold('Starting Account')} #{slot+1}...")
+            ok = runner.start_userbot(uid, slot, str(TELEGRAM_API_ID), TELEGRAM_API_HASH,
+                                      acct.get("session_string", ""), str(uid))
             if ok:
                 await msg.edit_text(
                     f"✅ {double_struck('Account #' + str(slot+1) + ' Started')}!\n\n"
@@ -7944,52 +6410,40 @@ else:
             else:
                 await msg.edit_text(f"❌ {bold_serif('Start Failed')}\n📩 {SUPPORT_USERNAME}")
             return
-
-        # ── Logout account — show confirm prompt ─────────────────────────────────
         if data.startswith("logout_acc_"):
-            try:
-                slot = int(data.split("_")[-1])
-            except ValueError:
-                return
-            acct  = db.get_account(uid, slot)
+            try: slot = int(data.split("_")[-1])
+            except ValueError: return
+            acct = db.get_account(uid, slot)
             if not acct:
                 await query.message.reply_text(f"❌ {italic_serif('Account not found.')}")
                 return
             phone = _phone_label(acct)
-            keyboard = [[
-                InlineKeyboardButton("✅ Haan, Logout Karo", callback_data=f"confirm_logout_{slot}"),
-                InlineKeyboardButton("❌ Cancel",            callback_data="cancel_action"),
-            ]]
+            # 🎨 COLORFUL BUTTONS
+            keyboard = [[InlineKeyboardButton("✅ Haan, Logout Karo", callback_data=f"confirm_logout_{slot}", style="danger"),
+                         InlineKeyboardButton("❌ Cancel",            callback_data="cancel_action", style="success")]]
             await query.message.reply_text(
                 f"⚠️ {bold_serif('Logout Confirmation')}\n\n"
                 f"📱 {sans_bold('Account')} #{slot+1} : {mono(phone)}\n\n"
-                f"{script('Session delete ho jayega.')}\n"
-                f"{italic_serif('Dobara /host se add kar sakte ho.')}",
+                f"{script('Session delete ho jayega.')}",
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(keyboard),
             )
             return
-
-        # ── Confirm logout ────────────────────────────────────────────────────────
         if data.startswith("confirm_logout_"):
-            try:
-                slot = int(data.split("_")[-1])
-            except ValueError:
-                return
-            acct  = db.get_account(uid, slot)
+            try: slot = int(data.split("_")[-1])
+            except ValueError: return
+            acct = db.get_account(uid, slot)
             phone = _phone_label(acct) if acct else f"#{slot+1}"
             await _do_logout(uid, slot)
             await query.message.edit_text(
-                f"{TOP}\n║  👋  {bold_serif('Logged Out')}  👋  ║\n{BOT}\n\n"
+                f"{TOP}\n║  🌸  {bold_serif('Logged Out')}  🌸  ║\n{BOT}\n\n"
                 f"📱 {sans_bold('Account')} : {mono(phone)}\n"
                 f"🗑️ {sans_bold('Session')} : {script('Cleared')}\n\n"
-                f"🚀 {fraktur('Re-deploy anytime:')} /host\n"
+                f"🌸 {fraktur('Re-deploy:')} /host\n"
                 f"📱 {fraktur('See accounts:')} /myaccounts",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-
-        # ── Add another account (same as /host entry) ─────────────────────────────
         if data == "add_acc":
             accounts = db.get_accounts(uid)
             hosted   = [a for a in accounts if a.get("hosted")]
@@ -8001,23 +6455,15 @@ else:
                     parse_mode=ParseMode.MARKDOWN,
                 )
                 return
-            # Fall through to host conversation — user must send /host
             await query.message.reply_text(
-                f"🚀 {bold_serif('Add New Account')}\n\n"
+                f"🌸 {bold_serif('Add New Account')}\n\n"
                 f"{script('Send')} /host {script('to start the login flow.')}",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
 
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   AUTO HEALTH CHECK
-    # ════════════════════════════════════════════════════════════════════════════════
-
     async def auto_health_check(context: ContextTypes.DEFAULT_TYPE):
-        # Skip health check if bot is OFF
-        if not db.is_bot_on():
-            return
+        if not db.is_bot_on(): return
         for uid_str in db.get_all_users():
             uid = int(uid_str)
             if db.is_blocked(uid): continue
@@ -8025,15 +6471,8 @@ else:
                 if not acct.get("hosted") or not acct.get("session_string"): continue
                 slot = acct["slot"]
                 if not runner.is_running(uid, slot):
-                    runner.start_userbot(
-                        uid, slot, str(TELEGRAM_API_ID), TELEGRAM_API_HASH,
-                        acct["session_string"], uid_str,
-                    )
-
-
-    # ════════════════════════════════════════════════════════════════════════════════
-    #   STARTUP & MAIN
-    # ════════════════════════════════════════════════════════════════════════════════
+                    runner.start_userbot(uid, slot, str(TELEGRAM_API_ID), TELEGRAM_API_HASH,
+                                         acct["session_string"], uid_str)
 
     async def post_init(application: Application):
         await application.bot.set_my_commands([
@@ -8061,7 +6500,6 @@ else:
             BotCommand("broadcast",       "Broadcast Message (Owner)"),
             BotCommand("setbot",          "ON/OFF Bot (Owner)"),
         ])
-        # Only auto-start if bot is ON
         if db.is_bot_on():
             count = 0
             for uid_str in db.get_all_users():
@@ -8069,20 +6507,16 @@ else:
                 if db.is_blocked(uid): continue
                 for acct in db.get_accounts(uid):
                     if not acct.get("hosted") or not acct.get("session_string"): continue
-                    ok = runner.start_userbot(
-                        uid, acct["slot"], str(TELEGRAM_API_ID), TELEGRAM_API_HASH,
-                        acct["session_string"], uid_str,
-                    )
+                    ok = runner.start_userbot(uid, acct["slot"], str(TELEGRAM_API_ID), TELEGRAM_API_HASH,
+                                              acct["session_string"], uid_str)
                     if ok: count += 1
             logger.info(f"[STARTUP] Auto-started {count} userbots.")
         else:
             logger.info("[STARTUP] Bot is OFF — skipping auto-start.")
 
-
     def main():
         if not BOT_TOKEN:  raise ValueError("BOT_TOKEN not set!")
         if not OWNER_ID:   raise ValueError("OWNER_ID not set!")
-
         app = Application.builder().token(BOT_TOKEN).post_init(post_init).build()
 
         host_conv = ConversationHandler(
@@ -8098,7 +6532,6 @@ else:
             fallbacks=[CommandHandler("cancel", host_cancel)],
             allow_reentry=True,
         )
-
         app.add_handler(CommandHandler("start",           cmd_start))
         app.add_handler(CommandHandler("help",            cmd_help))
         app.add_handler(CommandHandler("commands",        cmd_commands))
@@ -8128,13 +6561,11 @@ else:
             app.job_queue.run_repeating(auto_health_check, interval=300, first=60)
 
         logger.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-        logger.info("🤖  SID Premium Hoster Bot STARTED!")
+        logger.info("🌸  LEXI SAKURA HOSTER STARTED! 🌸")
         logger.info(f"👑  Owner ID: {OWNER_ID}")
         logger.info(f"📊  Bot Status: {'ON' if db.is_bot_on() else 'OFF'}")
         logger.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-
         app.run_polling(allowed_updates=Update.ALL_TYPES)
-
 
     if __name__ == "__main__":
         main()
