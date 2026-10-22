@@ -910,7 +910,8 @@ if _IS_USERBOT:
         "😤 Yeh moment tera lowest point hai — aur abhi bhi jaag sakta hai 💀😂",
         "🙅 Bhai aaj ek kaam kar — sharminda ho aur badal — bas itna chahiye 😤😎",
     ]
-        fire_list = [
+
+    fire_list = [
         "🔥 FIRE MODE — teri sab cheez jal rahi hai 😈⚡",
         "🔥🔥 Double fire — tujhe bachaane ka option nahi 💀😂",
         "🔥 Teri har baat pe fire respond karenge — ready? 😈⚡",
@@ -1609,6 +1610,7 @@ if _IS_USERBOT:
                 await bot.send_file(event.chat_id, file=msg.media, caption="🌸 𝗟𝗘𝗫𝗜 𝗘𝗻𝘁𝗲𝗿𝘀 ❤️‍🔥")
             except: pass
 
+
     @register_cmd("menu1")
     async def cmd_menu1(event, _):
         menu = (
@@ -1650,6 +1652,7 @@ if _IS_USERBOT:
         )
         await safe_edit(event, menu)
 
+
     @register_cmd("menu2")
     async def cmd_menu2(event, _):
         menu = (
@@ -1677,6 +1680,7 @@ if _IS_USERBOT:
     "🌸  .menu6 → 🔥 NEW 1000+ Fighting Raids"
         )
         await safe_edit(event, menu)
+
 
     @register_cmd("menu3")
     async def cmd_menu3(event, _):
@@ -1709,6 +1713,7 @@ if _IS_USERBOT:
         )
         await safe_edit(event, menu)
 
+
     @register_cmd("menu4")
     async def cmd_menu4(event, _):
         menu = (
@@ -1740,6 +1745,7 @@ if _IS_USERBOT:
     "🌸  .menu → Main menu wapas"
         )
         await safe_edit(event, menu)
+
 
     @register_cmd("menu5")
     async def cmd_menu5(event, _):
@@ -1785,6 +1791,7 @@ if _IS_USERBOT:
         )
         await safe_edit(event, menu)
 
+
     @register_cmd("menu6")
     async def cmd_menu6(event, _):
         menu = (
@@ -1826,6 +1833,7 @@ if _IS_USERBOT:
     "🌸 𝟮𝟬 𝗥𝗮𝗶𝗱 𝗧𝘆𝗽𝗲𝘀 × 𝟱𝟬 𝗧𝗲𝘅𝘁𝘀 = 𝟭𝟬𝟬𝟬+ 𝗙𝗶𝗴𝗵𝘁𝗶𝗻𝗴 𝗧𝗲𝘅𝘁𝘀 🌸"
         )
         await safe_edit(event, menu)
+
 
     @register_cmd("menu7")
     async def cmd_menu7(event, _):
@@ -1888,6 +1896,7 @@ if _IS_USERBOT:
         )
         await safe_edit(event, menu)
 
+
     @register_cmd("menu8")
     async def cmd_menu8(event, _):
         menu = (
@@ -1929,6 +1938,7 @@ if _IS_USERBOT:
     "🌸  .menu → Main menu wapas"
         )
         await safe_edit(event, menu)
+
 
     @register_cmd("cmds")
     async def cmd_cmds(event, _):
@@ -2027,7 +2037,8 @@ if _IS_USERBOT:
     "🌸 𝟱𝟬𝟬+ 𝗖𝗺𝗱𝘀  |  🔥 𝗣𝗿𝗲𝗳𝗶𝘅: .  |  𝗩𝟯 🌸"
         )
         await safe_edit(event, cmds)
-            # ────────────────────────────────────────────────
+
+    # ────────────────────────────────────────────────
     #              ORIGINAL COMMANDS (Unchanged)
     # ────────────────────────────────────────────────
 
@@ -2055,6 +2066,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐁ᴀɴɴᴇʀ 𝐄ʀʀ → `{str(e)[:50]}`")
 
+
     @register_cmd("rembanner")
     async def cmd_rembanner(event, _):
         global menu_banner_msg
@@ -2071,6 +2083,7 @@ if _IS_USERBOT:
             else: await event.reply(text)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐑ᴇᴍᴏᴠᴇ 𝐄ʀʀ → `{str(e)[:50]}`")
+
 
     @register_cmd("addadmin", needs_reply=True)
     async def cmd_addadmin(event, arg):
@@ -2099,6 +2112,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐀ᴅᴍɪɴ 𝐀ᴅᴅ 𝐄ʀʀ → `{str(e)[:50]}`")
 
+
     @register_cmd("deladmin", needs_reply=True)
     async def cmd_deladmin(event, arg):
         try:
@@ -2126,6 +2140,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐀ᴅᴍɪɴ 𝐑ᴇᴍᴏᴠᴇ 𝐄ʀʀ → `{str(e)[:50]}`")
 
+
     @register_cmd("admins")
     async def cmd_admins(event, _):
         try:
@@ -2135,6 +2150,7 @@ if _IS_USERBOT:
             await safe_edit(event, txt)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐀ᴅᴍɪɴ 𝐋ɪsᴛ 𝐄ʀʀ → `{str(e)[:50]}`")
+
 
     @register_cmd("fighthelp")
     async def cmd_fighthelp(event, _):
@@ -2189,6 +2205,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ Err → `{str(e)[:40]}`")
 
+
     @register_cmd("protect")
     async def cmd_protect(event, arg):
         try:
@@ -2211,6 +2228,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ Protect Err → `{str(e)[:40]}`")
 
+
     @register_cmd("unprotect")
     async def cmd_unprotect(event, arg):
         try:
@@ -2229,6 +2247,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ Unprotect Err → `{str(e)[:40]}`")
 
+
     @register_cmd("protectlist")
     async def cmd_protectlist(event, _):
         try:
@@ -2240,6 +2259,7 @@ if _IS_USERBOT:
             )
         except Exception as e:
             await safe_edit(event, f"❌ Err → `{str(e)[:40]}`")
+
 
     @register_cmd("ping")
     async def cmd_ping(event, _):
@@ -2257,6 +2277,7 @@ if _IS_USERBOT:
             except: pass
         except Exception as e:
             await safe_edit(event, f"❌ 𝐏ɪɴɢ 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("alive")
     async def cmd_alive(event, _):
@@ -2296,6 +2317,7 @@ if _IS_USERBOT:
                 await event.reply(txt)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐀𝐥𝐢𝐯𝐞 𝐄𝐫𝐫 → `{str(e)[:40]}`")
+
 
     @register_cmd("help")
     async def cmd_help_userbot(event, _):
@@ -2360,6 +2382,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ Help Err → `{str(e)[:40]}`")
 
+
     @register_cmd("cmdlist")
     async def cmd_cmdlist(event, _):
         try:
@@ -2423,6 +2446,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ CmdList Err → `{str(e)[:40]}`")
 
+
     @register_cmd("protection")
     async def cmd_protection_info(event, _):
         try:
@@ -2453,6 +2477,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ Protection Err → `{str(e)[:40]}`")
 
+
     @register_cmd("status")
     async def cmd_status(event, _):
         try:
@@ -2477,6 +2502,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒ᴛᴀᴛᴜs 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("flip")
     async def cmd_flip(event, _):
         try:
@@ -2486,6 +2512,7 @@ if _IS_USERBOT:
             else: await event.reply(text)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐅ʟɪᴘ 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("dice")
     async def cmd_dice(event, _):
@@ -2497,6 +2524,7 @@ if _IS_USERBOT:
             else: await event.reply(text)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐃ɪᴄᴇ 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("mute", needs_reply=True)
     async def cmd_mute(event, arg):
@@ -2521,6 +2549,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐌ᴜᴛᴇ 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("unmute", needs_reply=True)
     async def cmd_unmute(event, arg):
         try:
@@ -2543,6 +2572,7 @@ if _IS_USERBOT:
             else: await event.reply(msg)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐔ɴᴍᴜᴛᴇ 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("gmute", needs_reply=True)
     async def cmd_gmute(event, arg):
@@ -2567,6 +2597,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐆ᴍᴜᴛᴇ 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("gunmute", needs_reply=True)
     async def cmd_gunmute(event, arg):
         try:
@@ -2590,6 +2621,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐆𝐔𝐍𝐌𝐔𝐓𝐄 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("mutelist")
     async def cmd_mutelist(event, _):
         try:
@@ -2604,6 +2636,7 @@ if _IS_USERBOT:
             await safe_edit(event, text)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐌𝐔𝐓𝐄𝐋𝐈𝐒𝐓 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("purge")
     async def cmd_purge(event, arg):
@@ -2628,6 +2661,7 @@ if _IS_USERBOT:
             else: await event.reply(text)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐏ᴜʀɢᴇ 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("throw", needs_reply=True, group_only=True)
     async def cmd_throw(event, arg):
@@ -2661,6 +2695,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐓ʜʀᴏᴡ 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("lock", group_only=True)
     async def cmd_lock(event, _):
         try:
@@ -2669,6 +2704,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐋ᴏᴄᴋ 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("unlock", group_only=True)
     async def cmd_unlock(event, _):
         try:
@@ -2676,6 +2712,7 @@ if _IS_USERBOT:
             await safe_edit(event, "🔓 𝐆ʀᴏᴜ𝐩 𝐔ɴʟᴏᴄᴋᴇᴅ — 𝐄𝐯𝐞𝐫𝐲𝐨𝐧𝐞 𝐂𝐚𝐧 𝐌ᴇssᴀɢ𝐞")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐔ɴʟᴏᴄᴋ 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("addbots")
     async def cmd_addbots(event, arg):
@@ -2701,6 +2738,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐀𝐃𝐃𝐁𝐎𝐓𝐒 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     # ─── ORIGINAL RAID COMMANDS ───
     @register_cmd("reply", needs_reply=True)
     async def cmd_reply(event, arg):
@@ -2712,6 +2750,7 @@ if _IS_USERBOT:
             await safe_edit(event, f"⚔️ 𝐑ᴇᴘʟʏ 𝐑𝐚𝐢𝐝 𝐎𝐧 → `{len(targets)}` ᴛᴀʀɢᴇᴛs")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐑ᴇᴘʟ𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("sreply")
     async def cmd_sreply(event, arg):
@@ -2727,6 +2766,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐑𝐄𝐏𝐋𝐘 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("rr", needs_reply=True)
     async def cmd_rr(event, arg):
         try:
@@ -2736,6 +2776,7 @@ if _IS_USERBOT:
             await safe_edit(event, f"🤣 𝐑𝐑 𝐑𝐚𝐢𝐝 𝐎𝐧 → `{len(targets)}` ᴛᴀʀɢᴇᴛs")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐑𝐑 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("srr")
     async def cmd_srr(event, arg):
@@ -2750,6 +2791,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐑𝐑 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("flag", needs_reply=True)
     async def cmd_flag(event, arg):
         try:
@@ -2759,6 +2801,7 @@ if _IS_USERBOT:
             await safe_edit(event, f"🚩 𝐅ʟᴀɢ 𝐑𝐚𝐢𝐝 𝐎𝐧 → `{len(targets)}` ᴛᴀʀɢᴇᴛs")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐅ʟᴀɢ 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("sflag")
     async def cmd_sflag(event, arg):
@@ -2773,6 +2816,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐅𝐋𝐀𝐆 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("hrr", needs_reply=True)
     async def cmd_hrr(event, arg):
         try:
@@ -2782,6 +2826,7 @@ if _IS_USERBOT:
             await safe_edit(event, f"💗 𝐇𝐞𝐚𝐫𝐭 𝐑𝐚𝐢𝐝 𝐎𝐧 → `{len(targets)}` ᴛᴀʀɢᴇᴛs")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐇𝐑𝐑 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("shrr")
     async def cmd_shrr(event, arg):
@@ -2796,6 +2841,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐇𝐑𝐑 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("replygod", needs_reply=True)
     async def cmd_replygod(event, arg):
         try:
@@ -2805,6 +2851,7 @@ if _IS_USERBOT:
             await safe_edit(event, f"😈 𝐆𝐨𝐝 𝐑𝐚𝐢𝐝 𝐎𝐧 → `{len(targets)}` ᴛᴀʀɢᴇᴛs")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐑𝐄𝐏𝐋𝐘𝐆𝐎𝐃 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("sgod")
     async def cmd_sgod(event, arg):
@@ -2818,6 +2865,7 @@ if _IS_USERBOT:
                 await safe_edit(event, "🛑 𝐆𝐨𝐝 𝐎ғғ — 𝐀𝐥𝐥")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐆𝐎𝐃 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("replylexi", needs_reply=True)
     async def cmd_replylexi(event, arg):
@@ -2837,6 +2885,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐑𝐘 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("sstop")
     async def cmd_sstop(event, arg):
         try:
@@ -2849,6 +2898,7 @@ if _IS_USERBOT:
                 await safe_edit(event, "🛑 𝐀𝐥𝐥 𝐋𝐢𝐦𝐢𝐭 𝐑𝐚𝐢𝐝𝐬 𝐒𝐭𝐨𝐩𝐩𝐞𝐝")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐒𝐓𝐎𝐏 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("combo", needs_reply=True)
     async def cmd_combo(event, arg):
@@ -2903,6 +2953,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ Combo Err → `{str(e)[:40]}`")
 
+
     @register_cmd("stopcombo")
     async def cmd_stopcombo(event, arg):
         try:
@@ -2923,6 +2974,7 @@ if _IS_USERBOT:
             )
         except Exception as e:
             await safe_edit(event, f"❌ StopCombo Err → `{str(e)[:40]}`")
+
 
     @register_cmd("rspam", needs_reply=True)
     async def cmd_rspam(event, arg):
@@ -2953,6 +3005,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐑𝐒𝐩𝐚𝐦 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("stoprspam")
     async def cmd_stoprspam(event, arg):
         try:
@@ -2972,6 +3025,7 @@ if _IS_USERBOT:
                 await safe_edit(event, f"🛑 𝐀𝐥𝐥 𝐑𝐞𝐩𝐥𝐲+𝐒𝐩𝐚𝐦 𝐒𝐭𝐨𝐩𝐩𝐞𝐝 ({count} users)")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐭𝐨𝐩𝐑𝐒𝐩𝐚𝐦 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("spray")
     async def cmd_spray(event, arg):
@@ -2996,6 +3050,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐩𝐫𝐚𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("dspray")
     async def cmd_dspray(event, _):
         try:
@@ -3009,6 +3064,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐃𝐒𝐩𝐫𝐚𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("spraydelay")
     async def cmd_spraydelay(event, arg):
         global SPRAY_DELAY
@@ -3019,6 +3075,7 @@ if _IS_USERBOT:
             await safe_edit(event, f"🌸 𝐃𝐞𝐥𝐚𝐲 → `{SPRAY_DELAY}s`")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐃𝐞𝐥𝐚𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("tspray")
     async def cmd_tspray(event, arg):
@@ -3044,6 +3101,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐓𝐒𝐩𝐫𝐚𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("rspray")
     async def cmd_rspray(event, _):
         try:
@@ -3063,6 +3121,7 @@ if _IS_USERBOT:
             await safe_edit(event, "💣 𝐑𝐚𝐧𝐝𝐨𝐦 𝐒𝐩𝐫𝐚𝐲 𝐒𝐭𝐚𝐫𝐭𝐞𝐝")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐑𝐒𝐩𝐫𝐚𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("multispray")
     async def cmd_multispray(event, _):
@@ -3085,6 +3144,7 @@ if _IS_USERBOT:
             await safe_edit(event, "💣 𝐌𝐮𝐥𝐭𝐢𝐬𝐩𝐫𝐚𝐲 𝐒𝐭𝐚𝐫𝐭𝐞𝐝")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐌𝐮𝐥𝐭𝐢𝐬𝐩𝐫𝐚𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("countspray")
     async def cmd_countspray(event, arg):
@@ -3111,6 +3171,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐂𝐒𝐩𝐫𝐚𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("addtext")
     async def cmd_addtext(event, arg):
         try:
@@ -3122,6 +3183,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐀𝐝𝐝𝐓𝐞𝐱𝐭 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("listtexts")
     async def cmd_listtexts(event, _):
         try:
@@ -3131,6 +3193,7 @@ if _IS_USERBOT:
             await safe_edit(event, "📝 𝐒𝐚𝐯𝐞𝐝 𝐓𝐞𝐱𝐭𝐬\n━━━━━━━━━━━━━━━\n" + "\n".join(lines))
         except Exception as e:
             await safe_edit(event, f"❌ 𝐋𝐢𝐬𝐭𝐓𝐞𝐱𝐭𝐬 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("edittext")
     async def cmd_edittext(event, arg):
@@ -3148,6 +3211,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐄𝐝𝐢𝐭𝐓𝐞𝐱𝐭 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("deltext")
     async def cmd_deltext(event, arg):
         try:
@@ -3162,6 +3226,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐃𝐞𝐥𝐓𝐞𝐱𝐭 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("cleartext")
     async def cmd_cleartext(event, arg):
         try:
@@ -3172,6 +3237,7 @@ if _IS_USERBOT:
             await safe_edit(event, "🗑️ 𝐀𝐥𝐥 𝐓𝐞𝐱𝐭𝐬 𝐂𝐥𝐞𝐚𝐫𝐞𝐝")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐂𝐥𝐞𝐚𝐫𝐓𝐞𝐱𝐭 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("fastgc")
     async def cmd_fastgc(event, arg):
@@ -3199,6 +3265,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐅𝐚𝐬𝐭𝐆𝐂 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("antidel")
     async def cmd_antidel(event, arg):
         global antidel_enabled
@@ -3216,6 +3283,7 @@ if _IS_USERBOT:
                 await safe_edit(event, f"🛡️ 𝐀𝐧𝐭𝐢𝐃𝐞𝐥 → `{status}`\n📦 𝐂𝐚𝐜𝐡𝐞 → `{len(antidel_cache)}`")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐀𝐧𝐭𝐢𝐃𝐞𝐥 𝐄ʀʀ → `{str(e)[:40]}`")
+
 
     @register_cmd("watchspam", needs_reply=True)
     async def cmd_watchspam(event, arg):
@@ -3235,6 +3303,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐖𝐚𝐭𝐜𝐡𝐒𝐩𝐚𝐦 𝐄ʀʀ → `{str(e)[:40]}`")
 
+
     @register_cmd("unwatchspam")
     async def cmd_unwatchspam(event, arg):
         try:
@@ -3250,6 +3319,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐔𝐧𝐰𝐚𝐭𝐜𝐡 𝐄ʀ𝐫 → `{str(e)[:40]}`")
 
+
     @register_cmd("watchlist")
     async def cmd_watchlist(event, _):
         try:
@@ -3260,6 +3330,7 @@ if _IS_USERBOT:
             await safe_edit(event, "👁️ 𝐖𝐚𝐭𝐜𝐡𝐥𝐢𝐬𝐭\n━━━━━━━━━━━━━━━\n" + "\n".join(lines))
         except Exception as e:
             await safe_edit(event, f"❌ 𝐖𝐚𝐭𝐜𝐡𝐋𝐢𝐬𝐭 𝐄ʀ𝐫 → `{str(e)[:40]}`")
+
 
     gpfp_pool = []
     gpfp_task = None
@@ -3277,6 +3348,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐞𝐭𝐆𝐏𝐅𝐏 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
+
     @register_cmd("addgpfp", needs_reply=True)
     async def cmd_addgpfp(event, _):
         try:
@@ -3289,9 +3361,11 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐀𝐝𝐝𝐆𝐏𝐅𝐏 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
+
     @register_cmd("listgpfp")
     async def cmd_listgpfp(event, _):
         await safe_edit(event, f"🖼️ 𝐆𝐏𝐅𝐏 𝐏𝐨𝐨𝐥 → `{len(gpfp_pool)}` 𝐢𝐦𝐚𝐠𝐞𝐬")
+
 
     @register_cmd("stopgpfp")
     async def cmd_stopgpfp(event, _):
@@ -3301,6 +3375,7 @@ if _IS_USERBOT:
             await safe_edit(event, "🛑 𝐀𝐮𝐭𝐨 𝐆𝐏𝐅𝐏 𝐒𝐭𝐨𝐩𝐩𝐞𝐝")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐭𝐨𝐩𝐆𝐏𝐅𝐏 𝐄𝐫𝐫 → `{str(e)[:40]}`")
+
 
     @register_cmd("autogpfp", group_only=True)
     async def cmd_autogpfp(event, arg):
@@ -3327,6 +3402,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐀𝐮𝐭𝐨𝐆𝐏𝐅𝐏 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
+
     @register_cmd("ar")
     async def cmd_ar(event, arg):
         global auto_react_emoji
@@ -3338,11 +3414,13 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐀𝐑 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
+
     @register_cmd("sar")
     async def cmd_sar(event, _):
         global auto_react_emoji
         auto_react_emoji = None
         await safe_edit(event, "❤️ 𝐀𝐮𝐭𝐨 𝐑𝐞𝐚𝐜𝐭 𝐎𝐅𝐅")
+
 
     @register_cmd("notesadd")
     async def cmd_notesadd(event, arg):
@@ -3356,6 +3434,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐍𝐨𝐭𝐞𝐬𝐀𝐝𝐝 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
+
     @register_cmd("noteslist")
     async def cmd_noteslist(event, _):
         try:
@@ -3365,6 +3444,7 @@ if _IS_USERBOT:
             await safe_edit(event, "🧠 𝐍𝐨𝐭𝐞𝐬 𝐋𝐢𝐬𝐭\n━━━━━━━━━━━━━━━\n" + "\n".join(lines))
         except Exception as e:
             await safe_edit(event, f"❌ 𝐍𝐨𝐭𝐞𝐬𝐋𝐢𝐬𝐭 𝐄𝐫𝐫 → `{str(e)[:40]}`")
+
 
     @register_cmd("notesdelete")
     async def cmd_notesdelete(event, arg):
@@ -3378,6 +3458,7 @@ if _IS_USERBOT:
             await safe_edit(event, f"🗑️ 𝐍𝐨𝐭𝐞 `{nid}` 𝐃𝐞𝐥𝐞𝐭𝐞𝐝")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐍𝐨𝐭𝐞𝐬𝐃𝐞𝐥 𝐄𝐫𝐫 → `{str(e)[:40]}`")
+
 
     @register_cmd("tts")
     async def cmd_tts(event, arg):
@@ -3399,6 +3480,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐓𝐓𝐒 𝐄𝐫𝐫 → `{str(e)[:50]}`")
 
+
     @register_cmd("qrcode")
     async def cmd_qrcode(event, arg):
         try:
@@ -3418,6 +3500,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐐𝐑 𝐄𝐫𝐫 → `{str(e)[:50]}`")
 
+
     @register_cmd("fancy")
     async def cmd_fancy(event, arg):
         try:
@@ -3431,6 +3514,7 @@ if _IS_USERBOT:
             else: await event.reply(text)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐅𝐚𝐧𝐜𝐲 𝐄𝐫𝐫 → `{str(e)[:40]}`")
+
 
     @register_cmd("style")
     async def cmd_style(event, arg):
@@ -3446,6 +3530,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐭𝐲𝐥𝐞 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
+
     @register_cmd("emoji")
     async def cmd_emoji(event, arg):
         try:
@@ -3458,6 +3543,7 @@ if _IS_USERBOT:
             else: await event.reply(text)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐄𝐦𝐨𝐣𝐢 𝐄𝐫𝐫 → `{str(e)[:40]}`")
+
 
     @register_cmd("calc")
     async def cmd_calc(event, arg):
@@ -3474,6 +3560,7 @@ if _IS_USERBOT:
             else: await event.reply(text)
         except Exception:
             await safe_edit(event, "❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐄𝐱𝐩𝐫𝐞𝐬𝐬𝐢𝐨𝐧")
+
 
     @register_cmd("weather")
     async def cmd_weather(event, arg):
@@ -3498,6 +3585,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐖𝐞𝐚𝐭𝐡𝐞𝐫 → `{str(e)[:40]}`")
 
+
     @register_cmd("ip")
     async def cmd_ip(event, arg):
         try:
@@ -3515,6 +3603,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐈𝐏 → `{str(e)[:40]}`")
 
+
     @register_cmd("short")
     async def cmd_short(event, arg):
         try:
@@ -3531,6 +3620,7 @@ if _IS_USERBOT:
             else: await event.reply(text)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐡𝐨𝐫𝐭 → `{str(e)[:40]}`")
+
 
     @register_cmd("info")
     async def cmd_info(event, arg):
@@ -3563,6 +3653,7 @@ if _IS_USERBOT:
             await safe_edit(event, text)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐈𝐍𝐅𝐎 → `{str(e)[:50]}`")
+
 
     @register_cmd("copy")
     async def cmd_copy(event, args):
@@ -3606,6 +3697,7 @@ if _IS_USERBOT:
         except Exception as e:
             await safe_edit(event, f"❌ 𝐂𝐨𝐩𝐲 𝐄𝐫𝐫 → `{str(e)[:50]}`")
 
+
     @register_cmd("normal")
     async def cmd_normal(event, _):
         global CLONE_ACTIVE, LAST_CLONE_ID
@@ -3627,6 +3719,7 @@ if _IS_USERBOT:
             await safe_edit(event, "✅ 𝐏𝐫𝐨𝐟𝐢𝐥𝐞 𝐑𝐞𝐬𝐭𝐨𝐫𝐞𝐝")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐍𝐨𝐫𝐦𝐚𝐥 𝐄𝐫𝐫 → `{str(e)[:50]}`")
+
 
     @register_cmd("music")
     async def cmd_music(event, arg):
@@ -3660,6 +3753,7 @@ if _IS_USERBOT:
                 await safe_edit(event, f"❌ 𝐌𝐮𝐬𝐢𝐜 → `{str(e)[:60]}`")
         asyncio.create_task(download_and_send())
 
+
     @register_cmd("dmusic")
     async def cmd_dmusic(event, arg):
         if not arg:
@@ -3692,6 +3786,7 @@ if _IS_USERBOT:
             except Exception as e:
                 await safe_edit(event, f"❌ 𝐃𝐌𝐮𝐬𝐢𝐜 → `{str(e)[:60]}`")
         asyncio.create_task(download_music())
+
 
     def make_raid_cmds(name, start_set, text_list):
         @register_cmd(name, needs_reply=True)
@@ -3736,6 +3831,7 @@ if _IS_USERBOT:
     make_raid_cmds("blizzard", blizzard_users, blizzard_list)
     make_raid_cmds("venom", venom_users, venom_list)
 
+
     @register_cmd("stopall")
     async def cmd_stopall(event, _):
         try:
@@ -3754,6 +3850,7 @@ if _IS_USERBOT:
             await safe_edit(event, "🛑 **ALL RAIDS STOPPED** — All sets cleared!")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐒𝐭𝐨𝐩𝐀𝐥𝐥 𝐄𝐫𝐫 → `{str(e)[:40]}`")
+
 
     @register_cmd("raidstatus")
     async def cmd_raidstatus(event, _):
@@ -3777,6 +3874,7 @@ if _IS_USERBOT:
             await safe_edit(event, text)
         except Exception as e:
             await safe_edit(event, f"❌ 𝐑𝐚𝐢𝐝𝐒𝐭𝐚𝐭𝐮𝐬 𝐄𝐫𝐫 → `{str(e)[:40]}`")
+
 
     # ─── TEXT TOOLS ───
     @register_cmd("upper")
@@ -4524,7 +4622,8 @@ if _IS_USERBOT:
                 await safe_edit(event, f"❌ Movie not found: `{arg}`")
         except Exception as e:
             await safe_edit(event, f"❌ → `{str(e)[:40]}`")
-                # ────────────────────────────────────────────────
+
+    # ────────────────────────────────────────────────
     #                   AUTO HANDLERS
     # ────────────────────────────────────────────────
     @bot.on(events.NewMessage)
@@ -4782,7 +4881,7 @@ else:
     import sys
     BOT_TOKEN         = os.environ.get("BOT_TOKEN", "8653377116:AAGOlJ5FP_3ki_kWAJJG1_t0OoeoYwk0kKY")
     OWNER_ID          = int(os.environ.get("OWNER_ID", "8659378243"))
-    SUPPORT_USERNAME  = os.environ.get("SUPPORT_USERNAME", "@wkcvx")
+    SUPPORT_USERNAME  = os.environ.get("SUPPORT_USERNAME", "wkcvx")
     MAX_USERBOTS      = int(os.environ.get("MAX_USERBOTS", "50") or "50")
     TELEGRAM_API_ID   = int(os.environ.get("TELEGRAM_API_ID", "35378028"))
     TELEGRAM_API_HASH = os.environ.get("TELEGRAM_API_HASH", "94d5c73a29abe20afe9676e885f7bb2c")
@@ -4798,51 +4897,32 @@ else:
     ANIME_USER_AGENT = "Lexi-Premium-Hoster (Telegram Bot)"
 
     def get_random_anime_image():
-        """Fetch a random anime image with multi-API fallback. Never raises."""
         try:
-            import requests as _req
-        except ImportError:
-            try: print("[anime] requests not installed — skipping image")
-            except: pass
+            import requests
+            resp = requests.get(
+                ANIME_API_URL,
+                headers={"User-Agent": ANIME_USER_AGENT},
+                timeout=15,
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            results = data.get("results") or []
+            image_url = results[0].get("url") if results else None
+            if not image_url:
+                raise RuntimeError("Anime API returned no image URL")
+            image_resp = requests.get(
+                image_url,
+                headers={"User-Agent": ANIME_USER_AGENT},
+                timeout=20,
+            )
+            image_resp.raise_for_status()
+            image_bytes = image_resp.content
+            if not image_bytes:
+                raise RuntimeError("Anime image response was empty")
+            return image_bytes
+        except Exception as e:
+            logger.warning(f"Anime image fetch failed: {e}")
             return None
-
-        APIS = [
-            ("https://api.waifu.pics/sfw/neko",           lambda r: r.json().get("url")),
-            ("https://nekos.best/api/v2/neko",            lambda r: (r.json().get("results") or [{}])[0].get("url")),
-            ("https://purrbot.site/api/img/sfw/neko/gif", lambda r: r.json().get("link")),
-            ("https://nekos.life/api/v2/img/neko",        lambda r: r.json().get("url")),
-        ]
-
-        for api_url, extractor in APIS:
-            try:
-                resp = _req.get(
-                    api_url,
-                    headers={"User-Agent": ANIME_USER_AGENT, "Accept": "application/json"},
-                    timeout=8,
-                )
-                if resp.status_code != 200:
-                    continue
-                image_url = extractor(resp)
-                if not image_url:
-                    continue
-                img_resp = _req.get(
-                    image_url,
-                    headers={"User-Agent": ANIME_USER_AGENT},
-                    timeout=15,
-                )
-                if img_resp.status_code == 200 and img_resp.content:
-                    return img_resp.content
-            except Exception as e:
-                try:
-                    host = api_url.split("//", 1)[-1].split("/", 1)[0]
-                    print(f"[anime] {host} failed: {type(e).__name__}: {str(e)[:100]}")
-                except Exception:
-                    pass
-                continue
-
-        try: print("[anime] all providers failed — continuing without image")
-        except: pass
-        return None
 
     def _db_path(*parts):
         p = os.path.join(_DB_DIR, *parts)
