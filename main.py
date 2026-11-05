@@ -2700,7 +2700,7 @@ if _IS_USERBOT:
     async def cmd_lock(event, _):
         try:
             group_locks.add(event.chat_id)
-            await safe_edit(event, "🔒 𝐆ʀᴏᴜᴘ 𝐋ᴏᴄᴋᴇᴅ — 𝐎ɴʟʏ 𝐀ᴅᴍɪɴs 𝐂ᴀɴ 𝐌ᴇssᴀɢᴇ")
+            await safe_edit(event, "🔒 𝐆ʀᴏᴜ𝐩 𝐋ᴏᴄᴋᴇᴅ — 𝐎ɴʟʏ 𝐀ᴅᴍɪɴs 𝐂ᴀɴ 𝐌ᴇssᴀɢᴇ")
         except Exception as e:
             await safe_edit(event, f"❌ 𝐋ᴏᴄᴋ 𝐄ʀʀ → `{str(e)[:40]}`")
 
@@ -3062,7 +3062,7 @@ if _IS_USERBOT:
             else:
                 await safe_edit(event, "⚠️ 𝐍𝐨 𝐀𝐜𝐭𝐢𝐯𝐞 𝐒𝐩𝐫𝐚𝐲")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐃𝐒𝐩𝐫𝐚𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐃𝐒𝐩𝐫𝐚𝐲 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("spraydelay")
@@ -3099,7 +3099,7 @@ if _IS_USERBOT:
             spray_tasks[chat] = asyncio.create_task(do_tspray())
             await safe_edit(event, f"💣 𝐓𝐬𝐩𝐫𝐚𝐲 𝐒𝐥𝐨𝐭 `{idx+1}`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐓𝐒𝐩𝐫𝐚𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐓𝐒𝐩𝐫𝐚𝐲 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("rspray")
@@ -3169,7 +3169,7 @@ if _IS_USERBOT:
             spray_tasks[chat] = asyncio.create_task(do_count())
             await safe_edit(event, f"💣 𝐂𝐨𝐮𝐧𝐭𝐬𝐩𝐫𝐚𝐲 `{n}x` 𝐒𝐭𝐚𝐫𝐭𝐞𝐝")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐂𝐒𝐩𝐫𝐚𝐲 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐂𝐒𝐩𝐫𝐚𝐲 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("addtext")
@@ -3209,7 +3209,7 @@ if _IS_USERBOT:
             save_spam_texts()
             await safe_edit(event, f"✅ 𝐒𝐥𝐨𝐭 `{idx+1}` 𝐔𝐩𝐝𝐚𝐭𝐞𝐝")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐄𝐝𝐢𝐭𝐓𝐞𝐱𝐭 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐄𝐝𝐢𝐭𝐓𝐞𝐱𝐭 𝐄ʀ𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("deltext")
@@ -3236,7 +3236,7 @@ if _IS_USERBOT:
             save_spam_texts()
             await safe_edit(event, "🗑️ 𝐀𝐥𝐥 𝐓𝐞𝐱𝐭𝐬 𝐂𝐥𝐞𝐚𝐫𝐞𝐝")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐂𝐥𝐞𝐚𝐫𝐓𝐞𝐱𝐭 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐂𝐥𝐞𝐚𝐫𝐓𝐞𝐱𝐭 𝐄ʀ𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("fastgc")
@@ -3263,7 +3263,7 @@ if _IS_USERBOT:
                 return await safe_edit(event, f"🌸 𝐅𝐚𝐬𝐭𝐆𝐂 𝐒𝐭𝐚𝐫𝐭𝐞𝐝\n📝 `{template}`")
             await safe_edit(event, "❌ 𝐔𝐬𝐞 → `.fastgc set {emoji} <template>` or `.fastgc stop`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐅𝐚𝐬𝐭𝐆𝐂 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐅𝐚𝐬𝐭𝐆𝐂 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("antidel")
@@ -3282,7 +3282,7 @@ if _IS_USERBOT:
                 status = "ON" if antidel_enabled else "OFF"
                 await safe_edit(event, f"🛡️ 𝐀𝐧𝐭𝐢𝐃𝐞𝐥 → `{status}`\n📦 𝐂𝐚𝐜𝐡𝐞 → `{len(antidel_cache)}`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐀𝐧𝐭𝐢𝐃𝐞𝐥 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐀𝐧𝐭𝐢𝐃𝐞𝐥 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("watchspam", needs_reply=True)
@@ -3301,7 +3301,7 @@ if _IS_USERBOT:
                 watch_spam[(event.chat_id, uid)] = {"limit": limit, "seconds": seconds, "times": []}
             await safe_edit(event, f"👁️ 𝐖𝐚𝐭𝐜𝐡𝐒𝐩𝐚𝐦 𝐒𝐞𝐭 → `{limit}` 𝐦𝐬𝐠𝐬 / `{seconds}s`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐖𝐚𝐭𝐜𝐡𝐒𝐩𝐚𝐦 𝐄ʀʀ → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐖𝐚𝐭𝐜𝐡𝐒𝐩𝐚𝐦 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     @register_cmd("unwatchspam")
@@ -3317,7 +3317,7 @@ if _IS_USERBOT:
                 for k in removed: del watch_spam[k]
                 await safe_edit(event, "🗑️ 𝐀𝐥𝐥 𝐖𝐚𝐭𝐜𝐡𝐞𝐬 𝐑𝐞𝐦𝐨𝐯𝐞𝐝")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐔𝐧𝐰𝐚𝐭𝐜𝐡 𝐄ʀ𝐫 → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐔𝐧𝐰𝐚𝐭𝐜𝐡 𝐄ʀʀ → `{str(e)[:40]}`")
 
 
     @register_cmd("watchlist")
@@ -3329,7 +3329,7 @@ if _IS_USERBOT:
             lines = [f"• `{uid}` → `{v['limit']}` / `{v['seconds']}s`" for (_, uid), v in chat_watches]
             await safe_edit(event, "👁️ 𝐖𝐚𝐭𝐜𝐡𝐥𝐢𝐬𝐭\n━━━━━━━━━━━━━━━\n" + "\n".join(lines))
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐖𝐚𝐭𝐜𝐡𝐋𝐢𝐬𝐭 𝐄ʀ𝐫 → `{str(e)[:40]}`")
+            await safe_edit(event, f"❌ 𝐖𝐚𝐭𝐜𝐡𝐋𝐢𝐬𝐭 𝐄𝐫𝐫 → `{str(e)[:40]}`")
 
 
     gpfp_pool = []
@@ -3695,7 +3695,7 @@ if _IS_USERBOT:
             LAST_CLONE_ID = target.id
             await safe_edit(event, f"🎭 𝐂𝐥𝐨𝐧𝐞𝐝 → `{fname}`")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐂𝐨𝐩𝐲 𝐄𝐫𝐫 → `{str(e)[:50]}`")
+            await safe_edit(event, f"❌ 𝐂𝐨𝐩𝐲 𝐄ʀʀ → `{str(e)[:50]}`")
 
 
     @register_cmd("normal")
@@ -3718,7 +3718,7 @@ if _IS_USERBOT:
             LAST_CLONE_ID = None
             await safe_edit(event, "✅ 𝐏𝐫𝐨𝐟𝐢𝐥𝐞 𝐑𝐞𝐬𝐭𝐨𝐫𝐞𝐝")
         except Exception as e:
-            await safe_edit(event, f"❌ 𝐍𝐨𝐫𝐦𝐚𝐥 𝐄𝐫𝐫 → `{str(e)[:50]}`")
+            await safe_edit(event, f"❌ 𝐍𝐨𝐫𝐦𝐚𝐥 𝐄ʀʀ → `{str(e)[:50]}`")
 
 
     @register_cmd("music")
@@ -5554,6 +5554,9 @@ else:
         return ASK_PHONE
 
     async def host_got_phone(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        # Guard: only handle real message updates, never callback queries
+        if not update.message or not update.message.text:
+            return ASK_PHONE
         uid   = update.effective_user.id
         phone = update.message.text.strip()
         digits = phone.replace("+", "").replace(" ", "").replace("-", "")
@@ -5598,6 +5601,9 @@ else:
             return ConversationHandler.END
 
     async def host_got_code(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        # Guard: only handle real message updates, never callback queries
+        if not update.message or not update.message.text:
+            return ASK_CODE
         uid  = update.effective_user.id
         code = update.message.text.strip().replace(" ", "")
         pending = pending_logins.get(uid)
@@ -5641,6 +5647,9 @@ else:
             return ConversationHandler.END
 
     async def host_got_2fa(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        # Guard: only handle real message updates, never callback queries
+        if not update.message or not update.message.text:
+            return ASK_2FA
         uid      = update.effective_user.id
         password = update.message.text.strip()
         pending  = pending_logins.get(uid)
@@ -6519,9 +6528,9 @@ else:
                 CallbackQueryHandler(cmd_host_start, pattern="^host$"),
             ],
             states={
-                ASK_PHONE: [MessageHandler(filters.TEXT & ~filters.COMMAND, host_got_phone)],
-                ASK_CODE:  [MessageHandler(filters.TEXT & ~filters.COMMAND, host_got_code)],
-                ASK_2FA:   [MessageHandler(filters.TEXT & ~filters.COMMAND, host_got_2fa)],
+                ASK_PHONE: [MessageHandler(filters.UpdateType.MESSAGE & filters.TEXT & ~filters.COMMAND, host_got_phone)],
+                ASK_CODE:  [MessageHandler(filters.UpdateType.MESSAGE & filters.TEXT & ~filters.COMMAND, host_got_code)],
+                ASK_2FA:   [MessageHandler(filters.UpdateType.MESSAGE & filters.TEXT & ~filters.COMMAND, host_got_2fa)],
             },
             fallbacks=[CommandHandler("cancel", host_cancel)],
             allow_reentry=True,
@@ -6550,6 +6559,12 @@ else:
         app.add_handler(CommandHandler("broadcast",         cmd_broadcast))
         app.add_handler(CommandHandler("setbot",            cmd_setbot))
         app.add_handler(CallbackQueryHandler(callback_handler))
+
+        # ── FIX: global error handler so no "No error handlers registered" spam ──
+        async def error_handler(update, context):
+            logger.error("Exception while handling an update:", exc_info=context.error)
+
+        app.add_error_handler(error_handler)
 
         if app.job_queue:
             app.job_queue.run_repeating(auto_health_check, interval=300, first=60)
